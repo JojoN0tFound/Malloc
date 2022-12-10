@@ -6,7 +6,7 @@
 #    By: jquivogn <jquivogn@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/12/10 02:23:08 by jquivogn          #+#    #+#              #
-#    Updated: 2022/12/10 06:00:52 by jquivogn         ###   ########.fr        #
+#    Updated: 2022/12/10 09:53:39 by jquivogn         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,23 +18,24 @@ CC = gcc
 
 CFLAGS = -Wall -Wextra -Werror -g
 
-FLAGS = -lft
+FLAGS = -lft -fPIC
 
 PROJECT_NAME = malloc
 
 NAME = libft_malloc_$(HOSTTYPE).so
 LINK = libft_malloc.so
 
-INCLUDE = -I ./include/
+INCLUDE = -I ./includes/
 
 SRC_PATH = ./src
-INC_PATH = ./include
+INC_PATH = ./includes
 OBJ_PATH = ./obj
 
 SRC_NAME =	malloc.c\
 			realloc.c\
 			free.c\
 			utils.c\
+			main.c
 
 INC_NAME =	malloc.h
 
@@ -47,10 +48,9 @@ OBJ = $(addprefix $(OBJ_PATH)/, $(OBJ_NAME))
 all: logo $(NAME)
 
 $(NAME): $(OBJ) $(INC)
-	@$(CC) $(CFLAGS) -shared -o $@ $(OBJ) -L $(FLAGS)
-	@ln -sf $(NAME) $(LINK)
-	@echo "\033[38;2;0;255;255m$(PROJECT_NAME)\t\033[1;33mCompilation\t\t\033[0;32m[OK]\033[0m"
-	@echo "\033[38;2;0;255;255m$(PROJECT_NAME)\t\033[38;2;255;0;0m$(NAME)\t\t\033[0;32m[OK]\033[0m"
+	@$(CC) $(CFLAGS) $(INCLUDE) $(OBJ) -o $(NAME)
+	@echo "\033[38;2;0;255;255mfiller\t\033[1;33mCompilation\t\t\033[0;32m[OK]\033[0m"
+	@echo "\033[38;2;0;255;255mfiller\t\033[38;2;255;0;0m$(NAME)\t\t\033[0;32m[OK]\033[0m"
 
 $(OBJ_PATH)/%.o: $(SRC_PATH)/%.c
 	@mkdir $(dir $(OBJ_PATH)/$*) 2> /dev/null || true
@@ -58,6 +58,18 @@ $(OBJ_PATH)/%.o: $(SRC_PATH)/%.c
 	@printf "\e[1A"
 	@$(CC) $(CFLAGS) $(INCLUDE) -c $< -o $@
 	@printf "\e[0K"
+# $(NAME): $(OBJ) $(INC)
+# 	@$(CC) $(CFLAGS) -shared -o $@ $(OBJ) -L $(FLAGS)
+# 	@ln -sf $(NAME) $(LINK)
+# 	@echo "\033[38;2;0;255;255m$(PROJECT_NAME)\t\033[1;33mCompilation\t\t\t\033[0;32m[OK]\033[0m"
+# 	@echo "\033[38;2;0;255;255m$(PROJECT_NAME)\t\033[38;2;255;0;0m$(NAME)\t\033[0;32m[OK]\033[0m"
+
+# $(OBJ_PATH)/%.o: $(SRC_PATH)/%.c
+# 	@mkdir $(dir $(OBJ_PATH)/$*) 2> /dev/null || true
+# 	@echo "\033[38;2;0;255;0m[cc]\033[0m: $< -> $@"
+# 	@printf "\e[1A"
+# 	@$(CC) $(CFLAGS) $(INCLUDE) -c $< -o $@
+# 	@printf "\e[0K"
 
 clean:
 	@rm -rf $(OBJ) $(OBJ_PATH)

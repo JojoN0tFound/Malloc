@@ -6,11 +6,11 @@
 /*   By: jquivogn <jquivogn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/10 02:40:31 by jquivogn          #+#    #+#             */
-/*   Updated: 2022/12/10 05:34:02 by jquivogn         ###   ########.fr       */
+/*   Updated: 2022/12/10 09:10:35 by jquivogn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "malloc.h"
+#include "../includes/malloc.h"
 
 int	ft_strlen(char* str)
 {

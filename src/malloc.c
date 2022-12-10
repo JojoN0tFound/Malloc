@@ -6,12 +6,13 @@
 /*   By: jquivogn <jquivogn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/10 02:15:18 by jquivogn          #+#    #+#             */
-/*   Updated: 2022/12/10 07:36:12 by jquivogn         ###   ########.fr       */
+/*   Updated: 2022/12/10 10:22:49 by jquivogn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/malloc.h"
 
+t_memory		g_store_mem;
 
 //• First align the requested size;
 //• If base is initialized:
@@ -26,7 +27,7 @@
 //	again.
 //• Otherwise: we extended the heap (which is empty at that point.)
 
-t_block	*find_free_block(t_block **head, size_t size)
+t_block		*find_free_block(t_block **head, size_t size)
 {
 	t_block	*tmp;
 
@@ -36,48 +37,56 @@ t_block	*find_free_block(t_block **head, size_t size)
 	return (tmp);
 }
 
-int		split_block(t_block *block, size_t size)
+int			split_block(t_block **block, size_t size)
 {
-	t_block *n_block;
+	t_block n_block;
+	t_block *tmp;
 
-	if (block->size < size + BLOCK_SIZE)
+	tmp = *block;
+	if (tmp && tmp->size < size + BLOCK_SIZE)
 		return (FALSE);
-	n_block->size = size;
-	n_block->next = block;
-	n_block->prev = block->prev;
-	n_block->free = USED;
-	block->prev = n_block;
-	block->size -= size;
+	n_block.size = size;
+	n_block.next = tmp;
+	n_block.prev = tmp->prev;
+	n_block.free = USED;
+	tmp->prev = &n_block;
+	tmp->size -= size;
+	return (TRUE);
 }
 
-size_t	get_new_page_size(size_t size)
+size_t		get_new_block_size(size_t size)
 {
-	if (size <= TINY)
-		return (TINY);
+	size_t	b_size;
+
+	if (size > SMALL)
+		b_size = ((size + BLOCK_SIZE) / getpagesize() + 1) * getpagesize();
 	else
-		return (SMALL);
+		b_size = ((((size > TINY ? SMALL : TINY) + BLOCK_SIZE) * 100) / getpagesize() + 1) * getpagesize();
+	return (b_size);
 }
 
-void	add_new_to_memory(t_block **head, t_block *new)
+void		add_new_to_memory(t_block **head, t_block *new)
 {
 	t_block	*tmp;
 
 	tmp = *head;
-	while(tmp->next)
+	if (!tmp)
+	{
+		*head = new;
+		return ;
+	}
+	while(tmp && tmp->next)
 		tmp = tmp->next;
 	tmp->next = new;
 	new->prev = tmp;
 }
 
-t_block	*extend_heap(t_block **head, size_t size)
+t_block		*extend_heap(t_block **head, size_t size)
 {
 	t_block	*new;
-	size_t	page_size;
 	size_t	block_size;
 
-	page_size = get_new_page_size(size) + BLOCK_SIZE;
-	block_size = sizeof(t_block) + 100 * page_size;
-	block_size = (block_size / getpagesize() + 1) * getpagesize();
+	block_size = get_new_block_size(size);
 	new = (t_block *)mmap(NULL, block_size,
 		PROT_READ | PROT_WRITE, MAP_ANONYMOUS | MAP_PRIVATE, -1, 0);
 	if (!new)
@@ -88,13 +97,25 @@ t_block	*extend_heap(t_block **head, size_t size)
 	return (new);
 }
 
-void	*malloc(size_t size)
+t_block		*get_head(size_t size)
+{
+	t_block	*head;
+	t_block	*block;
+
+	head = (size > TINY ? g_store_mem.small : g_store_mem.tiny);
+	block = find_free_block(&head, size);
+	if (split_block(&block, size))
+		return (block);
+	return (extend_heap(&head, size));
+}
+
+void		*malloc(size_t size)
 {
 	if (!size || size > ULONG_MAX)
 		return (NULL);
 	if (size > SMALL)
 	{
-		//increase heap size
+		return(extend_heap(&g_store_mem.large, size));
 	}
-	return (NULL);
+	return (get_head(size));
 }
