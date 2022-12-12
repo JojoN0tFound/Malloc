@@ -1,121 +1,136 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   malloc.c                                           :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: jquivogn <jquivogn@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/12/10 02:15:18 by jquivogn          #+#    #+#             */
-/*   Updated: 2022/12/10 10:22:49 by jquivogn         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
+// /* ************************************************************************** */
+// /*                                                                            */
+// /*                                                        :::      ::::::::   */
+// /*   malloc.c                                           :+:      :+:    :+:   */
+// /*                                                    +:+ +:+         +:+     */
+// /*   By: jquivogn <jquivogn@student.42.fr>          +#+  +:+       +#+        */
+// /*                                                +#+#+#+#+#+   +#+           */
+// /*   Created: 2022/12/10 02:15:18 by jquivogn          #+#    #+#             */
+// /*   Updated: 2022/12/12 20:25:34 by jquivogn         ###   ########.fr       */
+// /*                                                                            */
+// /* ************************************************************************** */
 
-#include "../includes/malloc.h"
+// #include "../includes/malloc.h"
 
-t_memory		g_store_mem;
+// t_heap		g_store_mem;
 
-//• First align the requested size;
-//• If base is initialized:
-//	– Search for a free chunk wide enough;
-//	– If we found a chunk:
-//		* Try to split the block (the difference between the requested size and the size of
-//		the block is enough to store the meta-data and a minimal block (4 bytes;)
-//		* Mark the chunk as used (b->free=0;)
-//	– Otherwise: we extend the heap.
-//	Note the use of the last: find block put the pointer to the last visited chunk in
-//	last, so we can access it during the extension without traversing the whole list
-//	again.
-//• Otherwise: we extended the heap (which is empty at that point.)
+// t_block		*find_free_block(t_block **head, size_t size)
+// {
+// 	t_block	*tmp;
 
-t_block		*find_free_block(t_block **head, size_t size)
-{
-	t_block	*tmp;
+// 	tmp = *head;
+// 	while (tmp && tmp->next && (tmp->free == USED || tmp->size < size + BLOCK_SIZE))
+// 	{
+// 		tmp = tmp->next;
+// 	}
+// 	if (tmp && tmp->next == NULL && (tmp->free == USED || tmp->size < size + BLOCK_SIZE))
+// 		return (NULL);
+// 	return (tmp);
+// }
 
-	tmp = *head;
-	while (tmp && (tmp->free == USED && tmp->size < size))
-		tmp = tmp->next;
-	return (tmp);
-}
+// int			split_block(t_block **block, t_block **remaining, size_t size)
+// {
+// 	t_block	*left;
+// 	t_block *tmp;
 
-int			split_block(t_block **block, size_t size)
-{
-	t_block n_block;
-	t_block *tmp;
+// 	tmp = *block;
+// 	left = *remaining;
+// 	if (tmp && (tmp->free == USED || tmp->size < size + BLOCK_SIZE))
+// 		return (FALSE);
+// 	left->size = tmp->size - size;
+// 	left->free = FREE;
+// 	left->next = NULL;
+// 	tmp->free = USED;
+// 	tmp->size = size;
+// 	tmp->next = left;
+// 	return (TRUE);
+// }
 
-	tmp = *block;
-	if (tmp && tmp->size < size + BLOCK_SIZE)
-		return (FALSE);
-	n_block.size = size;
-	n_block.next = tmp;
-	n_block.prev = tmp->prev;
-	n_block.free = USED;
-	tmp->prev = &n_block;
-	tmp->size -= size;
-	return (TRUE);
-}
+// size_t		get_head_size(size_t size)
+// {
+// 	if (size > TINY)
+// 		return (SMALL);
+// 	return (TINY);
+// }
 
-size_t		get_new_block_size(size_t size)
-{
-	size_t	b_size;
+// void		add_new_to_memory(t_block **head, t_block *new)
+// {
+// 	t_block	*tmp;
 
-	if (size > SMALL)
-		b_size = ((size + BLOCK_SIZE) / getpagesize() + 1) * getpagesize();
-	else
-		b_size = ((((size > TINY ? SMALL : TINY) + BLOCK_SIZE) * 100) / getpagesize() + 1) * getpagesize();
-	return (b_size);
-}
+// 	tmp = *head;
+// 	if (!tmp)
+// 	{
+// 		*head = new;
+// 		return ;
+// 	}
+// 	while(tmp && tmp->next)
+// 	{
+// 		tmp = tmp->next;
+// 	}
+// 	tmp->next = new;
+// }
 
-void		add_new_to_memory(t_block **head, t_block *new)
-{
-	t_block	*tmp;
+// int			extend_heap(t_block **head, size_t size)
+// {
+// 	t_block	*new;
+// 	size_t	block_size;
 
-	tmp = *head;
-	if (!tmp)
-	{
-		*head = new;
-		return ;
-	}
-	while(tmp && tmp->next)
-		tmp = tmp->next;
-	tmp->next = new;
-	new->prev = tmp;
-}
+// 	block_size = ((get_head_size(size) * 100) / (getpagesize() + 1)) * getpagesize();
+// 	new = (t_block *)mmap(NULL, block_size,
+// 		PROT_READ | PROT_WRITE, MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
+// 	if (!new)
+// 		return (FALSE);
+// 	new->size = block_size;
+// 	new->free = FREE;
+// 	new->next = NULL;
+// 	add_new_to_memory(head, new);
+// 	return (TRUE);
+// }
 
-t_block		*extend_heap(t_block **head, size_t size)
-{
-	t_block	*new;
-	size_t	block_size;
+// t_block		*extend_large_heap(t_block **head, size_t size)
+// {
+// 	t_block	*new;
+// 	size_t	block_size;
 
-	block_size = get_new_block_size(size);
-	new = (t_block *)mmap(NULL, block_size,
-		PROT_READ | PROT_WRITE, MAP_ANONYMOUS | MAP_PRIVATE, -1, 0);
-	if (!new)
-		return (NULL);
-	new->size = block_size;
-	new->free = FREE;
-	add_new_to_memory(head, new);
-	return (new);
-}
+// 	block_size = size + BLOCK_SIZE;
+// 	new = (t_block *)mmap(NULL, block_size,
+// 		PROT_READ | PROT_WRITE, MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
+// 	if (!new)
+// 		return (NULL);
+// 	new->size = block_size;
+// 	new->free = USED;
+// 	new->next = NULL;
+// 	add_new_to_memory(head, new);
+// 	return (new);
+// }
 
-t_block		*get_head(size_t size)
-{
-	t_block	*head;
-	t_block	*block;
+// t_block		*get_head(t_block **head, size_t size)
+// {
+// 	t_block	*block;
+// 	t_block	*remaining;
 
-	head = (size > TINY ? g_store_mem.small : g_store_mem.tiny);
-	block = find_free_block(&head, size);
-	if (split_block(&block, size))
-		return (block);
-	return (extend_heap(&head, size));
-}
+// 	block = find_free_block(head, size);
+// 	if (block && block->free == FREE)
+// 	{
+// 		if(split_block(&block, &remaining, size))
+// 		{
+// 			return (block);
+// 		}
+// 		return (NULL);
+// 	}
+// 	if (!extend_heap(head, size))
+// 		return (NULL);
+// 	return (get_head(head, size));
+// }
 
-void		*malloc(size_t size)
-{
-	if (!size || size > ULONG_MAX)
-		return (NULL);
-	if (size > SMALL)
-	{
-		return(extend_heap(&g_store_mem.large, size));
-	}
-	return (get_head(size));
-}
+// void		*ft_malloc(size_t size)
+// {
+// 	t_block	*block;
+
+// 	if (!size)
+// 		return (NULL);
+// 	if (size > SMALL)
+// 		return(extend_large_heap(&g_store_mem.large, size) + BLOCK_SIZE);
+// 	block = get_head(size > TINY ? &g_store_mem.small : &g_store_mem.tiny, size);
+// 	return (block);
+// }

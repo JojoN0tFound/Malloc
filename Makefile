@@ -6,7 +6,7 @@
 #    By: jquivogn <jquivogn@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/12/10 02:23:08 by jquivogn          #+#    #+#              #
-#    Updated: 2022/12/10 09:53:39 by jquivogn         ###   ########.fr        #
+#    Updated: 2022/12/12 11:14:26 by jquivogn         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,10 +32,11 @@ INC_PATH = ./includes
 OBJ_PATH = ./obj
 
 SRC_NAME =	malloc.c\
-			realloc.c\
-			free.c\
-			utils.c\
 			main.c
+			# realloc.c\
+			# free.c\
+			# utils.c\
+			# show_alloc_mem.c\
 
 INC_NAME =	malloc.h
 
