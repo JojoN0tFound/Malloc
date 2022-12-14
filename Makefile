@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: jquivogn <jquivogn@student.42.fr>          +#+  +:+       +#+         #
+#    By: jojo <jojo@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/12/10 02:23:08 by jquivogn          #+#    #+#              #
-#    Updated: 2022/12/13 20:18:18 by jquivogn         ###   ########.fr        #
+#    Updated: 2022/12/14 15:37:15 by jojo             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,7 @@ endif
 
 CC = gcc
 
-CFLAGS = -Wall -Wextra -Werror -g
+# CFLAGS = -Wall -Wextra -Werror -g
 
 FLAGS = -lft -fPIC
 
@@ -32,12 +32,13 @@ INC_PATH = ./includes
 OBJ_PATH = ./obj
 
 SRC_NAME =	malloc.c\
-			chunck.c\
+			page.c\
+			block.c\
 			utils.c\
+			show_alloc_mem.c\
 			main.c
 			# realloc.c\
 			# free.c\
-			# show_alloc_mem.c\
 
 INC_NAME =	malloc.h
 
