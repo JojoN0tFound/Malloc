@@ -6,7 +6,7 @@
 /*   By: jojo <jojo@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/10 02:15:18 by jquivogn          #+#    #+#             */
-/*   Updated: 2022/12/14 17:57:12 by jojo             ###   ########.fr       */
+/*   Updated: 2022/12/15 01:52:23 by jojo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,28 +14,25 @@
 
 t_heap		g_store_mem;
 
-t_block		*get_head(t_page **head, size_t size)
+t_block		*get_alloc(t_page **head, size_t size)
 {
 	t_page		*page;
 	t_block		*block;
 
 	page = find_free_page(head, size);
-	if (page)
-	{
-		if((block = new_block(page, size))){
-			if (!IS_MAGIC(block->magic))
-				return (get_head(head, size));
-			page->space += SIZE(size);
-			return (block++);
+	if (page) {
+		if((block = new_block(page, size))) {
+			page->space += SIZE(MOD_BASE(size));
+			return (block);
 		}
-		return (NULL);
+		return (get_alloc(head, size));
 	}
 	if (!get_new_page(head, size))
 		return (NULL);
-	return (get_head(head, size));
+	return (get_alloc(head, size));
 }
 
-t_block		*get_large(t_page **head, size_t size)
+t_block		*get_large_alloc(t_page **head, size_t size)
 {
 	t_page		*page;
 	t_block		*new;
@@ -43,15 +40,16 @@ t_block		*get_large(t_page **head, size_t size)
 	if (!(page = get_new_large_page(head, size)))
 		return (NULL);
 	new = init_block((uint64_t)page + PAGE_H, size, NULL, NULL);
-	return (new++);
+	page->space += SIZE(MOD_BASE(size));
+	return (new);
 	
 }
 
-void		*ft_malloc(size_t size)
+void		*malloc(size_t size)
 {
 	if (!size)
 		return (NULL);
 	if (size > SMALL)
-		return(get_large(&g_store_mem.large, size));
-	return (get_head(size > TINY ? &g_store_mem.small : &g_store_mem.tiny, size));
+		return(get_large_alloc(&g_store_mem.large, size));
+	return (get_alloc(size > TINY ? &g_store_mem.small : &g_store_mem.tiny, size));
 }

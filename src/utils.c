@@ -6,7 +6,7 @@
 /*   By: jojo <jojo@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/10 02:40:31 by jquivogn          #+#    #+#             */
-/*   Updated: 2022/12/14 16:40:27 by jojo             ###   ########.fr       */
+/*   Updated: 2022/12/15 00:11:32 by jojo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,7 @@ void	ft_putnbr(int nb)
 	if (nb < 0)
 	{
 		ft_putchar('-');
-		if (nb == -2147483648)
-		{
+		if (nb == -2147483648) {
 			nb = -147483648;
 			ft_putchar('2');
 		}
@@ -60,8 +59,7 @@ void print_memory(const void *addr, size_t size)
 	printed = 0;
 	i = 0;
 	pc = addr;
-	while (i < size)
-	{
+	while (i < size) {
 		g = (*(pc+i) >> 4) & 0xf;
 		g += g >= 10 ? 'a'-10 : '0';
 		ft_putchar(g);
@@ -83,17 +81,15 @@ void	ft_putaddr(unsigned int number)
 	char ans[8];
 	char comp[] = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C',
 			'D', 'E', 'F'};
-	int i = 0; 
+	int i = 0;
 
 	ft_putstr("0x");
-	while (number / 16)
-	{
+	while (number / 16) {
 		ans[i++] = comp[number % 16];
 		number /= 16;
 	}
 	ans[i] = comp[number % 16];
-	while (i >= 0)
-	{
+	while (i >= 0) {
 		while (ans[i] == 0)
 			i--;
 		ft_putchar(ans[i--]);
@@ -103,8 +99,7 @@ void	ft_putaddr(unsigned int number)
 void	print_block(t_block *block, int nb)
 {
 	ft_putstr("=========BLOCK========\n");
-	if (nb != -1)
-	{
+	if (nb != -1) {
 		ft_putstr("block nb: ");
 		ft_putnbr(nb);
 		ft_putchar('\n');
@@ -125,8 +120,7 @@ void	print_block(t_block *block, int nb)
 void	print_all_block(t_block *block)
 {
 	int i = 0;
-	while (block)
-	{
+	while (block) {
 		print_block(block, i);
 		block = block->next;
 		i++;

@@ -6,7 +6,7 @@
 /*   By: jojo <jojo@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/10 02:19:22 by jquivogn          #+#    #+#             */
-/*   Updated: 2022/12/14 17:57:36 by jojo             ###   ########.fr       */
+/*   Updated: 2022/12/15 01:36:33 by jojo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,12 +40,11 @@
 # define TINY 128
 # define SMALL 1024
 
+# define MOD_BASE(x) x + (16 - (x % 16))
 # define PAGE_BASE(x) x + getpagesize() - (x % getpagesize())
 
 # define MAGIC 0xDEADCAFEBEEF0000
 # define IS_MAGIC(x) (MAGIC == (x & 0xFFFFFFFFFFFF0000))
-
-# define MOD_BASE(x) x + (16 - (x % 16))
 
 # define TEST write(1, "TEST\n", 5);
 # define DEBUG write(1, "DEBUG\n", 6);
@@ -76,18 +75,19 @@ typedef struct	s_page
 
 typedef struct	s_heap
 {
-	t_page		*tiny;
-	t_page		*small;
-	t_page		*large;
+	t_page			*tiny;
+	t_page			*small;
+	t_page			*large;
 }				t_heap;
 
-extern t_heap		g_store_mem;
+extern t_heap	g_store_mem;
 
 /*
 ** malloc.c
 */
-t_block		*get_head(t_page **head, size_t size);
-void		*ft_malloc(size_t size);
+t_block		*get_alloc(t_page **head, size_t size);
+t_block		*get_large_alloc(t_page **head, size_t size);
+void		*malloc(size_t size);
 
 /*
 ** page.c
@@ -117,6 +117,8 @@ void		free(void *ptr);
 /*
 ** show_alloc_mem.c
 */
+void		show_block(t_block *block);
+size_t		show_page(t_page **head_page, char *type);
 void 		show_alloc_mem();
 
 /*

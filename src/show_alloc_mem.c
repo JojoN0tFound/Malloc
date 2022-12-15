@@ -6,7 +6,7 @@
 /*   By: jojo <jojo@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 10:37:24 by jquivogn          #+#    #+#             */
-/*   Updated: 2022/12/14 17:58:32 by jojo             ###   ########.fr       */
+/*   Updated: 2022/12/15 00:09:42 by jojo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	show_block(t_block *block)
 	ft_putstr(" bytes\n");
 }
 
-size_t	show_blocks_page(t_page **head_page, char *type)
+size_t	show_page(t_page **head_page, char *type)
 {
 	t_page	*tmp;
 	t_block	*block;
@@ -30,15 +30,13 @@ size_t	show_blocks_page(t_page **head_page, char *type)
 
 	total = 0;
 	tmp = *head_page;
-	while (tmp)
-	{
+	while (tmp) {
 		ft_putstr(type);
 		ft_putstr(" : ");
 		ft_putaddr((uint64_t)tmp);
 		ft_putchar('\n');
 		block = (t_block *)((uint64_t)tmp + PAGE_H);
-		while (block)
-		{
+		while (block) {
 			show_block(block);
 			total += block->size;
 			block = block->next;
@@ -60,11 +58,11 @@ void	show_alloc_mem()
 	small = g_store_mem.small;
 	large = g_store_mem.large;
 	if (tiny)
-		total += show_blocks_page(&tiny, "TINY");
+		total += show_page(&tiny, "TINY");
 	if (small)
-		total += show_blocks_page(&small, "SMALL");
+		total += show_page(&small, "SMALL");
 	if (large)
-		total += show_blocks_page(&large, "LARGE");
+		total += show_page(&large, "LARGE");
 	ft_putstr("Total : ");
 	ft_putnbr(total);
 	ft_putstr(" bytes\n");

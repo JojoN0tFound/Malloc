@@ -6,7 +6,7 @@
 #    By: jojo <jojo@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/12/10 02:23:08 by jquivogn          #+#    #+#              #
-#    Updated: 2022/12/14 15:37:15 by jojo             ###   ########.fr        #
+#    Updated: 2022/12/15 00:17:51 by jojo             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -35,10 +35,10 @@ SRC_NAME =	malloc.c\
 			page.c\
 			block.c\
 			utils.c\
+			free.c\
 			show_alloc_mem.c\
 			main.c
 			# realloc.c\
-			# free.c\
 
 INC_NAME =	malloc.h
 
