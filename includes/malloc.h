@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   malloc.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jojo <jojo@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: jquivogn <jquivogn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/10 02:19:22 by jquivogn          #+#    #+#             */
-/*   Updated: 2022/12/15 01:36:33 by jojo             ###   ########.fr       */
+/*   Updated: 2022/12/15 16:33:19 by jquivogn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,8 @@
 # define TRUE 1
 # define FALSE 0
 
-# define FREE 0x1
-# define USED 0x2
+# define FREE 0x0
+# define USED 0x1
 
 # define BLOCK_H sizeof(t_block)
 # define PAGE_H sizeof(t_page)
@@ -43,6 +43,7 @@
 # define MOD_BASE(x) x + (16 - (x % 16))
 # define PAGE_BASE(x) x + getpagesize() - (x % getpagesize())
 
+// # define GET_POS(x) 4294967295 - (x + 1)
 # define MAGIC 0xDEADCAFEBEEF0000
 # define IS_MAGIC(x) (MAGIC == (x & 0xFFFFFFFFFFFF0000))
 
@@ -69,7 +70,7 @@ typedef struct	s_block
 typedef struct	s_page
 {
 	int				space;
-	int				max;
+	size_t			max;
 	struct s_page	*next;
 }				t_page;
 
@@ -124,6 +125,8 @@ void 		show_alloc_mem();
 /*
 ** utils.c
 */
+t_page		**get_head(size_t size);
+void		*ft_memcpy(void *s1, const void *s2, size_t n);
 void		ft_putnbr(int nb);
 int			ft_strlen(char* str);
 void		ft_putstr(char const *s);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   block.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jojo <jojo@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: jquivogn <jquivogn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/14 15:32:26 by jojo              #+#    #+#             */
-/*   Updated: 2022/12/15 00:10:36 by jojo             ###   ########.fr       */
+/*   Updated: 2022/12/15 15:13:58 by jquivogn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ t_block		*new_block(t_page *page, size_t size)
 	tmp = (t_block *)((uint64_t)page + PAGE_H);
 	if (!IS_MAGIC(tmp->magic))
 		return (init_block((uint64_t)tmp, size, NULL, NULL));
-	while (tmp && tmp->next && ((USED & tmp->magic) == 2)) {
+	while (tmp && tmp->next && ((USED & tmp->magic) == 1)) {
 		if (((uint64_t)tmp->next - ((uint64_t)tmp + SIZE(MOD_BASE(tmp->size)))) > SIZE(MOD_BASE(size))) {
 			isMiddle = TRUE;
 			break ;

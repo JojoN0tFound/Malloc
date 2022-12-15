@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jojo <jojo@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: jquivogn <jquivogn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/10 02:17:51 by jquivogn          #+#    #+#             */
-/*   Updated: 2022/12/15 01:51:07 by jojo             ###   ########.fr       */
+/*   Updated: 2022/12/15 17:43:19 by jquivogn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,32 +14,40 @@
 
 int	main()
 {
-	void	*ptr;
-	void	*ptr1;
-	char	*ptr2;
-	void	*ptr3;
+	// char	*ptr;
+	char	*ptr1;
+	// char	*ptr2;
+	// void	*ptr3;
 
 /*
 ** TINY
 */
-	ft_putstr("=========TINY=========\n");
-	ft_putstr("======================\n\n");
-	ptr = malloc(11);
+	// ft_putstr("=========TINY=========\n");
+	// ft_putstr("======================\n\n");
+	// ptr = malloc(11);
 	ptr1 = malloc(112);
-	ptr2 = malloc(15);
-	ptr3 = malloc(64);
-	show_alloc_mem();
+	// ptr2 = malloc(15);
+	// ptr3 = malloc(64);
+	// show_alloc_mem();
 	ft_putstr("======================\n\n");
 	free(ptr1);
-	show_alloc_mem();
+	// show_alloc_mem();
+	// // ft_putstr("======================\n\n");
+	// // ptr1 = malloc(12);
+	// // show_alloc_mem();
+	// ft_putstr("======================\n\n");
+	// ptr2 = realloc(ptr2, 98);
+	// show_alloc_mem();
 	ft_putstr("======================\n\n");
-	ptr1 = malloc(12);
-	show_alloc_mem();
-	ft_putstr("======================\n\n");
-	free(ptr);
-	free(ptr3);
-	free(ptr2);
+	// free(ptr);
+	// free(ptr3);
+	// free(ptr2);
+	// TEST
+	// TEST
+	// TEST
+	// ft_putstr(ptr1);
 	free(ptr1);
+	// show_alloc_mem();
 	ft_putstr("======================\n\n");
 	
 /*

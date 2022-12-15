@@ -3,14 +3,41 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jojo <jojo@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: jquivogn <jquivogn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/10 02:40:31 by jquivogn          #+#    #+#             */
-/*   Updated: 2022/12/15 00:11:32 by jojo             ###   ########.fr       */
+/*   Updated: 2022/12/15 16:46:24 by jquivogn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/malloc.h"
+
+t_page	**get_head(size_t size)
+{
+	if (size > SMALL)
+		return (&g_store_mem.large);
+	else if (size > TINY)
+		return (&g_store_mem.small);
+	else
+		return (&g_store_mem.tiny);
+}
+
+void	*ft_memcpy(void *s1, const void *s2, size_t n)
+{
+	size_t	i;
+	char	*dest;
+	char	*src;
+
+	i = 0;
+	dest = (char *)s1;
+	src = (char *)s2;
+	while (i < n)
+	{
+		dest[i] = src[i];
+		i++;
+	}
+	return ((void *)dest);
+}
 
 void	ft_putchar(char c)
 {
