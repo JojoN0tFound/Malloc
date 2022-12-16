@@ -6,7 +6,7 @@
 #    By: jquivogn <jquivogn@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/12/10 02:23:08 by jquivogn          #+#    #+#              #
-#    Updated: 2022/12/15 17:26:59 by jquivogn         ###   ########.fr        #
+#    Updated: 2022/12/16 20:56:43 by jquivogn         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -38,6 +38,8 @@ SRC_NAME =	malloc.c\
 			block.c\
 			show_alloc_mem.c\
 			utils.c\
+			print.c\
+			libft.c\
 			main.c
 
 INC_NAME =	malloc.h

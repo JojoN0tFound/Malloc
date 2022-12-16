@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   show_alloc_mem.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jojo <jojo@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: jquivogn <jquivogn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 10:37:24 by jquivogn          #+#    #+#             */
-/*   Updated: 2022/12/15 00:09:42 by jojo             ###   ########.fr       */
+/*   Updated: 2022/12/16 22:12:29 by jquivogn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ size_t	show_page(t_page **head_page, char *type)
 		ft_putstr(" : ");
 		ft_putaddr((uint64_t)tmp);
 		ft_putchar('\n');
-		block = (t_block *)((uint64_t)tmp + PAGE_H);
+		block = tmp->first;
 		while (block) {
 			show_block(block);
 			total += block->size;

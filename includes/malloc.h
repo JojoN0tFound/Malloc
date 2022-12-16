@@ -6,7 +6,7 @@
 /*   By: jquivogn <jquivogn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/10 02:19:22 by jquivogn          #+#    #+#             */
-/*   Updated: 2022/12/15 16:33:19 by jquivogn         ###   ########.fr       */
+/*   Updated: 2022/12/16 22:20:17 by jquivogn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,12 +30,17 @@
 # define TRUE 1
 # define FALSE 0
 
-# define FREE 0x0
+# define FREE 0x2
 # define USED 0x1
 
 # define BLOCK_H sizeof(t_block)
 # define PAGE_H sizeof(t_page)
 # define SIZE(x) x + BLOCK_H
+
+# define GOTO_M(x) (void *)((uint64_t)x + BLOCK_H)
+# define GOTO_H(x) (t_block *)((uint64_t)x - BLOCK_H)
+
+# define ADDR(x) (uint64_t)x
 
 # define TINY 128
 # define SMALL 1024
@@ -71,6 +76,7 @@ typedef struct	s_page
 {
 	int				space;
 	size_t			max;
+	t_block			*first;
 	struct s_page	*next;
 }				t_page;
 
@@ -113,6 +119,8 @@ void		*realloc(void *ptr, size_t size);
 /*
 ** free.c
 */
+void		free_block(t_page **page, t_block *block);
+void		free_page(void *ptr);
 void		free(void *ptr);
 
 /*
@@ -126,14 +134,22 @@ void 		show_alloc_mem();
 ** utils.c
 */
 t_page		**get_head(size_t size);
+
+/*
+** print.c
+*/
+void		print_memory(const void *addr, size_t size);
+void		print_block(t_block *block, int nb);
+void		print_all_block(t_block *block);
+
+/*
+** libft.c
+*/
 void		*ft_memcpy(void *s1, const void *s2, size_t n);
 void		ft_putnbr(int nb);
 int			ft_strlen(char* str);
 void		ft_putstr(char const *s);
 void		ft_putchar(char c);
-void		print_memory(const void *addr, size_t size);
-void		ft_putaddr(unsigned int number);
-void		print_block(t_block *block, int nb);
-void		print_all_block(t_block *block);
+void		ft_putaddr(uint64_t number);
 
 #endif

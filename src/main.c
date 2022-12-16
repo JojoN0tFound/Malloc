@@ -6,7 +6,7 @@
 /*   By: jquivogn <jquivogn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/10 02:17:51 by jquivogn          #+#    #+#             */
-/*   Updated: 2022/12/15 17:43:19 by jquivogn         ###   ########.fr       */
+/*   Updated: 2022/12/16 22:23:37 by jquivogn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,41 +14,49 @@
 
 int	main()
 {
-	// char	*ptr;
+	char	*ptr;
 	char	*ptr1;
-	// char	*ptr2;
-	// void	*ptr3;
+	char	*ptr2;
+	void	*ptr3;
 
 /*
 ** TINY
 */
-	// ft_putstr("=========TINY=========\n");
-	// ft_putstr("======================\n\n");
-	// ptr = malloc(11);
+	ft_putstr("===============================TINY=========\n");
+	ft_putstr("============================================\n\n");
+	ptr = malloc(11);
 	ptr1 = malloc(112);
-	// ptr2 = malloc(15);
-	// ptr3 = malloc(64);
-	// show_alloc_mem();
-	ft_putstr("======================\n\n");
+	ptr2 = malloc(15);
+	ptr3 = malloc(64);
+	show_alloc_mem();
+	ft_putstr("===============================FREE=========\n\n");
 	free(ptr1);
-	// show_alloc_mem();
-	// // ft_putstr("======================\n\n");
-	// // ptr1 = malloc(12);
-	// // show_alloc_mem();
-	// ft_putstr("======================\n\n");
+	// free(ptr);
+	show_alloc_mem();
+	ft_putstr("==============================MALLOC========\n\n");
+	ptr1 = malloc(12);
+	show_alloc_mem();
+	// ft_putstr("=============================REALLOC=======\n\n");
 	// ptr2 = realloc(ptr2, 98);
 	// show_alloc_mem();
-	ft_putstr("======================\n\n");
+	// print_all_block(ADDR(g_store_mem.tiny) + PAGE_H);
+	// ft_putstr("================================FREE========\n\n");
 	// free(ptr);
-	// free(ptr3);
-	// free(ptr2);
-	// TEST
-	// TEST
-	// TEST
-	// ft_putstr(ptr1);
-	free(ptr1);
 	// show_alloc_mem();
-	ft_putstr("======================\n\n");
+	// print_all_block(ADDR(g_store_mem.tiny) + PAGE_H);
+	ft_putstr("================================FREE=3=======\n\n");
+	free(ptr3);
+	show_alloc_mem();
+	// print_all_block(ADDR(g_store_mem.tiny) + PAGE_H);
+	ft_putstr("================================FREE=2=======\n\n");
+	free(ptr2);
+	show_alloc_mem();
+	// print_all_block(ADDR(g_store_mem.tiny) + PAGE_H);
+	ft_putstr("================================FREE=1=======\n\n");
+	free(ptr1);
+	show_alloc_mem();
+	// print_all_block(ADDR(g_store_mem.tiny) + PAGE_H);
+	ft_putstr("============================================\n\n");
 	
 /*
 ** SMALL
