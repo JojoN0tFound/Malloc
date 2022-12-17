@@ -6,7 +6,7 @@
 /*   By: jquivogn <jquivogn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/10 02:19:08 by jquivogn          #+#    #+#             */
-/*   Updated: 2022/12/17 12:34:35 by jquivogn         ###   ########.fr       */
+/*   Updated: 2022/12/17 19:33:24 by jquivogn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,20 +19,16 @@ void	*get_new_alloc(void *ptr, size_t size)
 	t_block	*block;
 	size_t	min;
 
-	COUCOU
-	new = malloc(size);
-	TOTO
-	if (!new)
-		return (ptr);
-	SEGV
 	block = GOTO_H(ptr);
-	SEGV
+	if (!(new = malloc(size)))
+		return (ptr);
+	if ((block->magic & FREE)== FREE)
+		return (new);
 	min = block->size < size ? block->size : size;
 	block = NULL;
 	tmp = GOTO_M(new);
 	tmp = ft_memcpy(tmp, (void *)((uint64_t)ptr + BLOCK_H), min);
 	free(ptr);
-	// show_alloc_mem();
 	return (new);
 }
 

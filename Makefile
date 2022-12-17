@@ -6,7 +6,7 @@
 #    By: jquivogn <jquivogn@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/12/10 02:23:08 by jquivogn          #+#    #+#              #
-#    Updated: 2022/12/16 20:56:43 by jquivogn         ###   ########.fr        #
+#    Updated: 2022/12/17 19:42:58 by jquivogn         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,7 @@ CC = gcc
 
 # CFLAGS = -Wall -Wextra -Werror -g
 
-FLAGS = -lft -fPIC
+FLAGS = -fPIC
 
 PROJECT_NAME = malloc
 
@@ -52,6 +52,7 @@ OBJ = $(addprefix $(OBJ_PATH)/, $(OBJ_NAME))
 
 all: logo $(NAME)
 
+
 $(NAME): $(OBJ) $(INC)
 	@$(CC) $(CFLAGS) $(INCLUDE) $(OBJ) -o $(NAME)
 	@echo "\033[38;2;0;255;255mfiller\t\033[1;33mCompilation\t\t\033[0;32m[OK]\033[0m"
@@ -63,8 +64,9 @@ $(OBJ_PATH)/%.o: $(SRC_PATH)/%.c
 	@printf "\e[1A"
 	@$(CC) $(CFLAGS) $(INCLUDE) -c $< -o $@
 	@printf "\e[0K"
+
 # $(NAME): $(OBJ) $(INC)
-# 	@$(CC) $(CFLAGS) -shared -o $@ $(OBJ) -L $(FLAGS)
+# 	@$(CC) $(CFLAGS) $(FLAGS) -shared -o $@ $(OBJ)
 # 	@ln -sf $(NAME) $(LINK)
 # 	@echo "\033[38;2;0;255;255m$(PROJECT_NAME)\t\033[1;33mCompilation\t\t\t\033[0;32m[OK]\033[0m"
 # 	@echo "\033[38;2;0;255;255m$(PROJECT_NAME)\t\033[38;2;255;0;0m$(NAME)\t\033[0;32m[OK]\033[0m"
@@ -73,7 +75,7 @@ $(OBJ_PATH)/%.o: $(SRC_PATH)/%.c
 # 	@mkdir $(dir $(OBJ_PATH)/$*) 2> /dev/null || true
 # 	@echo "\033[38;2;0;255;0m[cc]\033[0m: $< -> $@"
 # 	@printf "\e[1A"
-# 	@$(CC) $(CFLAGS) $(INCLUDE) -c $< -o $@
+# 	@$(CC) $(CFLAGS) $(FLAGS) $(INCLUDE) -c $< -o $@
 # 	@printf "\e[0K"
 
 clean:
@@ -81,7 +83,7 @@ clean:
 	@echo "\033[38;2;0;255;255m$(PROJECT_NAME)\t\033[1;33mCleaning obj\t\t\033[0;32m[OK]\033[0m"
 
 fclean: clean
-	@rm -rf $(NAME)
+	@rm -rf $(NAME) $(LINK)
 	@echo "\033[38;2;0;255;255m$(PROJECT_NAME)\t\033[1;33mCleaning exe\t\t\033[0;32m[OK]\033[0m"
 
 logo:

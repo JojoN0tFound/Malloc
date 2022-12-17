@@ -6,7 +6,7 @@
 /*   By: jquivogn <jquivogn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/14 15:32:26 by jojo              #+#    #+#             */
-/*   Updated: 2022/12/17 12:23:43 by jquivogn         ###   ########.fr       */
+/*   Updated: 2022/12/17 12:46:20 by jquivogn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ t_block		*new_block(t_page *page, size_t size)
 		return (new);
 	}
 	while (tmp && tmp->next && ((USED & tmp->magic) == 1)){
-		if (((uint64_t)tmp->next - ((uint64_t)tmp + SIZE(MOD_BASE(tmp->size)))) > SIZE(MOD_BASE(size))) {
+		if ((ADDR(tmp->next) - (ADDR(tmp) + SIZE(MOD_BASE(tmp->size)))) > SIZE(MOD_BASE(size))) {
 			isMiddle = TRUE;
 			break ;
 		}
@@ -53,7 +53,7 @@ t_block		*new_block(t_page *page, size_t size)
 	}
 	if ((ADDR(tmp) + SIZE(MOD_BASE(tmp->size))) >= (ADDR(page) + page->max + PAGE_H))
 		return (NULL);
-	new = init_block(((uint64_t)tmp + SIZE(MOD_BASE(tmp->size))), size, tmp, NULL);
+	new = init_block((ADDR(tmp) + SIZE(MOD_BASE(tmp->size))), size, tmp, NULL);
 	if (isMiddle){
 		new->next = tmp->next;
 		if (new->prev)

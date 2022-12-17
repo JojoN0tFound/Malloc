@@ -6,7 +6,7 @@
 /*   By: jquivogn <jquivogn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 10:37:24 by jquivogn          #+#    #+#             */
-/*   Updated: 2022/12/17 12:11:42 by jquivogn         ###   ########.fr       */
+/*   Updated: 2022/12/17 19:40:09 by jquivogn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 void	show_block(t_block *block)
 {
-	ft_putaddr((uint64_t)block + BLOCK_H);
+	ft_putaddr(ADDR(block) + BLOCK_H);
 	ft_putstr(" - ");
-	ft_putaddr((uint64_t)block + SIZE(block->size));
+	ft_putaddr(ADDR(block) + SIZE(block->size));
 	ft_putstr(" : ");
 	ft_putnbr(block->size);
 	ft_putstr(" bytes\n");
@@ -33,7 +33,7 @@ size_t	show_page(t_page **head_page, char *type)
 	while (tmp){
 		ft_putstr(type);
 		ft_putstr(" : ");
-		ft_putaddr((uint64_t)tmp);
+		ft_putaddr(ADDR(tmp));
 		ft_putchar('\n');
 		block = tmp->first;
 		while (block){

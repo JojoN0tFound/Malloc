@@ -6,12 +6,11 @@
 /*   By: jquivogn <jquivogn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/16 20:56:08 by jquivogn          #+#    #+#             */
-/*   Updated: 2022/12/16 20:56:25 by jquivogn         ###   ########.fr       */
+/*   Updated: 2022/12/17 15:40:02 by jquivogn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/malloc.h"
-
 
 void	*ft_memcpy(void *s1, const void *s2, size_t n)
 {

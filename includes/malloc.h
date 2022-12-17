@@ -6,7 +6,7 @@
 /*   By: jquivogn <jquivogn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/10 02:19:22 by jquivogn          #+#    #+#             */
-/*   Updated: 2022/12/17 12:22:16 by jquivogn         ###   ########.fr       */
+/*   Updated: 2022/12/17 14:18:38 by jquivogn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 ** include
 */
 # include <unistd.h>
+#include <string.h>
 # include <sys/mman.h>
 # include <sys/time.h>
 # include <sys/resource.h>
