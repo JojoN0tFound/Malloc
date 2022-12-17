@@ -6,7 +6,7 @@
 /*   By: jquivogn <jquivogn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/10 02:19:22 by jquivogn          #+#    #+#             */
-/*   Updated: 2022/12/16 22:20:17 by jquivogn         ###   ########.fr       */
+/*   Updated: 2022/12/17 12:22:16 by jquivogn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,22 +33,21 @@
 # define FREE 0x2
 # define USED 0x1
 
+# define TINY 128
+# define SMALL 1024
+
 # define BLOCK_H sizeof(t_block)
 # define PAGE_H sizeof(t_page)
 # define SIZE(x) x + BLOCK_H
 
-# define GOTO_M(x) (void *)((uint64_t)x + BLOCK_H)
-# define GOTO_H(x) (t_block *)((uint64_t)x - BLOCK_H)
-
 # define ADDR(x) (uint64_t)x
 
-# define TINY 128
-# define SMALL 1024
+# define GOTO_M(x) (void *)(ADDR(x) + BLOCK_H)
+# define GOTO_H(x) (t_block *)(ADDR(x) - BLOCK_H)
 
 # define MOD_BASE(x) x + (16 - (x % 16))
 # define PAGE_BASE(x) x + getpagesize() - (x % getpagesize())
 
-// # define GET_POS(x) 4294967295 - (x + 1)
 # define MAGIC 0xDEADCAFEBEEF0000
 # define IS_MAGIC(x) (MAGIC == (x & 0xFFFFFFFFFFFF0000))
 

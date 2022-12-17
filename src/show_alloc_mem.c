@@ -6,7 +6,7 @@
 /*   By: jquivogn <jquivogn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 10:37:24 by jquivogn          #+#    #+#             */
-/*   Updated: 2022/12/16 22:12:29 by jquivogn         ###   ########.fr       */
+/*   Updated: 2022/12/17 12:11:42 by jquivogn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,13 +30,13 @@ size_t	show_page(t_page **head_page, char *type)
 
 	total = 0;
 	tmp = *head_page;
-	while (tmp) {
+	while (tmp){
 		ft_putstr(type);
 		ft_putstr(" : ");
 		ft_putaddr((uint64_t)tmp);
 		ft_putchar('\n');
 		block = tmp->first;
-		while (block) {
+		while (block){
 			show_block(block);
 			total += block->size;
 			block = block->next;

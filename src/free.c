@@ -6,7 +6,7 @@
 /*   By: jquivogn <jquivogn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/10 02:19:05 by jquivogn          #+#    #+#             */
-/*   Updated: 2022/12/16 22:20:20 by jquivogn         ###   ########.fr       */
+/*   Updated: 2022/12/17 12:23:52 by jquivogn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,20 +14,16 @@
 
 void	free_block(t_page **page, t_block *block)
 {
-	block->magic = (MAGIC | FREE);
+	block->magic = FREE;
 	block->size = 0;
-	if (block->prev && block->next) {
+	if (block->prev){
 		block->prev->next = block->next;
+	}
+	if (block->next){
 		block->next->prev = block->prev;
 	}
-	if (block->prev && !block->next) {
-		block->prev->next = NULL;
-	}
-	if (!block->prev && block->next) {
-		
-		block->next->prev = NULL;
+	if ((*page)->first == block)
 		(*page)->first = block->next;
-	}
 	block->prev = NULL;
 	block->next = NULL;
 	block = NULL;
@@ -45,17 +41,17 @@ void	free_page(void *ptr)
 		return ;
 	head = get_head(block->size);
 	page = *head;
-	while (page && (uint64_t)(page) > (uint64_t)(block)) {
+	while (page && (uint64_t)(page) > (uint64_t)(block)){
 		tmp = page;
 		page = page->next;
 	}
 	if (!page)
 		return ;
 	page->space -= SIZE(MOD_BASE(block->size));
-	free_block(&head, block);
-	if (page->space == 0) {
+	free_block(head, block);
+	if (page->space == 0){
 		if (*head == page)
-			page = page->next ? page->next : NULL;
+			*head = page->next ? page->next : NULL;
 		else
 			tmp->next = page->next ? page->next : NULL;
 		munmap(page, page->max);

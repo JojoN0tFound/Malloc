@@ -17,11 +17,11 @@ void		add_new_to_memory(t_page **head, t_page *new)
 	t_page	*tmp;
 
 	tmp = *head;
-	if (!tmp) {
+	if (!tmp){
 		*head = new;
 		return ;
 	}
-	while(tmp && tmp->next) {
+	while(tmp && tmp->next){
 		tmp = tmp->next;
 	}
 	tmp->next = new;
@@ -32,7 +32,7 @@ t_page	*find_free_page(t_page **head, size_t size)
 	t_page	*tmp;
 
 	tmp = *head;
-	while (tmp) {
+	while (tmp){
 		if (SIZE(size) <= (size_t)(tmp->max - tmp->space))
 			return (tmp);
 		tmp = tmp->next;

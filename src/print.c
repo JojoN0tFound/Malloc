@@ -6,7 +6,7 @@
 /*   By: jquivogn <jquivogn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/16 20:55:01 by jquivogn          #+#    #+#             */
-/*   Updated: 2022/12/16 21:10:02 by jquivogn         ###   ########.fr       */
+/*   Updated: 2022/12/17 12:11:50 by jquivogn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void print_memory(const void *addr, size_t size)
 	printed = 0;
 	i = 0;
 	pc = addr;
-	while (i < size) {
+	while (i < size){
 		g = (*(pc+i) >> 4) & 0xf;
 		g += g >= 10 ? 'a'-10 : '0';
 		ft_putchar(g);
@@ -42,7 +42,7 @@ void print_memory(const void *addr, size_t size)
 void	print_block(t_block *block, int nb)
 {
 	ft_putstr("=========BLOCK========\n");
-	if (nb != -1) {
+	if (nb != -1){
 		ft_putstr("block nb: ");
 		ft_putnbr(nb);
 		ft_putchar('\n');
@@ -63,7 +63,7 @@ void	print_block(t_block *block, int nb)
 void	print_all_block(t_block *block)
 {
 	int i = 0;
-	while (block) {
+	while (block){
 		print_block(block, i);
 		block = block->next;
 		i++;
