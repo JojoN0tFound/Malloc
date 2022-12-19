@@ -27,3 +27,10 @@ En cas d’erreur, realloc() retourne un pointeur NULL
 void  free(void *ptr);
 ``
 La fonction free() libère l’allocation de la mémoire pointée par "ptr". Si "ptr" vaut NULL, free() ne fait rien
+
+# Run
+
+*set up*
+--
+``source run.sh``
+``make test`` ou ``gcc -o mytest src/mytest.c``
