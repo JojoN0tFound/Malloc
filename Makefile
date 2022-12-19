@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: jquivogn <jquivogn@student.42.fr>          +#+  +:+       +#+         #
+#    By: jojo <jojo@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/12/10 02:23:08 by jquivogn          #+#    #+#              #
-#    Updated: 2022/12/17 19:42:58 by jquivogn         ###   ########.fr        #
+#    Updated: 2022/12/19 01:29:36 by jojo             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -40,7 +40,6 @@ SRC_NAME =	malloc.c\
 			utils.c\
 			print.c\
 			libft.c\
-			main.c
 
 INC_NAME =	malloc.h
 
@@ -52,31 +51,18 @@ OBJ = $(addprefix $(OBJ_PATH)/, $(OBJ_NAME))
 
 all: logo $(NAME)
 
-
 $(NAME): $(OBJ) $(INC)
-	@$(CC) $(CFLAGS) $(INCLUDE) $(OBJ) -o $(NAME)
-	@echo "\033[38;2;0;255;255mfiller\t\033[1;33mCompilation\t\t\033[0;32m[OK]\033[0m"
-	@echo "\033[38;2;0;255;255mfiller\t\033[38;2;255;0;0m$(NAME)\t\t\033[0;32m[OK]\033[0m"
+	@$(CC) $(CFLAGS) $(FLAGS) -shared -o $@ $(OBJ)
+	@ln -sf $(NAME) $(LINK)
+	@echo "\033[38;2;0;255;255m$(PROJECT_NAME)\t\033[1;33mCompilation\t\t\t\033[0;32m[OK]\033[0m"
+	@echo "\033[38;2;0;255;255m$(PROJECT_NAME)\t\033[38;2;255;0;0m$(NAME)\t\033[0;32m[OK]\033[0m"
 
 $(OBJ_PATH)/%.o: $(SRC_PATH)/%.c
 	@mkdir $(dir $(OBJ_PATH)/$*) 2> /dev/null || true
 	@echo "\033[38;2;0;255;0m[cc]\033[0m: $< -> $@"
 	@printf "\e[1A"
-	@$(CC) $(CFLAGS) $(INCLUDE) -c $< -o $@
+	@$(CC) $(CFLAGS) $(FLAGS) $(INCLUDE) -c $< -o $@
 	@printf "\e[0K"
-
-# $(NAME): $(OBJ) $(INC)
-# 	@$(CC) $(CFLAGS) $(FLAGS) -shared -o $@ $(OBJ)
-# 	@ln -sf $(NAME) $(LINK)
-# 	@echo "\033[38;2;0;255;255m$(PROJECT_NAME)\t\033[1;33mCompilation\t\t\t\033[0;32m[OK]\033[0m"
-# 	@echo "\033[38;2;0;255;255m$(PROJECT_NAME)\t\033[38;2;255;0;0m$(NAME)\t\033[0;32m[OK]\033[0m"
-
-# $(OBJ_PATH)/%.o: $(SRC_PATH)/%.c
-# 	@mkdir $(dir $(OBJ_PATH)/$*) 2> /dev/null || true
-# 	@echo "\033[38;2;0;255;0m[cc]\033[0m: $< -> $@"
-# 	@printf "\e[1A"
-# 	@$(CC) $(CFLAGS) $(FLAGS) $(INCLUDE) -c $< -o $@
-# 	@printf "\e[0K"
 
 clean:
 	@rm -rf $(OBJ) $(OBJ_PATH)
@@ -85,6 +71,19 @@ clean:
 fclean: clean
 	@rm -rf $(NAME) $(LINK)
 	@echo "\033[38;2;0;255;255m$(PROJECT_NAME)\t\033[1;33mCleaning exe\t\t\033[0;32m[OK]\033[0m"
+
+test: all
+	@$(CC) -o test00 test/test00.c
+	@$(CC) -o test01 test/test01.c
+	@$(CC) -o test02 test/test02.c
+	@$(CC) -o test03 test/test03.c
+	@$(CC) -o test04 test/test04.c
+	@$(CC) -o test05 test/test05.c  -L. -lft_malloc
+	@echo "\033[38;2;0;255;255m$(PROJECT_NAME)\t\033[38;2;255;0;0mCreating tests\t\033[0;32m[OK]\033[0m"
+
+tclean:
+	@rm -rf test00 test01 test02 test03 test04 test05
+	@echo "\033[38;2;0;255;255m$(PROJECT_NAME)\t\033[1;33mCleaning tests\t\t\033[0;32m[OK]\033[0m"
 
 logo:
 	@echo ""
@@ -99,4 +98,4 @@ logo:
 
 re: fclean all
 
-.PHONY: all clean fclean re logo
+.PHONY: all test clean fclean re logo

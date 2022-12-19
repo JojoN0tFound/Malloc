@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jquivogn <jquivogn@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jojo <jojo@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/10 02:19:05 by jquivogn          #+#    #+#             */
-/*   Updated: 2022/12/17 12:23:52 by jquivogn         ###   ########.fr       */
+/*   Updated: 2022/12/19 01:43:14 by jojo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	free_page(void *ptr)
 	t_block	*block;
 
 	block = GOTO_H(ptr);
-	if ((block->magic & FREE)== FREE)
+	if (!IS_MAGIC(block->magic) || (block->magic & FREE) == FREE)
 		return ;
 	head = get_head(block->size);
 	page = *head;
@@ -62,7 +62,6 @@ void	free_page(void *ptr)
 void	free(void *ptr)
 {
 	if (!ptr){
-		ft_putstr("ptr NULL\n");
 		return ;
 	}
 	free_page(ptr);
