@@ -33,4 +33,7 @@ La fonction free() libère l’allocation de la mémoire pointée par "ptr". Si 
 *set up*
 --
 ``source run.sh``
+
+*Compile tests*
+--
 ``make test`` ou ``gcc -o mytest src/mytest.c``
