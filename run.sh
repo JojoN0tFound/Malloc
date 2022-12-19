@@ -1,4 +1,17 @@
 #!/bin/sh
-export DYLD_LIBRARY_PATH=.
-export DYLD_INSERT_LIBRARIES=libft_malloc.so
-export DYLD_FORCE_FLAT_NAMESPACE=1
+make test
+export LD_LIBRARY_PATH=":"
+export LD_PRELOAD=`pwd`/libft_malloc.so
+
+echo "==========TEST 0=========="
+./test00
+echo "==========TEST 1=========="
+./test01
+echo "==========TEST 2=========="
+./test02
+echo "==========TEST 3=========="
+./test03
+echo "==========TEST 4=========="
+./test04
+echo "==========TEST 5=========="
+./test05

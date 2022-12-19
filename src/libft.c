@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jojo <jojo@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: jquivogn <jquivogn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/16 20:56:08 by jquivogn          #+#    #+#             */
-/*   Updated: 2022/12/18 23:18:42 by jojo             ###   ########.fr       */
+/*   Updated: 2022/12/19 16:15:11 by jquivogn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +24,22 @@ void	*ft_memcpy(void *s1, const void *s2, size_t n)
 	while (i < n)
 	{
 		dest[i] = src[i];
-		// ft_putchar(src[i]);
-		// ft_putchar('-');
-		// ft_putchar(dest[i]);
-		// N
 		i++;
 	}
 	return ((void *)dest);
+}
+
+void	*ft_memset(void *s, int c, size_t n)
+{
+	size_t	i;
+
+	i = 0;
+	while (i < n)
+	{
+		((unsigned char *)s)[i] = c;
+		i++;
+	}
+	return (s);
 }
 
 void	ft_putchar(char c)

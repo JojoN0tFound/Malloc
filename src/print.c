@@ -6,7 +6,7 @@
 /*   By: jquivogn <jquivogn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/16 20:55:01 by jquivogn          #+#    #+#             */
-/*   Updated: 2022/12/17 12:11:50 by jquivogn         ###   ########.fr       */
+/*   Updated: 2022/12/19 19:33:01 by jquivogn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,4 +68,9 @@ void	print_all_block(t_block *block)
 		block = block->next;
 		i++;
 	}
+}
+
+void	print_alloc_mem()
+{
+	
 }

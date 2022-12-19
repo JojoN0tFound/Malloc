@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: jojo <jojo@student.42.fr>                  +#+  +:+       +#+         #
+#    By: jquivogn <jquivogn@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/12/10 02:23:08 by jquivogn          #+#    #+#              #
-#    Updated: 2022/12/19 01:29:36 by jojo             ###   ########.fr        #
+#    Updated: 2022/12/19 20:34:00 by jquivogn         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,9 +16,11 @@ endif
 
 CC = gcc
 
-# CFLAGS = -Wall -Wextra -Werror -g
+CFLAGS = -Wall -Wextra -Werror -g
 
 FLAGS = -fPIC
+
+LIB_MALLOC = -L. -lft_malloc
 
 PROJECT_NAME = malloc
 
@@ -50,35 +52,35 @@ INC = $(addprefix $(INC_PATH)/, $(INC_NAME))
 OBJ = $(addprefix $(OBJ_PATH)/, $(OBJ_NAME))
 
 all: logo $(NAME)
+	@ln -sf $(NAME) $(LINK)
 
 $(NAME): $(OBJ) $(INC)
-	@$(CC) $(CFLAGS) $(FLAGS) -shared -o $@ $(OBJ)
-	@ln -sf $(NAME) $(LINK)
+	@$(CC) $(CFLAGS) -shared -o $@ $(OBJ)
 	@echo "\033[38;2;0;255;255m$(PROJECT_NAME)\t\033[1;33mCompilation\t\t\t\033[0;32m[OK]\033[0m"
 	@echo "\033[38;2;0;255;255m$(PROJECT_NAME)\t\033[38;2;255;0;0m$(NAME)\t\033[0;32m[OK]\033[0m"
 
-$(OBJ_PATH)/%.o: $(SRC_PATH)/%.c
+$(OBJ_PATH)/%.o: $(SRC_PATH)/%.c Makefile
 	@mkdir $(dir $(OBJ_PATH)/$*) 2> /dev/null || true
 	@echo "\033[38;2;0;255;0m[cc]\033[0m: $< -> $@"
 	@printf "\e[1A"
-	@$(CC) $(CFLAGS) $(FLAGS) $(INCLUDE) -c $< -o $@
+	@$(CC) $(CFLAGS) $(FLAGS) -c $< -o $@
 	@printf "\e[0K"
 
 clean:
 	@rm -rf $(OBJ) $(OBJ_PATH)
 	@echo "\033[38;2;0;255;255m$(PROJECT_NAME)\t\033[1;33mCleaning obj\t\t\033[0;32m[OK]\033[0m"
 
-fclean: clean
+fclean: clean tclean
 	@rm -rf $(NAME) $(LINK)
 	@echo "\033[38;2;0;255;255m$(PROJECT_NAME)\t\033[1;33mCleaning exe\t\t\033[0;32m[OK]\033[0m"
 
 test: all
-	@$(CC) -o test00 test/test00.c
-	@$(CC) -o test01 test/test01.c
-	@$(CC) -o test02 test/test02.c
-	@$(CC) -o test03 test/test03.c
-	@$(CC) -o test04 test/test04.c
-	@$(CC) -o test05 test/test05.c  -L. -lft_malloc
+	@clang -fPIC $(LIB_MALLOC) test/test00.c -o test00
+	@clang -fPIC $(LIB_MALLOC) test/test01.c -o test01
+	@clang -fPIC $(LIB_MALLOC) test/test02.c -o test02
+	@clang -fPIC $(LIB_MALLOC) test/test03.c -o test03
+	@clang -fPIC $(LIB_MALLOC) test/test04.c -o test04
+	@clang -fPIC $(LIB_MALLOC) test/test05.c -o test05
 	@echo "\033[38;2;0;255;255m$(PROJECT_NAME)\t\033[38;2;255;0;0mCreating tests\t\033[0;32m[OK]\033[0m"
 
 tclean:

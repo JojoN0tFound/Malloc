@@ -1,32 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   test05.c                                           :+:      :+:    :+:   */
+/*   calloc.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jquivogn <jquivogn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/12/19 00:16:11 by jojo              #+#    #+#             */
-/*   Updated: 2022/12/19 15:35:52 by jquivogn         ###   ########.fr       */
+/*   Created: 2022/12/19 16:11:26 by jquivogn          #+#    #+#             */
+/*   Updated: 2022/12/19 17:01:45 by jquivogn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-/* ********************************** */
-/*                                    */
-/*               TEST 5               */
-/*                                    */
-/* ********************************** */
-
 #include "../includes/malloc.h"
 
-int	main(void)
+void		*calloc(size_t elementCount, size_t elementSize)
 {
-	void *ptr;
+	void	*mem;
 
-	ptr = malloc(1024);
-	ptr = malloc(1024 * 32);
-	ptr = malloc(1024 * 1024);
-	ptr = malloc(1024 * 1024 * 16);
-	ptr = malloc(1024 * 1024 * 128);
-	show_alloc_mem();
-	return (0);
+	pthread_mutex_lock(&mutex);
+	if (elementCount == 0 || elementSize == 0){
+		pthread_mutex_unlock(&mutex);
+		return (NULL);
+	}
+	mem = malloc(elementCount * elementSize);
+	if (mem){
+		mem = ft_memset(mem, 0, elementCount * elementSize);
+	}
+	pthread_mutex_unlock(&mutex);
+	return (mem);
 }

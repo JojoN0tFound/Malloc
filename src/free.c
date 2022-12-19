@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jojo <jojo@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: jquivogn <jquivogn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/10 02:19:05 by jquivogn          #+#    #+#             */
-/*   Updated: 2022/12/19 01:43:14 by jojo             ###   ########.fr       */
+/*   Updated: 2022/12/19 20:30:51 by jquivogn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,9 +61,11 @@ void	free_page(void *ptr)
 
 void	free(void *ptr)
 {
+	pthread_mutex_lock(&mutex);
 	if (!ptr){
+		pthread_mutex_unlock(&mutex);
 		return ;
 	}
 	free_page(ptr);
-	return;
+	pthread_mutex_unlock(&mutex);
 }

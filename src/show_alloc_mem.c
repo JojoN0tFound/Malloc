@@ -6,7 +6,7 @@
 /*   By: jquivogn <jquivogn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 10:37:24 by jquivogn          #+#    #+#             */
-/*   Updated: 2022/12/17 19:40:09 by jquivogn         ###   ########.fr       */
+/*   Updated: 2022/12/19 16:06:34 by jquivogn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,8 @@ void	show_alloc_mem()
 	t_page	*small;
 	t_page	*large;
 
+
+	pthread_mutex_lock(&mutex);
 	total = 0;
 	tiny = g_store_mem.tiny;
 	small = g_store_mem.small;
@@ -66,4 +68,5 @@ void	show_alloc_mem()
 	ft_putstr("Total : ");
 	ft_putnbr(total);
 	ft_putstr(" bytes\n");
+	pthread_mutex_unlock(&mutex);
 }

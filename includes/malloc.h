@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   malloc.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jojo <jojo@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: jquivogn <jquivogn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/10 02:19:22 by jquivogn          #+#    #+#             */
-/*   Updated: 2022/12/19 00:56:03 by jojo             ###   ########.fr       */
+/*   Updated: 2022/12/19 17:58:23 by jquivogn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@
 # include <stdio.h>
 # include <limits.h>
 # include <inttypes.h>
+# include <pthread.h>
 
 /*
 ** define
@@ -51,6 +52,12 @@
 
 # define MAGIC 0xDEADCAFEBEEF0000
 # define IS_MAGIC(x) (MAGIC == (x & 0xFFFFFFFFFFFF0000))
+
+# define WHI \033[0m
+# define YEL \033[1;33m
+# define GRN \033[0;32m
+# define BLU \033[1;34m
+# define RED \033[0;31m
 
 # define TEST write(1, "TEST\n", 5);
 # define DEBUG write(1, "DEBUG\n", 6);
@@ -89,27 +96,14 @@ typedef struct	s_heap
 
 extern t_heap	g_store_mem;
 
+extern pthread_mutex_t mutex;
+
 /*
 ** malloc.c
 */
 t_block		*get_alloc(t_page **head, size_t size);
 t_block		*get_large_alloc(t_page **head, size_t size);
 void		*malloc(size_t size);
-
-/*
-** page.c
-*/
-void		add_new_to_memory(t_page **head, t_page *new);
-t_page		*find_free_page(t_page **head, size_t size);
-int			get_new_page(t_page **head, size_t size);
-t_page		*get_new_large_page(t_page **head, size_t size);
-
-/*
-** block.c
-*/
-t_block		*init_block(uint64_t addr, size_t size, void *prev, void *next);
-size_t		get_block_size(size_t size);
-t_block		*new_block(t_page *page, size_t size);
 
 /*
 ** realloc.c
@@ -131,6 +125,26 @@ size_t		show_page(t_page **head_page, char *type);
 void 		show_alloc_mem();
 
 /*
+** calloc.c
+*/
+void		*calloc(size_t elementCount, size_t elementSize);
+
+/*
+** page.c
+*/
+void		add_new_to_memory(t_page **head, t_page *new);
+t_page		*find_free_page(t_page **head, size_t size);
+int			get_new_page(t_page **head, size_t size);
+t_page		*get_new_large_page(t_page **head, size_t size);
+
+/*
+** block.c
+*/
+t_block		*init_block(uint64_t addr, size_t size, void *prev, void *next);
+size_t		get_block_size(size_t size);
+t_block		*new_block(t_page *page, size_t size);
+
+/*
 ** utils.c
 */
 t_page		**get_head(size_t size);
@@ -146,6 +160,7 @@ void		print_all_block(t_block *block);
 ** libft.c
 */
 void		*ft_memcpy(void *s1, const void *s2, size_t n);
+void		*ft_memset(void *s, int c, size_t n);
 void		ft_putnbr(int nb);
 int			ft_strlen(char* str);
 void		ft_putstr(char const *s);

@@ -3,16 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   malloc.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jojo <jojo@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: jquivogn <jquivogn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/10 02:15:18 by jquivogn          #+#    #+#             */
-/*   Updated: 2022/12/19 01:43:13 by jojo             ###   ########.fr       */
+/*   Updated: 2022/12/19 15:52:31 by jquivogn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/malloc.h"
 
-t_heap		g_store_mem;
+t_heap			g_store_mem;
+pthread_mutex_t	mutex;
 
 t_block		*get_alloc(t_page **head, size_t size)
 {
@@ -48,9 +49,15 @@ t_block		*get_large_alloc(t_page **head, size_t size)
 
 void		*malloc(size_t size)
 {
+	void	*mem;
+
+	pthread_mutex_lock(&mutex);
 	if (!size)
 		return (NULL);
 	if (size > SMALL)
-		return(get_large_alloc(&g_store_mem.large, size));
-	return (get_alloc(get_head(size), size));
+		mem = get_large_alloc(&g_store_mem.large, size);
+	else
+		mem = get_alloc(get_head(size), size);
+	pthread_mutex_lock(&mutex);
+	return (mem);
 }
