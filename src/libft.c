@@ -6,7 +6,7 @@
 /*   By: jquivogn <jquivogn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/16 20:56:08 by jquivogn          #+#    #+#             */
-/*   Updated: 2022/12/19 16:15:11 by jquivogn         ###   ########.fr       */
+/*   Updated: 2022/12/21 04:12:51 by jquivogn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,14 @@ void	ft_putnbr(int nb)
 	if (nb > 9)
 		ft_putnbr(nb / 10);
 	ft_putchar((nb % 10) + 48);
+}
+
+void	ft_putulnbr(size_t nb)
+{
+	if (nb > 9)
+		ft_putulnbr(nb / 10);
+	ft_putchar((nb % 10) + 48);
+	nb = 0;
 }
 
 void	ft_putaddr(uint64_t number)

@@ -6,7 +6,7 @@
 /*   By: jquivogn <jquivogn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/14 15:32:26 by jojo              #+#    #+#             */
-/*   Updated: 2022/12/17 12:46:20 by jquivogn         ###   ########.fr       */
+/*   Updated: 2022/12/21 09:47:56 by jquivogn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +24,6 @@ t_block		*init_block(uint64_t addr, size_t size, void *prev, void *next)
 	return (new);
 }
 
-size_t		get_block_size(size_t size)
-{
-	if (size > TINY)
-		return (SMALL);
-	return (TINY);
-}
-
 t_block		*new_block(t_page *page, size_t size)
 {
 	int		isMiddle;
@@ -45,14 +38,17 @@ t_block		*new_block(t_page *page, size_t size)
 		return (new);
 	}
 	while (tmp && tmp->next && ((USED & tmp->magic) == 1)){
-		if ((ADDR(tmp->next) - (ADDR(tmp) + SIZE(MOD_BASE(tmp->size)))) > SIZE(MOD_BASE(size))) {
+		if ((ADDR(tmp->next) - (ADDR(tmp) + SIZE(tmp->size))) >= SIZE(size)) {
 			isMiddle = TRUE;
+			TOTO
 			break ;
 		}
 		tmp = tmp->next;
 	}
-	if ((ADDR(tmp) + SIZE(MOD_BASE(tmp->size))) >= (ADDR(page) + page->max + PAGE_H))
+	if ((ADDR(tmp) + SIZE(MOD_BASE(tmp->size))) > (ADDR(page) + page->max + PAGE_H)){
+		TEST
 		return (NULL);
+	}
 	new = init_block((ADDR(tmp) + SIZE(MOD_BASE(tmp->size))), size, tmp, NULL);
 	if (isMiddle){
 		new->next = tmp->next;

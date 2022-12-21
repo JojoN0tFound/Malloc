@@ -6,7 +6,7 @@
 /*   By: jquivogn <jquivogn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/10 02:19:22 by jquivogn          #+#    #+#             */
-/*   Updated: 2022/12/19 17:58:23 by jquivogn         ###   ########.fr       */
+/*   Updated: 2022/12/21 09:48:56 by jquivogn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,12 @@
 # define TINY 128
 # define SMALL 1024
 
+# define NONE 0x0
+# define M_MEM 0x1
+# define F_MEM 0x10
+# define B_HEADER 0x100
+# define P_HEADER 0x1000
+
 # define BLOCK_H sizeof(t_block)
 # define PAGE_H sizeof(t_page)
 # define SIZE(x) x + BLOCK_H
@@ -47,17 +53,19 @@
 # define GOTO_M(x) (void *)(ADDR(x) + BLOCK_H)
 # define GOTO_H(x) (t_block *)(ADDR(x) - BLOCK_H)
 
-# define MOD_BASE(x) x + (16 - (x % 16))
-# define PAGE_BASE(x) x + getpagesize() - (x % getpagesize())
+# define MOD_BASE(x) x + (x % 16 == 0 ? 0 : 16 - (x % 16))
 
 # define MAGIC 0xDEADCAFEBEEF0000
 # define IS_MAGIC(x) (MAGIC == (x & 0xFFFFFFFFFFFF0000))
 
-# define WHI \033[0m
-# define YEL \033[1;33m
-# define GRN \033[0;32m
-# define BLU \033[1;34m
-# define RED \033[0;31m
+# define WHI "\033[0m"
+# define LGR "\033[0;37m"
+# define DGR "\033[1;30m"
+# define YEL "\033[1;33m"
+# define GRN "\033[0;32m"
+# define CYA "\033[0;36m"
+# define BLU "\033[1;34m"
+# define RED "\033[0;31m"
 
 # define TEST write(1, "TEST\n", 5);
 # define DEBUG write(1, "DEBUG\n", 6);
@@ -81,8 +89,8 @@ typedef struct	s_block
 
 typedef struct	s_page
 {
-	int				space;
 	size_t			max;
+	int				space;
 	t_block			*first;
 	struct s_page	*next;
 }				t_page;
@@ -132,8 +140,8 @@ void		*calloc(size_t elementCount, size_t elementSize);
 /*
 ** page.c
 */
-void		add_new_to_memory(t_page **head, t_page *new);
 t_page		*find_free_page(t_page **head, size_t size);
+void		add_new_to_memory(t_page **head, t_page *new);
 int			get_new_page(t_page **head, size_t size);
 t_page		*get_new_large_page(t_page **head, size_t size);
 
@@ -141,18 +149,21 @@ t_page		*get_new_large_page(t_page **head, size_t size);
 ** block.c
 */
 t_block		*init_block(uint64_t addr, size_t size, void *prev, void *next);
-size_t		get_block_size(size_t size);
 t_block		*new_block(t_page *page, size_t size);
 
 /*
 ** utils.c
 */
 t_page		**get_head(size_t size);
+size_t		get_block_size(size_t size);
+size_t		page_base(size_t size);
+int			is_continuous_space(t_page *page, size_t size);
 
 /*
 ** print.c
 */
-void		print_memory(const void *addr, size_t size);
+void		print_memory(const void *addr, size_t size, char *color);
+void		print_alloc_mem(int flag);
 void		print_block(t_block *block, int nb);
 void		print_all_block(t_block *block);
 
@@ -162,6 +173,7 @@ void		print_all_block(t_block *block);
 void		*ft_memcpy(void *s1, const void *s2, size_t n);
 void		*ft_memset(void *s, int c, size_t n);
 void		ft_putnbr(int nb);
+void		ft_putulnbr(size_t nb);
 int			ft_strlen(char* str);
 void		ft_putstr(char const *s);
 void		ft_putchar(char c);

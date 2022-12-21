@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   test04.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jojo <jojo@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: jquivogn <jquivogn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/19 00:16:11 by jojo              #+#    #+#             */
-/*   Updated: 2022/12/19 00:55:58 by jojo             ###   ########.fr       */
+/*   Updated: 2022/12/21 06:22:20 by jquivogn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,12 +27,20 @@ void	print(char *s)
 
 int		main(void)
 {
-	char *addr;
+	// char *addr;
 
-	addr = malloc(16);
-	free(NULL);
-	free((void *)addr + 5);
-	if (realloc((void *)addr + 5, 10) == NULL)
-		print("Bonjours\n");
+	// addr = malloc(16);
+	// free(NULL);
+	// free((void *)addr + 5);
+	// if (realloc((void *)addr + 5, 10) == NULL)
+	// 	print("Bonjours\n");
+	void *ptr;
+	void *ptr1;
+	void *ptr2;
+
+	ptr = malloc(4096);
+	ptr1 = malloc(1556);
+	ptr2 = malloc(3792);
+	free(ptr);
 	return (0);
 }

@@ -6,7 +6,7 @@
 #    By: jquivogn <jquivogn@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/12/10 02:23:08 by jquivogn          #+#    #+#              #
-#    Updated: 2022/12/19 20:34:00 by jquivogn         ###   ########.fr        #
+#    Updated: 2022/12/21 08:50:43 by jquivogn         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,7 @@ endif
 
 CC = gcc
 
-CFLAGS = -Wall -Wextra -Werror -g
+# CFLAGS = -Wall -Wextra -Werror -g
 
 FLAGS = -fPIC
 
@@ -74,13 +74,13 @@ fclean: clean tclean
 	@rm -rf $(NAME) $(LINK)
 	@echo "\033[38;2;0;255;255m$(PROJECT_NAME)\t\033[1;33mCleaning exe\t\t\033[0;32m[OK]\033[0m"
 
-test: all
-	@clang -fPIC $(LIB_MALLOC) test/test00.c -o test00
-	@clang -fPIC $(LIB_MALLOC) test/test01.c -o test01
-	@clang -fPIC $(LIB_MALLOC) test/test02.c -o test02
-	@clang -fPIC $(LIB_MALLOC) test/test03.c -o test03
-	@clang -fPIC $(LIB_MALLOC) test/test04.c -o test04
-	@clang -fPIC $(LIB_MALLOC) test/test05.c -o test05
+test: re
+	# @clang -fPIC $(LIB_MALLOC) test/test00.c -o test00
+	# @clang -fPIC $(LIB_MALLOC) test/test01.c -o test01
+	# @clang -fPIC $(LIB_MALLOC) test/test02.c -o test02
+	# @clang -fPIC $(LIB_MALLOC) test/test03.c -o test03
+	# @clang -fPIC $(LIB_MALLOC) test/test04.c -o test04
+	# @clang -fPIC $(LIB_MALLOC) test/test05.c -o test05
 	@echo "\033[38;2;0;255;255m$(PROJECT_NAME)\t\033[38;2;255;0;0mCreating tests\t\033[0;32m[OK]\033[0m"
 
 tclean:
