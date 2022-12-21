@@ -6,7 +6,7 @@
 /*   By: jquivogn <jquivogn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/10 02:19:05 by jquivogn          #+#    #+#             */
-/*   Updated: 2022/12/21 09:39:13 by jquivogn         ###   ########.fr       */
+/*   Updated: 2022/12/21 14:53:10 by jquivogn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,8 +54,12 @@ void	free_page(void *ptr)
 	t_block	*block;
 
 	block = GOTO_H(ptr);
-	if (!IS_MAGIC(block->magic) || (block->magic & FREE) == FREE)
+	TEST
+	print_block(block, -1);
+	if (!IS_MAGIC(block->magic) || (block->magic & FREE) == FREE){
+		COUCOU
 		return ;
+	}
 	ft_putstr("---------------\n");
 	ft_putulnbr(block->size);
 	ft_putstr("\n---------------\n");
@@ -67,7 +71,7 @@ void	free_page(void *ptr)
 	}
 	if (!page)
 		return ;
-	page->space -= SIZE(MOD_BASE(block->size));
+	page->space -= SIZE(mod_base(block->size));
 	free_block(head, block);
 	if (page->space == 0){
 		if (*head == page)
@@ -75,7 +79,6 @@ void	free_page(void *ptr)
 		else
 			tmp->next = page->next ? page->next : NULL;
 		munmap(page, page->max);
-		// show_alloc_mem();
 		return ;
 	}
 }
@@ -89,7 +92,7 @@ void	*aligned_alloc( size_t alignment, size_t memorySize)
 
 void	free(void *ptr)
 {
-	ft_putstr("================================= FREE ===============================\n");
+	// ft_putstr("================================= FREE ===============================\n");
 	// ft_putstr("\n---------\n");
 	// show_alloc_mem();
 	pthread_mutex_lock(&mutex);
@@ -98,6 +101,6 @@ void	free(void *ptr)
 		return ;
 	}
 	free_page(ptr);
-	ft_putstr("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&\n");
+	// ft_putstr("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&\n");
 	pthread_mutex_unlock(&mutex);
 }

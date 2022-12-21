@@ -6,7 +6,7 @@
 #    By: jquivogn <jquivogn@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/12/10 02:23:08 by jquivogn          #+#    #+#              #
-#    Updated: 2022/12/21 08:50:43 by jquivogn         ###   ########.fr        #
+#    Updated: 2022/12/21 11:07:11 by jquivogn         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -75,16 +75,17 @@ fclean: clean tclean
 	@echo "\033[38;2;0;255;255m$(PROJECT_NAME)\t\033[1;33mCleaning exe\t\t\033[0;32m[OK]\033[0m"
 
 test: re
-	# @clang -fPIC $(LIB_MALLOC) test/test00.c -o test00
-	# @clang -fPIC $(LIB_MALLOC) test/test01.c -o test01
-	# @clang -fPIC $(LIB_MALLOC) test/test02.c -o test02
-	# @clang -fPIC $(LIB_MALLOC) test/test03.c -o test03
-	# @clang -fPIC $(LIB_MALLOC) test/test04.c -o test04
-	# @clang -fPIC $(LIB_MALLOC) test/test05.c -o test05
+	@clang -fPIC $(LIB_MALLOC) test/test00.c -o test00
+	@clang -fPIC $(LIB_MALLOC) test/test01.c -o test01
+	@clang -fPIC $(LIB_MALLOC) test/test02.c -o test02
+	@clang -fPIC $(LIB_MALLOC) test/test03.c -o test03
+	@clang -fPIC $(LIB_MALLOC) test/test04.c -o test04
+	@clang -fPIC $(LIB_MALLOC) test/test05.c -o test05
+	@clang -fPIC $(LIB_MALLOC) test/mytest.c -o mytest
 	@echo "\033[38;2;0;255;255m$(PROJECT_NAME)\t\033[38;2;255;0;0mCreating tests\t\033[0;32m[OK]\033[0m"
 
 tclean:
-	@rm -rf test00 test01 test02 test03 test04 test05
+	@rm -rf test00 test01 test02 test03 test04 test05 mytest
 	@echo "\033[38;2;0;255;255m$(PROJECT_NAME)\t\033[1;33mCleaning tests\t\t\033[0;32m[OK]\033[0m"
 
 logo:

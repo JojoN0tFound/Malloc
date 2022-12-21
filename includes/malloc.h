@@ -6,7 +6,7 @@
 /*   By: jquivogn <jquivogn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/10 02:19:22 by jquivogn          #+#    #+#             */
-/*   Updated: 2022/12/21 09:48:56 by jquivogn         ###   ########.fr       */
+/*   Updated: 2022/12/21 12:17:47 by jquivogn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,8 +53,6 @@
 # define GOTO_M(x) (void *)(ADDR(x) + BLOCK_H)
 # define GOTO_H(x) (t_block *)(ADDR(x) - BLOCK_H)
 
-# define MOD_BASE(x) x + (x % 16 == 0 ? 0 : 16 - (x % 16))
-
 # define MAGIC 0xDEADCAFEBEEF0000
 # define IS_MAGIC(x) (MAGIC == (x & 0xFFFFFFFFFFFF0000))
 
@@ -72,6 +70,7 @@
 # define ERROR write(1, "ERROR\n", 6);
 # define SEGV write(1, "SEGV\n", 5);
 # define COUCOU write(1, "coucou\n", 7);
+# define BRUH write(1, "bruh\n", 5);
 # define TOTO write(1, "toto\n", 5);
 # define YO write(1, "yo\n", 3);
 # define N write(1, "\n", 1);
@@ -142,8 +141,8 @@ void		*calloc(size_t elementCount, size_t elementSize);
 */
 t_page		*find_free_page(t_page **head, size_t size);
 void		add_new_to_memory(t_page **head, t_page *new);
-int			get_new_page(t_page **head, size_t size);
-t_page		*get_new_large_page(t_page **head, size_t size);
+// int			get_new_page(t_page **head, size_t size);
+t_page		*get_new_page(t_page **head, size_t size);
 
 /*
 ** block.c
@@ -157,6 +156,7 @@ t_block		*new_block(t_page *page, size_t size);
 t_page		**get_head(size_t size);
 size_t		get_block_size(size_t size);
 size_t		page_base(size_t size);
+size_t		mod_base(size_t size);
 int			is_continuous_space(t_page *page, size_t size);
 
 /*

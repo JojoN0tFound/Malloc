@@ -6,7 +6,7 @@
 /*   By: jquivogn <jquivogn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/14 15:32:26 by jojo              #+#    #+#             */
-/*   Updated: 2022/12/21 09:47:56 by jquivogn         ###   ########.fr       */
+/*   Updated: 2022/12/21 10:29:44 by jquivogn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,16 +40,14 @@ t_block		*new_block(t_page *page, size_t size)
 	while (tmp && tmp->next && ((USED & tmp->magic) == 1)){
 		if ((ADDR(tmp->next) - (ADDR(tmp) + SIZE(tmp->size))) >= SIZE(size)) {
 			isMiddle = TRUE;
-			TOTO
 			break ;
 		}
 		tmp = tmp->next;
 	}
-	if ((ADDR(tmp) + SIZE(MOD_BASE(tmp->size))) > (ADDR(page) + page->max + PAGE_H)){
-		TEST
+	if ((ADDR(tmp) + SIZE(mod_base(tmp->size))) > (ADDR(page) + page->max + PAGE_H)){
 		return (NULL);
 	}
-	new = init_block((ADDR(tmp) + SIZE(MOD_BASE(tmp->size))), size, tmp, NULL);
+	new = init_block((ADDR(tmp) + SIZE(mod_base(tmp->size))), size, tmp, NULL);
 	if (isMiddle){
 		new->next = tmp->next;
 		if (new->prev)

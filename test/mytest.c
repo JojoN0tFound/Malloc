@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mytest.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jojo <jojo@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: jquivogn <jquivogn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/10 02:17:51 by jquivogn          #+#    #+#             */
-/*   Updated: 2022/12/19 01:44:33 by jojo             ###   ########.fr       */
+/*   Updated: 2022/12/21 15:34:54 by jquivogn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,9 @@ int	main()
 	ptr1 = malloc(12);
 	show_alloc_mem();
 	ft_putstr("==================================== REALLOC 15 -> 98\n\n");
-	ptr2 = realloc(ptr2, 98);
+	// ptr2 = realloc(ptr2, 98);
+	free(ptr2);
+	ptr2 = malloc(98);
 	show_alloc_mem();
 	ft_putstr("======================================= FREE 11\n\n");
 	free(ptr);
@@ -45,9 +47,10 @@ int	main()
 	ft_putstr("======================================= FREE 64\n\n");
 	free(ptr3);
 	show_alloc_mem();
-	ft_putstr("======================================= FREE 15\n\n");
+	ft_putstr("======================================= FREE 98\n\n");
 	free(ptr2);
 	show_alloc_mem();
+	print_alloc_mem(P_HEADER | B_HEADER | M_MEM);
 	ft_putstr("======================================= FREE 12\n\n");
 	free(ptr1);
 	show_alloc_mem();
@@ -59,13 +62,13 @@ int	main()
 	ft_putstr("=========SMALL========\n");
 	ft_putstr("======================\n\n");
 	ptr = malloc(1000);
-	ptr1 = realloc(ptr1, 850);
+	// ptr1 = realloc(ptr1, 850);
 	ptr2 = malloc(560);
 	ptr3 = malloc(1024);
 	show_alloc_mem();
 	ft_putstr("======================\n\n");
 	free(ptr);
-	free(ptr1);
+	// free(ptr1);
 	free(ptr2);
 	free(ptr3);
 	show_alloc_mem();
@@ -78,7 +81,7 @@ int	main()
 	ft_putstr("======================\n\n");
 	ptr = realloc(ptr, 5678);
 	show_alloc_mem();
-	ptr1 = realloc(ptr1, 1234);
+	// ptr1 = realloc(ptr1, 1234);
 	show_alloc_mem();
 	ptr2 = realloc(ptr2, 9854);
 	show_alloc_mem();

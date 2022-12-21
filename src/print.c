@@ -6,7 +6,7 @@
 /*   By: jquivogn <jquivogn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/16 20:55:01 by jquivogn          #+#    #+#             */
-/*   Updated: 2022/12/21 09:49:15 by jquivogn         ###   ########.fr       */
+/*   Updated: 2022/12/21 10:34:42 by jquivogn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ void	page_dump(t_page **head_page, int flag)
 				}
 			}
 			if (block->prev){
-				ret = SIZE(ADDR(block->prev)) + MOD_BASE(block->prev->size);
+				ret = SIZE(ADDR(block->prev)) + mod_base(block->prev->size);
 				if (ret < ADDR(block)){
 					if (flag & F_MEM)
 						print_memory((void *)ret, ADDR(block) - ret, LGR);
@@ -111,7 +111,7 @@ void	page_dump(t_page **head_page, int flag)
 			}
 			block_dump(block, flag);
 			if (!block->next){
-				ret = SIZE(ADDR(block)) + MOD_BASE(block->size);
+				ret = SIZE(ADDR(block)) + mod_base(block->size);
 				if (ret < ADDR(tmp) + PAGE_H + page_base(tmp->max)){
 					if (flag & F_MEM)
 						print_memory((void *)ret, ADDR(tmp) + PAGE_H + page_base(tmp->max) - ret, LGR);
@@ -141,10 +141,10 @@ void	print_alloc_mem(int flag)
 	large = g_store_mem.large;
 	if (tiny)
 		page_dump(&tiny, flag);
-	// if (small)
-	// 	page_dump(&small, flag);
-	// if (large)
-	// 	page_dump(&large, flag);
+	if (small)
+		page_dump(&small, flag);
+	if (large)
+		page_dump(&large, flag);
 	// pthread_mutex_unlock(&mutex);
 }
 
