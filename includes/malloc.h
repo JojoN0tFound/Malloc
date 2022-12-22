@@ -6,7 +6,7 @@
 /*   By: jquivogn <jquivogn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/10 02:19:22 by jquivogn          #+#    #+#             */
-/*   Updated: 2022/12/21 09:48:56 by jquivogn         ###   ########.fr       */
+/*   Updated: 2022/12/22 21:00:50 by jquivogn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,8 @@
 # define TINY 128
 # define SMALL 1024
 
+# define MAX(x) x > SMALL ? SIZE(x) : SIZE(x) * 100
+
 # define NONE 0x0
 # define M_MEM 0x1
 # define F_MEM 0x10
@@ -49,6 +51,7 @@
 # define SIZE(x) x + BLOCK_H
 
 # define ADDR(x) (uint64_t)x
+# define FIRST(x) (t_block *)(ADDR(x) + PAGE_H)
 
 # define GOTO_M(x) (void *)(ADDR(x) + BLOCK_H)
 # define GOTO_H(x) (t_block *)(ADDR(x) - BLOCK_H)
@@ -89,9 +92,7 @@ typedef struct	s_block
 
 typedef struct	s_page
 {
-	size_t			max;
-	int				space;
-	t_block			*first;
+	uint64_t		space;
 	struct s_page	*next;
 }				t_page;
 
@@ -142,13 +143,13 @@ void		*calloc(size_t elementCount, size_t elementSize);
 */
 t_page		*find_free_page(t_page **head, size_t size);
 void		add_new_to_memory(t_page **head, t_page *new);
-int			get_new_page(t_page **head, size_t size);
+t_page		*get_new_page(t_page **head, size_t size);
 t_page		*get_new_large_page(t_page **head, size_t size);
 
 /*
 ** block.c
 */
-t_block		*init_block(uint64_t addr, size_t size, void *prev, void *next);
+t_block		*init_block(uint64_t addr, size_t free, size_t size, void *prev, void *next);
 t_block		*new_block(t_page *page, size_t size);
 
 /*
@@ -157,6 +158,7 @@ t_block		*new_block(t_page *page, size_t size);
 t_page		**get_head(size_t size);
 size_t		get_block_size(size_t size);
 size_t		page_base(size_t size);
+size_t		mod_base(size_t size);
 int			is_continuous_space(t_page *page, size_t size);
 
 /*

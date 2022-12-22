@@ -14,14 +14,13 @@
 
 t_page	*find_free_page(t_page **head, size_t size)
 {
-	t_page	*tmp;
+	t_page	*page;
 
-	tmp = *head;
-	while (tmp){
-		if ((SIZE(size) <= (size_t)(tmp->max - tmp->space)) && is_continuous_space(tmp, size)){
-			return (tmp);
-		}
-		tmp = tmp->next;
+	page = *head;
+	while (page){
+		if (page->space >= size && is_continuous_space(page, size))
+			return (page);
+		page = page->next;
 	}
 	return (NULL);
 }
@@ -41,43 +40,17 @@ void		add_new_to_memory(t_page **head, t_page *new)
 	tmp->next = new;
 }
 
-int			get_new_page(t_page **head, size_t size)
+t_page		*get_new_page(t_page **head, size_t size)
 {
-	t_page	*new;
-	size_t	block_size;
-	size_t	page_size;
+	t_page	*page;
 
-	block_size = SIZE(get_block_size(size));
-	page_size = page_base(block_size * 100 + PAGE_H);
-	new = (t_page *)mmap(NULL, page_size,
+	page = (t_page *)mmap(NULL, MAX(mod_base(size)) + PAGE_H,
 		PROT_READ | PROT_WRITE, MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
-	if (!new)
-		return (FALSE);
-	new->max = page_size - PAGE_H;
-	new->first = NULL;
-	new->space = 0;
-	new->next = NULL;
-	add_new_to_memory(head, new);
-	return (TRUE);
-}
-
-t_page		*get_new_large_page(t_page **head, size_t size)
-{
-	t_page	*new;
-	size_t	block_size;
-	size_t	page_size;
-
-	block_size = SIZE(size);
-	page_size = page_base(block_size + PAGE_H);
-	new = (t_page *)mmap(NULL, page_size,
-		PROT_READ | PROT_WRITE, MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
-	if (!new)
+	if (!page)
 		return (NULL);
-	new->max = page_size - PAGE_H;
-	new->first = NULL;
-	new->space = 0;
-	new->next = NULL;
-	SEGV
-	add_new_to_memory(head, new);
-	return (new);
+	page->next = NULL;
+	page->space = MAX(mod_base(size));
+	init_block(ADDR(FIRST(page)), (MAGIC | FREE), page->space, NULL, NULL);
+	add_new_to_memory(head, page);
+	return (page);
 }

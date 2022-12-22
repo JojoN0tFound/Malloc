@@ -6,7 +6,7 @@
 /*   By: jquivogn <jquivogn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/10 02:40:31 by jquivogn          #+#    #+#             */
-/*   Updated: 2022/12/21 09:48:23 by jquivogn         ###   ########.fr       */
+/*   Updated: 2022/12/22 20:58:16 by jquivogn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,21 +39,24 @@ size_t		page_base(size_t size)
 	return (((need / size_page) + 1) * size_page);
 }
 
-int		is_continuous_space(t_page *page, size_t size)
+size_t		mod_base(size_t size)
+{
+	int	ret;
+
+	ret = size % 16;
+	ret = ret == 0 ? 0 : 16 - ret;
+	return (size + ret);
+}
+
+int			is_continuous_space(t_page *page, size_t size)
 {
 	t_block	*block;
 
-	if (!(page->first))
-		return (TRUE);
-	block = page->first;
-	while (block && block->next && ((USED & block->magic) == 1)){
-		if ((ADDR(block->next) - (ADDR(block) + SIZE(block->size))) >= SIZE(size)){
+	block = FIRST(page);
+	while (block){
+		if (block->size >= mod_base(SIZE(size)))
 			return (TRUE);
-		}
 		block = block->next;
-	}
-	if ((ADDR(block) + SIZE(MOD_BASE(block->size))) <= (ADDR(page) + page->max + PAGE_H)){
-		return (TRUE);
 	}
 	return (FALSE);
 }
