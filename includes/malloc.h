@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   malloc.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jquivogn <jquivogn@student.42.fr>          +#+  +:+       +#+        */
+/*   By: julesqvgn <julesqvgn@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/10 02:19:22 by jquivogn          #+#    #+#             */
-/*   Updated: 2022/12/22 21:00:50 by jquivogn         ###   ########.fr       */
+/*   Updated: 2022/12/23 15:06:01 by julesqvgn        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,9 +103,9 @@ typedef struct	s_heap
 	t_page			*large;
 }				t_heap;
 
-extern t_heap	g_store_mem;
+extern t_heap			g_store_mem;
 
-extern pthread_mutex_t mutex;
+extern pthread_mutex_t	mutex;
 
 /*
 ** malloc.c
@@ -122,8 +122,9 @@ void		*realloc(void *ptr, size_t size);
 /*
 ** free.c
 */
-void		free_block(t_page **page, t_block *block);
-void		free_page(void *ptr);
+int			block_in_page(t_page *page, uint64_t target);
+void		free_page(t_page **head, t_page *page);
+void		free_block(void *ptr);
 void		free(void *ptr);
 
 /*
@@ -144,12 +145,13 @@ void		*calloc(size_t elementCount, size_t elementSize);
 t_page		*find_free_page(t_page **head, size_t size);
 void		add_new_to_memory(t_page **head, t_page *new);
 t_page		*get_new_page(t_page **head, size_t size);
-t_page		*get_new_large_page(t_page **head, size_t size);
+// t_page		*get_new_large_page(t_page **head, size_t size);
 
 /*
 ** block.c
 */
 t_block		*init_block(uint64_t addr, size_t free, size_t size, void *prev, void *next);
+t_block		*defragment(t_block *block);
 t_block		*new_block(t_page *page, size_t size);
 
 /*

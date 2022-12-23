@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jquivogn <jquivogn@student.42.fr>          +#+  +:+       +#+        */
+/*   By: julesqvgn <julesqvgn@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/10 02:19:05 by jquivogn          #+#    #+#             */
-/*   Updated: 2022/12/21 09:39:13 by jquivogn         ###   ########.fr       */
+/*   Updated: 2022/12/23 15:09:29 by julesqvgn        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,88 +16,66 @@ int		block_in_page(t_page *page, uint64_t target)
 {
 	t_block	*block;
 
-	block = page->first;
+	block = FIRST(page);
 	while (block){
-		if (ADDR(block) == target)
+		if (ADDR(block) == target && (block->magic & FREE) == 2)
 			return (TRUE);
 		block = block->next;
 	}
 	return (FALSE);
 }
 
-void	free_block(t_page **page, t_block *block)
+void	free_page(t_page **head, t_page *page)
 {
-	// print_block(block, -1);
-	block->magic = FREE;
-	block->size = 0;
-	if (!block->prev && block->next){
-		(*page)->first = block->next;
-		block->next->prev = NULL;
+	t_page	*prev;
+
+	prev = *head;
+	if (*head == page)
+		*head = page->next;
+	else {
+		while (prev && prev->next){
+			if (prev->next == page)
+				break ;
+			prev = prev->next;
+		}
+		prev->next = page->next;
 	}
-	if (!block->next && block->prev){
-		block->prev->next = NULL;
-	}
-	if (block->prev && block->next){
-		block->next->prev = block->prev;
-		block->prev->next = block->next;
-	}
-	block->prev = NULL;
-	block->next = NULL;
-	block = NULL;
+	munmap(page, page->space);
 }
 
-void	free_page(void *ptr)
+void	free_block(void *ptr)
 {
 	t_page	**head;
 	t_page	*page;
-	t_page	*tmp;
 	t_block	*block;
 
 	block = GOTO_H(ptr);
 	if (!IS_MAGIC(block->magic) || (block->magic & FREE) == FREE)
 		return ;
-	ft_putstr("---------------\n");
-	ft_putulnbr(block->size);
-	ft_putstr("\n---------------\n");
 	head = get_head(block->size);
 	page = *head;
-	while (page && !block_in_page(page, ADDR(block))){
-		tmp = page;
+	while (page){
+		if (block_in_page(page, ADDR(block)))
+			break ;
 		page = page->next;
 	}
 	if (!page)
 		return ;
-	page->space -= SIZE(MOD_BASE(block->size));
-	free_block(head, block);
-	if (page->space == 0){
-		if (*head == page)
-			*head = page->next ? page->next : NULL;
-		else
-			tmp->next = page->next ? page->next : NULL;
-		munmap(page, page->max);
-		// show_alloc_mem();
-		return ;
-	}
+	page->space += mod_base(SIZE(block->size));
+	block = defragment(block);
+	//condition may not work
+	//should try with MAX define and get_size
+	if (((FIRST(page))->magic & FREE) == FREE && !(FIRST(page))->next)
+		free_page(head, page);
 }
-
-void	*aligned_alloc( size_t alignment, size_t memorySize)
-{
-	TOTO
-	return (NULL);
-}
-
 
 void	free(void *ptr)
 {
-	ft_putstr("================================= FREE ===============================\n");
-	// ft_putstr("\n---------\n");
-	// show_alloc_mem();
 	pthread_mutex_lock(&mutex);
 	if (!ptr){
 		pthread_mutex_unlock(&mutex);
 		return ;
 	}
-	free_page(ptr);
-	ft_putstr("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&\n");
+	free_block(ptr);
 	pthread_mutex_unlock(&mutex);
 }
