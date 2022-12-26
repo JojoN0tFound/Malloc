@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: jquivogn <jquivogn@student.42.fr>          +#+  +:+       +#+         #
+#    By: julesqvgn <julesqvgn@student.42.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/12/10 02:23:08 by jquivogn          #+#    #+#              #
-#    Updated: 2022/12/21 08:50:43 by jquivogn         ###   ########.fr        #
+#    Updated: 2022/12/23 15:17:47 by julesqvgn        ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,8 +17,8 @@ endif
 CC = gcc
 
 # CFLAGS = -Wall -Wextra -Werror -g
-
-FLAGS = -fPIC
+# FLAGS = -fPIC
+# SFLAG = -shared
 
 LIB_MALLOC = -L. -lft_malloc
 
@@ -42,6 +42,8 @@ SRC_NAME =	malloc.c\
 			utils.c\
 			print.c\
 			libft.c\
+			mytest.c
+
 
 INC_NAME =	malloc.h
 
@@ -55,7 +57,7 @@ all: logo $(NAME)
 	@ln -sf $(NAME) $(LINK)
 
 $(NAME): $(OBJ) $(INC)
-	@$(CC) $(CFLAGS) -shared -o $@ $(OBJ)
+	@$(CC) $(CFLAGS) $(SFLAG) -o $@ $(OBJ)
 	@echo "\033[38;2;0;255;255m$(PROJECT_NAME)\t\033[1;33mCompilation\t\t\t\033[0;32m[OK]\033[0m"
 	@echo "\033[38;2;0;255;255m$(PROJECT_NAME)\t\033[38;2;255;0;0m$(NAME)\t\033[0;32m[OK]\033[0m"
 

@@ -6,7 +6,7 @@
 /*   By: julesqvgn <julesqvgn@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/10 02:19:22 by jquivogn          #+#    #+#             */
-/*   Updated: 2022/12/23 15:06:01 by julesqvgn        ###   ########.fr       */
+/*   Updated: 2022/12/26 15:18:52 by julesqvgn        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@
 # define TINY 128
 # define SMALL 1024
 
-# define MAX(x) x > SMALL ? SIZE(x) : SIZE(x) * 100
+# define MAX(x) (x > SMALL ? SIZE(x) : (x > TINY ? SIZE(SMALL) * 100 : SIZE(TINY) * 100))
 
 # define NONE 0x0
 # define M_MEM 0x1
@@ -76,6 +76,7 @@
 # define SEGV write(1, "SEGV\n", 5);
 # define COUCOU write(1, "coucou\n", 7);
 # define TOTO write(1, "toto\n", 5);
+# define BRUH write(1, "bruh\n", 5);
 # define YO write(1, "yo\n", 3);
 # define N write(1, "\n", 1);
 
@@ -124,6 +125,7 @@ void		*realloc(void *ptr, size_t size);
 */
 int			block_in_page(t_page *page, uint64_t target);
 void		free_page(t_page **head, t_page *page);
+t_block		*merge_block(t_block *block, t_block *merge);
 void		free_block(void *ptr);
 void		free(void *ptr);
 
@@ -159,6 +161,7 @@ t_block		*new_block(t_page *page, size_t size);
 */
 t_page		**get_head(size_t size);
 size_t		get_block_size(size_t size);
+size_t		get_page_size(size_t size);
 size_t		page_base(size_t size);
 size_t		mod_base(size_t size);
 int			is_continuous_space(t_page *page, size_t size);
@@ -166,7 +169,8 @@ int			is_continuous_space(t_page *page, size_t size);
 /*
 ** print.c
 */
-void		print_memory(const void *addr, size_t size, char *color);
+void 		print_memory(const void *addr, size_t size);
+// void		print_memory(const void *addr, size_t size, char *color);
 void		print_alloc_mem(int flag);
 void		print_block(t_block *block, int nb);
 void		print_all_block(t_block *block);

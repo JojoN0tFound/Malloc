@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   realloc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jquivogn <jquivogn@student.42.fr>          +#+  +:+       +#+        */
+/*   By: julesqvgn <julesqvgn@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/10 02:19:08 by jquivogn          #+#    #+#             */
-/*   Updated: 2022/12/21 07:10:12 by jquivogn         ###   ########.fr       */
+/*   Updated: 2022/12/26 14:36:30 by julesqvgn        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,8 @@ void	*get_new_alloc(void *ptr, size_t size)
 	if ((block->magic & FREE) == FREE)
 		return (new);
 	min = block->size < size ? block->size : size;
-	block = NULL;
-	tmp = GOTO_M(new);
-	tmp = ft_memcpy(tmp, (void *)((uint64_t)ptr), min);
+	tmp = new;
+	tmp = ft_memcpy(tmp, ptr, min);
 	pthread_mutex_unlock(&mutex);
 	free(ptr);
 	pthread_mutex_lock(&mutex);

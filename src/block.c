@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   block.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jquivogn <jquivogn@student.42.fr>          +#+  +:+       +#+        */
+/*   By: julesqvgn <julesqvgn@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/14 15:32:26 by jojo              #+#    #+#             */
-/*   Updated: 2022/12/22 20:40:59 by jquivogn         ###   ########.fr       */
+/*   Updated: 2022/12/26 16:10:38 by julesqvgn        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,26 +28,11 @@ t_block		*split_block(t_block *block, size_t size)
 {
 	t_block	*free;
 
-	free = init_block(MOD_BASE(SIZE(ADDR(block)) + size) , (MAGIC | FREE), \
-		block->size - SIZE(size), block, block->next);
+	free = init_block(mod_base(SIZE(ADDR(block)) + size) , (MAGIC | FREE), \
+		block->size - mod_base(SIZE(size)), block, block->next);
+	if (free->next)
+		free->next->prev = free;
 	block = init_block(ADDR(block), (MAGIC | USED), size, block->prev, free);
-	return (block);
-}
-
-t_block		*merge_block(t_block *block, t_block *merge)
-{
-	merge->magic = FREE;
-	block = init_block(ADDR(block), (MAGIC | FREE), block->size + SIZE(merge->size), \
-		block->prev, merge->next);
-	return (block);
-}
-
-t_block		*defragment(t_block *block)
-{
-	if (block->prev && (block->prev->magic & FREE) == 2)
-		block = merge_block(block->prev, block);
-	if (block->next && (block->next->magic & FREE) == 2)
-		block = merge_block(block, block->next);
 	return (block);
 }
 

@@ -6,7 +6,7 @@
 /*   By: julesqvgn <julesqvgn@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/10 02:15:18 by jquivogn          #+#    #+#             */
-/*   Updated: 2022/12/23 13:34:01 by julesqvgn        ###   ########.fr       */
+/*   Updated: 2022/12/26 16:12:47 by julesqvgn        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,9 @@ t_block		*get_alloc(t_page **head, size_t size)
 	t_page		*page;
 	t_block		*block;
 
-	if ((page = find_free_page(head, size))){
-		block ;
-		if ((block = new_block(page, size))){
-			page->space -= mod_base(SIZE(size));
+	if ((page = find_free_page(head, size)))
+		if ((block = new_block(page, size)))
 			return (GOTO_M(block));
-		}
-	}
 	if (!get_new_page(head, size))
 		return (NULL);
 	return (get_alloc(head, size));
@@ -41,7 +37,6 @@ t_block		*get_large_alloc(t_page **head, size_t size)
 		return (NULL);
 	if (!(block = new_block(page, size)))
 		return (NULL);
-	page->space -= mod_base(SIZE(size));
 	return (GOTO_M(block));
 }
 

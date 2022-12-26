@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   show_alloc_mem.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jquivogn <jquivogn@student.42.fr>          +#+  +:+       +#+        */
+/*   By: julesqvgn <julesqvgn@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 10:37:24 by jquivogn          #+#    #+#             */
-/*   Updated: 2022/12/21 08:44:00 by jquivogn         ###   ########.fr       */
+/*   Updated: 2022/12/26 16:21:47 by julesqvgn        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,10 +35,12 @@ size_t	show_page(t_page **head_page, char *type)
 		ft_putstr(" : ");
 		ft_putaddr(ADDR(tmp));
 		ft_putchar('\n');
-		block = tmp->first;
+		block = FIRST(tmp);
 		while (block){
-			show_block(block);
-			total += block->size;
+			if ((block->magic & USED) == USED){
+				show_block(block);
+				total += block->size;
+			}
 			block = block->next;
 		}
 		tmp = tmp->next;
@@ -65,6 +67,8 @@ void	show_alloc_mem()
 		total += show_page(&small, "SMALL");
 	if (large)
 		total += show_page(&large, "LARGE");
+	if (total == 0)
+		return ;
 	ft_putstr("Total : ");
 	ft_putnbr(total);
 	ft_putstr(" bytes\n");
