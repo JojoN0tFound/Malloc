@@ -18,7 +18,7 @@ t_page	*find_free_page(t_page **head, size_t size)
 
 	page = *head;
 	while (page){
-		if (page->space >= size && is_continuous_space(page, size))
+		if (is_continuous_space(page, size))
 			return (page);
 		page = page->next;
 	}

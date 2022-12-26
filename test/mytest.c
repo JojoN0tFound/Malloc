@@ -6,7 +6,7 @@
 /*   By: julesqvgn <julesqvgn@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/10 02:17:51 by jquivogn          #+#    #+#             */
-/*   Updated: 2022/12/26 16:20:59 by julesqvgn        ###   ########.fr       */
+/*   Updated: 2022/12/26 16:36:21 by julesqvgn        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,43 +26,33 @@ int	main()
 	ft_putstr("============================================\n\n");
 	ft_putstr("====================================== MALLOC 11\n\n");
 	ptr = malloc(11);
-	// print_all_block(FIRST(g_store_mem.tiny));
 	show_alloc_mem();
 	ft_putstr("====================================== MALLOC 112\n\n");
 	ptr1 = malloc(112);
-	// print_all_block(FIRST(g_store_mem.tiny));
 	show_alloc_mem();
 	ft_putstr("====================================== MALLOC 15\n\n");
 	ptr2 = malloc(15);
-	// print_all_block(FIRST(g_store_mem.tiny));
 	show_alloc_mem();
 	ft_putstr("====================================== MALLOC 64\n\n");
 	ptr3 = malloc(64);
-	// print_all_block(FIRST(g_store_mem.tiny));
 	show_alloc_mem();
 	ft_putstr("======================================== FREE 112\n\n");
 	free(ptr1);
-	// print_all_block(FIRST(g_store_mem.tiny));
 	show_alloc_mem();
 	ft_putstr("====================================== MALLOC 12\n\n");
 	ptr1 = malloc(12);
-	// print_all_block(FIRST(g_store_mem.tiny));
 	show_alloc_mem();
 	ft_putstr("==================================== REALLOC 15 -> 98\n\n");
 	ptr2 = realloc(ptr2, 98);
-	// print_all_block(FIRST(g_store_mem.tiny));
 	show_alloc_mem();
 	ft_putstr("======================================= FREE 11\n\n");
 	free(ptr);
-	// print_all_block(FIRST(g_store_mem.tiny));
 	show_alloc_mem();
 	ft_putstr("======================================= FREE 64\n\n");
 	free(ptr3);
-	// print_all_block(FIRST(g_store_mem.tiny));
 	show_alloc_mem();
 	ft_putstr("======================================= FREE 98\n\n");
 	free(ptr2);
-	// print_all_block(FIRST(g_store_mem.tiny));
 	show_alloc_mem();
 	// ft_putstr("======================================= FREE 12\n\n");
 	// free(ptr1);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   test05.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jquivogn <jquivogn@student.42.fr>          +#+  +:+       +#+        */
+/*   By: julesqvgn <julesqvgn@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/19 00:16:11 by jojo              #+#    #+#             */
-/*   Updated: 2022/12/21 03:27:49 by jquivogn         ###   ########.fr       */
+/*   Updated: 2022/12/26 16:38:03 by julesqvgn        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,20 +38,20 @@ int	main(void)
 	// ptr = malloc(1024 * 1024 * 16);
 	// ptr = malloc(1024 * 1024 * 128);
 	show_alloc_mem();
-	print_alloc_mem(M_MEM);
-	print_alloc_mem(F_MEM);
-	print_alloc_mem(P_HEADER);
-	print_alloc_mem(B_HEADER);
-	print_alloc_mem(M_MEM | F_MEM);
-	print_alloc_mem(M_MEM | P_HEADER);
-	print_alloc_mem(M_MEM | B_HEADER);
-	print_alloc_mem(M_MEM | F_MEM | P_HEADER);
-	print_alloc_mem(M_MEM | F_MEM | B_HEADER);
-	print_alloc_mem(M_MEM | P_HEADER);
-	print_alloc_mem(F_MEM | P_HEADER);
-	print_alloc_mem(F_MEM | B_HEADER);
-	print_alloc_mem(F_MEM | P_HEADER | B_HEADER);
-	print_alloc_mem(P_HEADER | B_HEADER);
-	print_alloc_mem(M_MEM | F_MEM | P_HEADER | B_HEADER);
+	// print_alloc_mem(M_MEM);
+	// print_alloc_mem(F_MEM);
+	// print_alloc_mem(P_HEADER);
+	// print_alloc_mem(B_HEADER);
+	// print_alloc_mem(M_MEM | F_MEM);
+	// print_alloc_mem(M_MEM | P_HEADER);
+	// print_alloc_mem(M_MEM | B_HEADER);
+	// print_alloc_mem(M_MEM | F_MEM | P_HEADER);
+	// print_alloc_mem(M_MEM | F_MEM | B_HEADER);
+	// print_alloc_mem(M_MEM | P_HEADER);
+	// print_alloc_mem(F_MEM | P_HEADER);
+	// print_alloc_mem(F_MEM | B_HEADER);
+	// print_alloc_mem(F_MEM | P_HEADER | B_HEADER);
+	// print_alloc_mem(P_HEADER | B_HEADER);
+	// print_alloc_mem(M_MEM | F_MEM | P_HEADER | B_HEADER);
 	return (0);
 }

@@ -6,7 +6,7 @@
 #    By: julesqvgn <julesqvgn@student.42.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/12/10 02:23:08 by jquivogn          #+#    #+#              #
-#    Updated: 2022/12/23 15:17:47 by julesqvgn        ###   ########.fr        #
+#    Updated: 2022/12/26 16:35:04 by julesqvgn        ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,8 +17,8 @@ endif
 CC = gcc
 
 # CFLAGS = -Wall -Wextra -Werror -g
-# FLAGS = -fPIC
-# SFLAG = -shared
+FLAGS = -fPIC
+SFLAG = -shared
 
 LIB_MALLOC = -L. -lft_malloc
 
@@ -36,13 +36,12 @@ OBJ_PATH = ./obj
 SRC_NAME =	malloc.c\
 			realloc.c\
 			free.c\
+			show_alloc_mem.c\
 			page.c\
 			block.c\
-			show_alloc_mem.c\
 			utils.c\
 			print.c\
 			libft.c\
-			mytest.c
 
 
 INC_NAME =	malloc.h
@@ -77,12 +76,13 @@ fclean: clean tclean
 	@echo "\033[38;2;0;255;255m$(PROJECT_NAME)\t\033[1;33mCleaning exe\t\t\033[0;32m[OK]\033[0m"
 
 test: re
-	# @clang -fPIC $(LIB_MALLOC) test/test00.c -o test00
-	# @clang -fPIC $(LIB_MALLOC) test/test01.c -o test01
-	# @clang -fPIC $(LIB_MALLOC) test/test02.c -o test02
-	# @clang -fPIC $(LIB_MALLOC) test/test03.c -o test03
-	# @clang -fPIC $(LIB_MALLOC) test/test04.c -o test04
-	# @clang -fPIC $(LIB_MALLOC) test/test05.c -o test05
+	@clang -fPIC $(LIB_MALLOC) test/test00.c -o test00
+	@clang -fPIC $(LIB_MALLOC) test/test01.c -o test01
+	@clang -fPIC $(LIB_MALLOC) test/test02.c -o test02
+	@clang -fPIC $(LIB_MALLOC) test/test03.c -o test03
+	@clang -fPIC $(LIB_MALLOC) test/test04.c -o test04
+	@clang -fPIC $(LIB_MALLOC) test/test05.c -o test05
+	@clang -fPIC $(LIB_MALLOC) test/mytest.c -o mytest
 	@echo "\033[38;2;0;255;255m$(PROJECT_NAME)\t\033[38;2;255;0;0mCreating tests\t\033[0;32m[OK]\033[0m"
 
 tclean:
