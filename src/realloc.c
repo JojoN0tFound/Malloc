@@ -6,7 +6,7 @@
 /*   By: julesqvgn <julesqvgn@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/10 02:19:08 by jquivogn          #+#    #+#             */
-/*   Updated: 2022/12/26 14:36:30 by julesqvgn        ###   ########.fr       */
+/*   Updated: 2022/12/28 17:51:33 by julesqvgn        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,25 +15,25 @@
 void	*get_new_alloc(void *ptr, size_t size)
 {
 	void	*new;
-	void	*tmp;
 	t_block	*block;
-	size_t	min;
 
 	block = GOTO_H(ptr);
+	if (!IS_MAGIC(block->magic) && (block->magic & FREE) == FREE)
+		return (NULL);
+	if (block->size > size){
+		block->size = size;
+		return (ptr);
+	}
 	pthread_mutex_unlock(&mutex);
 	new = malloc(size);
 	pthread_mutex_lock(&mutex);
 	if (!new)
 		return (ptr);
-	if ((block->magic & FREE) == FREE)
-		return (new);
-	min = block->size < size ? block->size : size;
-	tmp = new;
-	tmp = ft_memcpy(tmp, ptr, min);
+	new = ft_memcpy(new, ptr, size);
 	pthread_mutex_unlock(&mutex);
 	free(ptr);
 	pthread_mutex_lock(&mutex);
-	return (tmp);
+	return (new);
 }
 
 void	*realloc(void *ptr, size_t size)

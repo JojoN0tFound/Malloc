@@ -6,7 +6,7 @@
 /*   By: julesqvgn <julesqvgn@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/10 02:19:22 by jquivogn          #+#    #+#             */
-/*   Updated: 2022/12/26 15:18:52 by julesqvgn        ###   ########.fr       */
+/*   Updated: 2022/12/27 21:22:30 by julesqvgn        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@
 # define FREE 0x2
 # define USED 0x1
 
-# define TINY 128
+# define TINY 256
 # define SMALL 1024
 
 # define MAX(x) (x > SMALL ? SIZE(x) : (x > TINY ? SIZE(SMALL) * 100 : SIZE(TINY) * 100))

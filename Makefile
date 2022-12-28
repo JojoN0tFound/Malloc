@@ -6,7 +6,7 @@
 #    By: julesqvgn <julesqvgn@student.42.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/12/10 02:23:08 by jquivogn          #+#    #+#              #
-#    Updated: 2022/12/26 16:35:04 by julesqvgn        ###   ########.fr        #
+#    Updated: 2022/12/28 17:55:51 by julesqvgn        ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -86,7 +86,7 @@ test: re
 	@echo "\033[38;2;0;255;255m$(PROJECT_NAME)\t\033[38;2;255;0;0mCreating tests\t\033[0;32m[OK]\033[0m"
 
 tclean:
-	@rm -rf test00 test01 test02 test03 test04 test05
+	@rm -rf test00 test01 test02 test03 test04 test05 mytest
 	@echo "\033[38;2;0;255;255m$(PROJECT_NAME)\t\033[1;33mCleaning tests\t\t\033[0;32m[OK]\033[0m"
 
 logo:

@@ -6,7 +6,7 @@
 /*   By: julesqvgn <julesqvgn@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/10 02:40:31 by jquivogn          #+#    #+#             */
-/*   Updated: 2022/12/26 16:14:38 by julesqvgn        ###   ########.fr       */
+/*   Updated: 2022/12/28 17:17:41 by julesqvgn        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,9 @@ size_t		get_block_size(size_t size)
 size_t		get_page_size(size_t size)
 {
 	if (size > SMALL)
-		return (mod_base(SIZE(size)));
+		return (page_base(SIZE(size)));
 	else
-		return (mod_base(SIZE(get_block_size(size))) * 100);
+		return (page_base(get_block_size(size)) * 100);
 }
 
 size_t		page_base(size_t size)

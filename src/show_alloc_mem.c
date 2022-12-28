@@ -6,7 +6,7 @@
 /*   By: julesqvgn <julesqvgn@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 10:37:24 by jquivogn          #+#    #+#             */
-/*   Updated: 2022/12/26 16:37:20 by julesqvgn        ###   ########.fr       */
+/*   Updated: 2022/12/28 17:52:34 by julesqvgn        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,10 +67,10 @@ void	show_alloc_mem()
 		total += show_page(&small, "SMALL");
 	if (large)
 		total += show_page(&large, "LARGE");
-	if (total == 0)
-		return ;
-	ft_putstr("Total : ");
-	ft_putnbr(total);
-	ft_putstr(" bytes\n");
+	if (total != 0){
+		ft_putstr("Total : ");
+		ft_putnbr(total);
+		ft_putstr(" bytes\n");
+	}
 	pthread_mutex_unlock(&mutex);
 }
