@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   malloc.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: julesqvgn <julesqvgn@student.42.fr>        +#+  +:+       +#+        */
+/*   By: jquivogn <jquivogn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/10 02:19:22 by jquivogn          #+#    #+#             */
-/*   Updated: 2022/12/27 21:22:30 by julesqvgn        ###   ########.fr       */
+/*   Updated: 2022/12/30 06:11:39 by jquivogn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,13 +32,15 @@
 # define TRUE 1
 # define FALSE 0
 
-# define FREE 0x2
-# define USED 0x1
+# define FREE 0x1
+# define USED 0x2
+# define FULL 0x6
 
 # define TINY 256
 # define SMALL 1024
 
 # define MAX(x) (x > SMALL ? SIZE(x) : (x > TINY ? SIZE(SMALL) * 100 : SIZE(TINY) * 100))
+# define MIN(x, y) x > y ? y : x
 
 # define NONE 0x0
 # define M_MEM 0x1
@@ -78,6 +80,7 @@
 # define TOTO write(1, "toto\n", 5);
 # define BRUH write(1, "bruh\n", 5);
 # define YO write(1, "yo\n", 3);
+# define OK write(1, "ok\n", 3);
 # define N write(1, "\n", 1);
 
 /*
@@ -111,8 +114,8 @@ extern pthread_mutex_t	mutex;
 /*
 ** malloc.c
 */
-t_block		*get_alloc(t_page **head, size_t size);
-t_block		*get_large_alloc(t_page **head, size_t size);
+void		*get_alloc(t_page **head, size_t size);
+void		*get_large_alloc(t_page **head, size_t size);
 void		*malloc(size_t size);
 
 /*
@@ -152,7 +155,7 @@ t_page		*get_new_page(t_page **head, size_t size);
 /*
 ** block.c
 */
-t_block		*init_block(uint64_t addr, size_t free, size_t size, void *prev, void *next);
+t_block		*init_block(uint64_t addr, size_t free, size_t size, t_block *prev, t_block *next);
 t_block		*defragment(t_block *block);
 t_block		*new_block(t_page *page, size_t size);
 

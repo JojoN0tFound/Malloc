@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   malloc.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: julesqvgn <julesqvgn@student.42.fr>        +#+  +:+       +#+        */
+/*   By: jquivogn <jquivogn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/10 02:15:18 by jquivogn          #+#    #+#             */
-/*   Updated: 2022/12/28 17:13:31 by julesqvgn        ###   ########.fr       */
+/*   Updated: 2022/12/30 06:20:16 by jquivogn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,21 +15,20 @@
 t_heap			g_store_mem;
 pthread_mutex_t	mutex;
 
-t_block		*get_alloc(t_page **head, size_t size)
+void		*get_alloc(t_page **head, size_t size)
 {
 	t_page		*page;
 	t_block		*block;
 
-	if ((page = find_free_page(head, size))){
+	if ((page = find_free_page(head, size)))
 		if ((block = new_block(page, size)))
 			return (GOTO_M(block));
-	}
-	if (!get_new_page(head, size))
-		return (NULL);
-	return (get_alloc(head, size));
+	if ((page = get_new_page(head, size)))
+		return (get_alloc(head, size));
+	return (NULL);
 }
 
-t_block		*get_large_alloc(t_page **head, size_t size)
+void		*get_large_alloc(t_page **head, size_t size)
 {
 	t_page		*page;
 	t_block		*block;

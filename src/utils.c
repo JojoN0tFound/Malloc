@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: julesqvgn <julesqvgn@student.42.fr>        +#+  +:+       +#+        */
+/*   By: jquivogn <jquivogn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/10 02:40:31 by jquivogn          #+#    #+#             */
-/*   Updated: 2022/12/28 17:17:41 by julesqvgn        ###   ########.fr       */
+/*   Updated: 2022/12/30 06:21:12 by jquivogn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,17 +24,21 @@ t_page	**get_head(size_t size)
 
 size_t		get_block_size(size_t size)
 {
-	if (size > TINY)
+	if (size > SMALL)
+		return (size);
+	else if (size > TINY)
 		return (SMALL);
 	return (TINY);
 }
 
 size_t		get_page_size(size_t size)
 {
-	if (size > SMALL)
-		return (page_base(SIZE(size)));
+	if (get_block_size(size) == SMALL)
+		return (26 * getpagesize());
+	else if (get_block_size(size) == TINY)
+		return (4 * getpagesize());
 	else
-		return (page_base(get_block_size(size)) * 100);
+		return (page_base(SIZE(size) + PAGE_H));
 }
 
 size_t		page_base(size_t size)
@@ -62,7 +66,9 @@ int			is_continuous_space(t_page *page, size_t size)
 
 	block = FIRST(page);
 	while (block){
-		if (block->size >= mod_base(SIZE(size)))
+		if ((block->magic & FULL) == FULL)
+			return (FALSE);
+		if ((block->magic & FREE) == FREE && block->size >= mod_base(SIZE(size)))
 			return (TRUE);
 		block = block->next;
 	}

@@ -34,9 +34,8 @@ void		add_new_to_memory(t_page **head, t_page *new)
 		*head = new;
 		return ;
 	}
-	while(tmp && tmp->next){
+	while(tmp && tmp->next)
 		tmp = tmp->next;
-	}
 	tmp->next = new;
 }
 
@@ -46,9 +45,6 @@ t_page		*get_new_page(t_page **head, size_t size)
 	size_t	page_size;
 
 	page_size = get_page_size(size);
-	page_size = page_size + PAGE_H;
-	// ft_putulnbr(page_size);
-	// N
 	page = (t_page *)mmap(NULL, page_size,
 		PROT_READ | PROT_WRITE, MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
 	if (!page)

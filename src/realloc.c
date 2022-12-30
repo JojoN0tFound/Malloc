@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   realloc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: julesqvgn <julesqvgn@student.42.fr>        +#+  +:+       +#+        */
+/*   By: jquivogn <jquivogn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/10 02:19:08 by jquivogn          #+#    #+#             */
-/*   Updated: 2022/12/28 17:51:33 by julesqvgn        ###   ########.fr       */
+/*   Updated: 2022/12/30 06:25:43 by jquivogn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,18 +18,14 @@ void	*get_new_alloc(void *ptr, size_t size)
 	t_block	*block;
 
 	block = GOTO_H(ptr);
-	if (!IS_MAGIC(block->magic) && (block->magic & FREE) == FREE)
+	if (!IS_MAGIC(block->magic) || (block->magic & FREE) == FREE)
 		return (NULL);
-	if (block->size > size){
-		block->size = size;
-		return (ptr);
-	}
 	pthread_mutex_unlock(&mutex);
 	new = malloc(size);
 	pthread_mutex_lock(&mutex);
 	if (!new)
 		return (ptr);
-	new = ft_memcpy(new, ptr, size);
+	new = ft_memcpy(new, ptr, MIN(size, block->size));
 	pthread_mutex_unlock(&mutex);
 	free(ptr);
 	pthread_mutex_lock(&mutex);
@@ -43,8 +39,7 @@ void	*realloc(void *ptr, size_t size)
 	pthread_mutex_lock(&mutex);
 	if (!ptr) {
 		pthread_mutex_unlock(&mutex);
-		mem = malloc(size);
-		return (mem);
+		return (malloc(size));
 	}
 	if (!size){
 		pthread_mutex_unlock(&mutex);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: julesqvgn <julesqvgn@student.42.fr>        +#+  +:+       +#+        */
+/*   By: jquivogn <jquivogn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/10 02:19:05 by jquivogn          #+#    #+#             */
-/*   Updated: 2022/12/26 16:13:32 by julesqvgn        ###   ########.fr       */
+/*   Updated: 2022/12/30 06:24:42 by jquivogn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,9 +57,9 @@ t_block		*merge_block(t_block *block, t_block *merge)
 
 t_block		*defragment(t_block *block)
 {
-	if (block->prev && (block->prev->magic & FREE) == 2)
+	if (block->prev && (block->prev->magic & FREE) == FREE)
 		block = merge_block(block->prev, block);
-	if (block->next && (block->next->magic & FREE) == 2)
+	if (block->next && (block->next->magic & FREE) == FREE)
 		block = merge_block(block, block->next);
 	block->magic = (MAGIC | FREE);
 	return (block);

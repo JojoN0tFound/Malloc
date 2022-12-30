@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   block.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: julesqvgn <julesqvgn@student.42.fr>        +#+  +:+       +#+        */
+/*   By: jquivogn <jquivogn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/14 15:32:26 by jojo              #+#    #+#             */
-/*   Updated: 2022/12/26 16:10:38 by julesqvgn        ###   ########.fr       */
+/*   Updated: 2022/12/30 06:20:30 by jquivogn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/malloc.h"
 
-t_block		*init_block(uint64_t addr, size_t free, size_t size, void *prev, void *next)
+t_block		*init_block(uint64_t addr, size_t free, size_t size, t_block *prev, t_block *next)
 {
 	t_block	*new;
 
@@ -28,6 +28,10 @@ t_block		*split_block(t_block *block, size_t size)
 {
 	t_block	*free;
 
+	if (block->size - mod_base(SIZE(size)) <= BLOCK_H){
+		block->magic = (MAGIC | FULL);
+		return (block);
+	}
 	free = init_block(mod_base(SIZE(ADDR(block)) + size) , (MAGIC | FREE), \
 		block->size - mod_base(SIZE(size)), block, block->next);
 	if (free->next)
@@ -42,7 +46,7 @@ t_block		*new_block(t_page *page, size_t size)
 
 	block = FIRST(page);
 	while (block){
-		if ((block->magic & FREE) == 2 && block->size >= SIZE(size))
+		if ((block->magic & FREE) == FREE && block->size >= SIZE(size))
 			break ;
 		block = block->next;
 	}
