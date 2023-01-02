@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jquivogn <jquivogn@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jojo <jojo@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/10 02:19:05 by jquivogn          #+#    #+#             */
-/*   Updated: 2022/12/30 06:24:42 by jquivogn         ###   ########.fr       */
+/*   Updated: 2023/01/02 16:22:59 by jojo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void	free_page(t_page **head, t_page *page)
 		}
 		prev->next = page->next;
 	}
-	munmap(page, page->space);
+	munmap(page, page->space + PAGE_H);
 }
 
 t_block		*merge_block(t_block *block, t_block *merge)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   test03.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jquivogn <jquivogn@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jojo <jojo@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/19 00:16:11 by jojo              #+#    #+#             */
-/*   Updated: 2022/12/30 03:50:42 by jquivogn         ###   ########.fr       */
+/*   Updated: 2023/01/02 16:24:34 by jojo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 #include <string.h>
 #include <unistd.h>
 #include "../includes/malloc.h"
+#include <stdlib.h>
 
 #define M 1024 * 1024
 

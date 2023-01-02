@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   test04.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: julesqvgn <julesqvgn@student.42.fr>        +#+  +:+       +#+        */
+/*   By: jojo <jojo@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/19 00:16:11 by jojo              #+#    #+#             */
-/*   Updated: 2022/12/28 17:44:11 by julesqvgn        ###   ########.fr       */
+/*   Updated: 2023/01/02 16:24:33 by jojo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 #include <string.h>
 #include <unistd.h>
 #include "../includes/malloc.h"
+#include <stdlib.h>
 
 void	print(char *s)
 {

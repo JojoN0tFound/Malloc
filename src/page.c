@@ -43,8 +43,14 @@ t_page		*get_new_page(t_page **head, size_t size)
 {
 	t_page	*page;
 	size_t	page_size;
+	size_t	test;
 
 	page_size = get_page_size(size);
+	test = page_size % getpagesize();
+	if (test != 0){
+		ft_putulnbr(test);
+		N
+	}
 	page = (t_page *)mmap(NULL, page_size,
 		PROT_READ | PROT_WRITE, MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
 	if (!page)
