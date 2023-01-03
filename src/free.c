@@ -6,7 +6,7 @@
 /*   By: jojo <jojo@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/10 02:19:05 by jquivogn          #+#    #+#             */
-/*   Updated: 2023/01/02 16:22:59 by jojo             ###   ########.fr       */
+/*   Updated: 2023/01/02 17:11:22 by jojo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,8 +72,6 @@ void	free_block(void *ptr)
 	t_block	*block;
 
 	block = GOTO_H(ptr);
-	if (!IS_MAGIC(block->magic))
-		return ;
 	head = get_head(block->size);
 	page = *head;
 	while (page){
@@ -81,8 +79,9 @@ void	free_block(void *ptr)
 			break ;
 		page = page->next;
 	}
-	if (!page)
+	if (!page){
 		return ;
+	}
 	block->size = mod_base(block->size);
 	block = defragment(block);
 	if ((block->magic & FREE) == FREE && block->size == page->space)
@@ -92,10 +91,13 @@ void	free_block(void *ptr)
 void	free(void *ptr)
 {
 	pthread_mutex_lock(&mutex);
+	ft_putstr("[S F]\n");
 	if (!ptr){
+		// ft_putstr("[EFF]\n");
 		pthread_mutex_unlock(&mutex);
 		return ;
 	}
 	free_block(ptr);
+	ft_putstr("[E F]\n");
 	pthread_mutex_unlock(&mutex);
 }

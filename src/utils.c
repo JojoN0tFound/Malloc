@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jquivogn <jquivogn@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jojo <jojo@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/10 02:40:31 by jquivogn          #+#    #+#             */
-/*   Updated: 2022/12/30 06:21:12 by jquivogn         ###   ########.fr       */
+/*   Updated: 2023/01/02 16:54:26 by jojo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,9 @@ size_t		get_block_size(size_t size)
 size_t		get_page_size(size_t size)
 {
 	if (get_block_size(size) == SMALL)
-		return (26 * getpagesize());
+		return (page_base(SIZE(SMALL)));
 	else if (get_block_size(size) == TINY)
-		return (4 * getpagesize());
+		return (page_base(SIZE(TINY)));
 	else
 		return (page_base(SIZE(size) + PAGE_H));
 }

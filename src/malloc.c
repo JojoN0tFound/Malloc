@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   malloc.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jquivogn <jquivogn@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jojo <jojo@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/10 02:15:18 by jquivogn          #+#    #+#             */
-/*   Updated: 2022/12/30 06:20:16 by jquivogn         ###   ########.fr       */
+/*   Updated: 2023/01/02 17:11:26 by jojo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,12 +45,17 @@ void		*malloc(size_t size)
 	void	*mem;
 
 	pthread_mutex_lock(&mutex);
+	ft_putstr("[S M]\n");
 	if (size == 0)
 		return (NULL);
 	if (size > SMALL)
 		mem = get_large_alloc(&g_store_mem.large, size);
 	else
 		mem = get_alloc(get_head(size), size);
+	if (mem == NULL){
+		// ft_putstr("[EFM]\n");
+	}
+	ft_putstr("[E M]\n");
 	pthread_mutex_unlock(&mutex);
 	return (mem);
 }
