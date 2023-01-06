@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jojo <jojo@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: jquivogn <jquivogn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/10 02:19:05 by jquivogn          #+#    #+#             */
-/*   Updated: 2023/01/02 17:11:22 by jojo             ###   ########.fr       */
+/*   Updated: 2023/01/06 18:49:45 by jquivogn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,10 @@ void	free_block(void *ptr)
 	t_block	*block;
 
 	block = GOTO_H(ptr);
+	if (!IS_MAGIC(block->magic)){
+		ft_putstr("NOOOOPPPPP\n");
+		return ; 
+	}
 	head = get_head(block->size);
 	page = *head;
 	while (page){
@@ -80,6 +84,12 @@ void	free_block(void *ptr)
 		page = page->next;
 	}
 	if (!page){
+		ft_putulnbr(block->size);
+		N
+		ft_putaddr(ADDR(block));
+		N
+		show_alloc_mem();
+		ft_putstr("[FREE NO PAGE]\n");
 		return ;
 	}
 	block->size = mod_base(block->size);
@@ -91,13 +101,13 @@ void	free_block(void *ptr)
 void	free(void *ptr)
 {
 	pthread_mutex_lock(&mutex);
-	ft_putstr("[S F]\n");
+	ft_putstr("[START FREE]\n");
 	if (!ptr){
-		// ft_putstr("[EFF]\n");
+		ft_putstr("[FREE FAIL]\n");
 		pthread_mutex_unlock(&mutex);
 		return ;
 	}
 	free_block(ptr);
-	ft_putstr("[E F]\n");
+	ft_putstr("[E--------------------F]\n");
 	pthread_mutex_unlock(&mutex);
 }
