@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: julesqvgn <julesqvgn@student.42.fr>        +#+  +:+       +#+         #
+#    By: jojo <jojo@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/12/10 02:23:08 by jquivogn          #+#    #+#              #
-#    Updated: 2022/12/28 17:55:51 by julesqvgn        ###   ########.fr        #
+#    Updated: 2023/01/08 18:50:46 by jojo             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -71,11 +71,11 @@ clean:
 	@rm -rf $(OBJ) $(OBJ_PATH)
 	@echo "\033[38;2;0;255;255m$(PROJECT_NAME)\t\033[1;33mCleaning obj\t\t\033[0;32m[OK]\033[0m"
 
-fclean: clean tclean
+fclean: clean
 	@rm -rf $(NAME) $(LINK)
 	@echo "\033[38;2;0;255;255m$(PROJECT_NAME)\t\033[1;33mCleaning exe\t\t\033[0;32m[OK]\033[0m"
 
-test: re
+test: $(NAME)
 	@clang -fPIC $(LIB_MALLOC) test/test00.c -o test00
 	@clang -fPIC $(LIB_MALLOC) test/test01.c -o test01
 	@clang -fPIC $(LIB_MALLOC) test/test02.c -o test02
@@ -102,4 +102,4 @@ logo:
 
 re: fclean all
 
-.PHONY: all test clean fclean re logo
+.PHONY: all test clean fclean re logo tclean

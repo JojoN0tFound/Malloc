@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jquivogn <jquivogn@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jojo <jojo@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/10 02:19:05 by jquivogn          #+#    #+#             */
-/*   Updated: 2023/01/06 18:49:45 by jquivogn         ###   ########.fr       */
+/*   Updated: 2023/01/08 20:11:48 by jojo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,18 +65,12 @@ t_block		*defragment(t_block *block)
 	return (block);
 }
 
-void	free_block(void *ptr)
+int		free_block(void *ptr, t_page **head)
 {
-	t_page	**head;
 	t_page	*page;
 	t_block	*block;
 
 	block = GOTO_H(ptr);
-	if (!IS_MAGIC(block->magic)){
-		ft_putstr("NOOOOPPPPP\n");
-		return ; 
-	}
-	head = get_head(block->size);
 	page = *head;
 	while (page){
 		if (block_in_page(page, ADDR(block)))
@@ -84,30 +78,32 @@ void	free_block(void *ptr)
 		page = page->next;
 	}
 	if (!page){
-		ft_putulnbr(block->size);
-		N
-		ft_putaddr(ADDR(block));
-		N
-		show_alloc_mem();
-		ft_putstr("[FREE NO PAGE]\n");
-		return ;
+		// ft_putstr("[FREE NO PAGE]\n");
+		return (FALSE);
 	}
 	block->size = mod_base(block->size);
 	block = defragment(block);
 	if ((block->magic & FREE) == FREE && block->size == page->space)
 		free_page(head, page);
+	return (TRUE);
 }
 
 void	free(void *ptr)
 {
 	pthread_mutex_lock(&mutex);
-	ft_putstr("[START FREE]\n");
-	if (!ptr){
-		ft_putstr("[FREE FAIL]\n");
+	// ft_putstr("[START FREE]\n");
+	if (!check_ptr(ptr)){
 		pthread_mutex_unlock(&mutex);
 		return ;
 	}
-	free_block(ptr);
-	ft_putstr("[E--------------------F]\n");
+	if (free_block(ptr, &g_store_mem.tiny)){
+		// ft_putstr("[E---------TINY-------F]\n");
+	}
+	else if (free_block(ptr, &g_store_mem.small)){
+		// ft_putstr("[E--------SMALL-------F]\n");
+	}
+	else if (free_block(ptr, &g_store_mem.large)){
+		// ft_putstr("[E--------LARGE-------F]\n");
+	}
 	pthread_mutex_unlock(&mutex);
 }

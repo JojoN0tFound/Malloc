@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   malloc.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jquivogn <jquivogn@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jojo <jojo@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/10 02:19:22 by jquivogn          #+#    #+#             */
-/*   Updated: 2022/12/30 06:11:39 by jquivogn         ###   ########.fr       */
+/*   Updated: 2023/01/08 18:32:48 by jojo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,7 +129,7 @@ void		*realloc(void *ptr, size_t size);
 int			block_in_page(t_page *page, uint64_t target);
 void		free_page(t_page **head, t_page *page);
 t_block		*merge_block(t_block *block, t_block *merge);
-void		free_block(void *ptr);
+// void		free_block(void *ptr);
 void		free(void *ptr);
 
 /*
@@ -168,6 +168,7 @@ size_t		get_page_size(size_t size);
 size_t		page_base(size_t size);
 size_t		mod_base(size_t size);
 int			is_continuous_space(t_page *page, size_t size);
+int			check_ptr(void *ptr);
 
 /*
 ** print.c

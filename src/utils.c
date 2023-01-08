@@ -6,7 +6,7 @@
 /*   By: jojo <jojo@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/10 02:40:31 by jquivogn          #+#    #+#             */
-/*   Updated: 2023/01/02 16:54:26 by jojo             ###   ########.fr       */
+/*   Updated: 2023/01/08 20:11:33 by jojo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,4 +73,21 @@ int			is_continuous_space(t_page *page, size_t size)
 		block = block->next;
 	}
 	return (FALSE);
+}
+
+int			check_ptr(void *ptr)
+{
+	if (!ptr){
+		// ft_putstr("[NO PTR]\n");
+		return (FALSE);
+	}
+	if (!IS_MAGIC((GOTO_H(ptr))->magic)){
+		// ft_putstr("[NO MAGIC]\n");
+		return (FALSE);
+	}
+	if (((GOTO_H(ptr))->magic & FREE) == FREE){
+		// ft_putstr("[ALREADY FREE]\n");
+		return (FALSE);
+	}
+	return (TRUE);
 }
