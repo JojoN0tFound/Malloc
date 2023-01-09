@@ -6,7 +6,7 @@
 /*   By: jquivogn <jquivogn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 10:37:24 by jquivogn          #+#    #+#             */
-/*   Updated: 2023/01/06 18:46:08 by jquivogn         ###   ########.fr       */
+/*   Updated: 2023/01/09 17:02:42 by jquivogn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,12 +61,12 @@ void	show_alloc_mem()
 	tiny = g_store_mem.tiny;
 	small = g_store_mem.small;
 	large = g_store_mem.large;
-	if (tiny)
-		total += show_page(&tiny, "TINY");
+	// if (tiny)
+	// 	total += show_page(&tiny, "TINY");
 	if (small)
 		total += show_page(&small, "SMALL");
-	if (large)
-		total += show_page(&large, "LARGE");
+	// if (large)
+	// 	total += show_page(&large, "LARGE");
 	if (total != 0){
 		ft_putstr("Total : ");
 		ft_putnbr(total);

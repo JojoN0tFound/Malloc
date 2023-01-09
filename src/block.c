@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   block.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jojo <jojo@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: jquivogn <jquivogn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/14 15:32:26 by jojo              #+#    #+#             */
-/*   Updated: 2023/01/08 17:08:48 by jojo             ###   ########.fr       */
+/*   Updated: 2023/01/09 17:53:21 by jquivogn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,8 @@ t_block		*split_block(t_block *block, size_t size)
 
 	if (block->size - mod_base(SIZE(size)) <= BLOCK_H){
 		block->magic = (MAGIC | FULL);
-		return (block);
+		ft_putstr("[BLOCK IS FULL]\n");
+		return (NULL);
 	}
 	free = init_block(mod_base(SIZE(ADDR(block)) + size) , (MAGIC | FREE), \
 		block->size - mod_base(SIZE(size)), block, block->next);
@@ -50,8 +51,10 @@ t_block		*new_block(t_page *page, size_t size)
 			break ;
 		block = block->next;
 	}
-	if (!block)
+	if (!block){
+		ft_putstr("[NEW BLOCK FAIL]\n");
 		return (NULL);
+	}
 	block = split_block(block, size);
 	return (block);
 }

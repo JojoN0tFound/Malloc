@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   realloc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jojo <jojo@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: jquivogn <jquivogn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/10 02:19:08 by jquivogn          #+#    #+#             */
-/*   Updated: 2023/01/08 20:11:09 by jojo             ###   ########.fr       */
+/*   Updated: 2023/01/09 16:54:47 by jquivogn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void	*realloc(void *ptr, size_t size)
 		return (malloc(size));
 	}
 	if (size == 0 && ptr){
-		// ft_putstr("[NO SIZE REALLOC]\n");
+		ft_putstr("[NO SIZE REALLOC]\n");
 		pthread_mutex_unlock(&mutex);
 		free(ptr);
 		return (NULL);

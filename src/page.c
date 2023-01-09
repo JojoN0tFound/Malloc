@@ -46,13 +46,16 @@ t_page		*get_new_page(t_page **head, size_t size)
 	size_t	test;
 
 	page_size = get_page_size(size);
-	test = page_size % getpagesize();
-	page = (t_page *)mmap(NULL, page_size,
+	// ft_putulnbr(page_size);
+	// N
+	page = (t_page *)mmap(NULL, page_size + PAGE_H,
 		PROT_READ | PROT_WRITE, MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
-	if (!page)
+	if (!page){
+		ft_putstr("[ERROR WHILE MMAP THE PAGE]\n");
 		return (NULL);
+	}
 	page->next = NULL;
-	page->space = page_size - PAGE_H;
+	page->space = page_size;
 	init_block(ADDR(FIRST(page)), (MAGIC | FREE), page->space, NULL, NULL);
 	add_new_to_memory(head, page);
 	return (page);

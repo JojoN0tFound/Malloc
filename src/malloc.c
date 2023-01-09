@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   malloc.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jojo <jojo@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: jquivogn <jquivogn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/10 02:15:18 by jquivogn          #+#    #+#             */
-/*   Updated: 2023/01/08 20:11:15 by jojo             ###   ########.fr       */
+/*   Updated: 2023/01/09 16:53:34 by jquivogn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ void		*get_alloc(t_page **head, size_t size)
 	}
 	if ((page = get_new_page(head, size)))
 		return (get_alloc(head, size));
+	ft_putstr("[MALLOC FAIL]\n");
 	return (NULL);
 }
 
@@ -49,6 +50,7 @@ void		*malloc(size_t size)
 	pthread_mutex_lock(&mutex);
 	// ft_putstr("[START MALLOC]\n");
 	if (size == 0){
+		ft_putstr("[MALLOC SIZE == 0]\n");
 		return (NULL);
 	}
 	mem = get_alloc(get_head(size), size);
