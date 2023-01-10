@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   malloc.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jojo <jojo@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: jquivogn <jquivogn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/10 02:19:22 by jquivogn          #+#    #+#             */
-/*   Updated: 2023/01/08 18:32:48 by jojo             ###   ########.fr       */
+/*   Updated: 2023/01/10 21:03:14 by jquivogn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,11 @@
 # define USED 0x2
 # define FULL 0x6
 
-# define TINY 256
+# define TINY 128
 # define SMALL 1024
+
+# define TINY_PAGE (4 * getpagesize())
+# define SMALL_PAGE (26 * getpagesize())
 
 # define MAX(x) (x > SMALL ? SIZE(x) : (x > TINY ? SIZE(SMALL) * 100 : SIZE(TINY) * 100))
 # define MIN(x, y) x > y ? y : x
@@ -111,11 +114,11 @@ extern t_heap			g_store_mem;
 
 extern pthread_mutex_t	mutex;
 
+extern int i;
 /*
 ** malloc.c
 */
-void		*get_alloc(t_page **head, size_t size);
-void		*get_large_alloc(t_page **head, size_t size);
+void		*get_alloc(size_t size);
 void		*malloc(size_t size);
 
 /*
@@ -127,7 +130,7 @@ void		*realloc(void *ptr, size_t size);
 ** free.c
 */
 int			block_in_page(t_page *page, uint64_t target);
-void		free_page(t_page **head, t_page *page);
+void		free_page(t_page *head, t_page *page);
 t_block		*merge_block(t_block *block, t_block *merge);
 // void		free_block(void *ptr);
 void		free(void *ptr);
@@ -136,7 +139,7 @@ void		free(void *ptr);
 ** show_alloc_mem.c
 */
 void		show_block(t_block *block);
-size_t		show_page(t_page **head_page, char *type);
+size_t		show_page(t_page *head_page, char *type);
 void 		show_alloc_mem();
 
 /*
@@ -147,9 +150,9 @@ void		*calloc(size_t elementCount, size_t elementSize);
 /*
 ** page.c
 */
-t_page		*find_free_page(t_page **head, size_t size);
-void		add_new_to_memory(t_page **head, t_page *new);
-t_page		*get_new_page(t_page **head, size_t size);
+t_page		*find_free_page(t_page *page, size_t size);
+void		add_new_to_memory(t_page *head, t_page *new);
+t_page		*get_new_page(t_page *head, size_t size);
 // t_page		*get_new_large_page(t_page **head, size_t size);
 
 /*
@@ -162,7 +165,7 @@ t_block		*new_block(t_page *page, size_t size);
 /*
 ** utils.c
 */
-t_page		**get_head(size_t size);
+t_page		*get_head(size_t size);
 size_t		get_block_size(size_t size);
 size_t		get_page_size(size_t size);
 size_t		page_base(size_t size);
@@ -190,5 +193,9 @@ int			ft_strlen(char* str);
 void		ft_putstr(char const *s);
 void		ft_putchar(char c);
 void		ft_putaddr(uint64_t number);
+
+
+
+// void 	*aligned_alloc( size_t alignment, size_t size );
 
 #endif

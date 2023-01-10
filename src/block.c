@@ -6,7 +6,7 @@
 /*   By: jquivogn <jquivogn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/14 15:32:26 by jojo              #+#    #+#             */
-/*   Updated: 2023/01/09 17:53:21 by jquivogn         ###   ########.fr       */
+/*   Updated: 2023/01/10 17:16:05 by jquivogn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,10 +28,10 @@ t_block		*split_block(t_block *block, size_t size)
 {
 	t_block	*free;
 
-	if (block->size - mod_base(SIZE(size)) <= BLOCK_H){
-		block->magic = (MAGIC | FULL);
-		ft_putstr("[BLOCK IS FULL]\n");
-		return (NULL);
+	if (mod_base(block->size) - mod_base(SIZE(size)) <= BLOCK_H){
+		block->magic = (MAGIC | USED);
+		// ft_putstr("[BLOCK IS FULL]\n");
+		return (block);
 	}
 	free = init_block(mod_base(SIZE(ADDR(block)) + size) , (MAGIC | FREE), \
 		block->size - mod_base(SIZE(size)), block, block->next);

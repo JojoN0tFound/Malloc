@@ -12,26 +12,32 @@
 
 #include "../includes/malloc.h"
 
-t_page	*find_free_page(t_page **head, size_t size)
+t_page	*find_free_page(t_page *page, size_t size)
 {
-	t_page	*page;
-
-	page = *head;
+	if (size > SMALL)
+		return (NULL);
 	while (page){
 		if (is_continuous_space(page, size))
 			return (page);
 		page = page->next;
 	}
+	TEST
 	return (NULL);
 }
 
-void		add_new_to_memory(t_page **head, t_page *new)
+void		add_new_to_memory(t_page *head, t_page *new)
 {
 	t_page	*tmp;
 
-	tmp = *head;
+	tmp = head;
 	if (!tmp){
-		*head = new;
+		DEBUG
+		if (new->space == TINY_PAGE)
+			g_store_mem.tiny = new;
+		if (new->space == SMALL_PAGE)
+			g_store_mem.small = new;
+		else
+			g_store_mem.large = new;
 		return ;
 	}
 	while(tmp && tmp->next)
@@ -39,15 +45,13 @@ void		add_new_to_memory(t_page **head, t_page *new)
 	tmp->next = new;
 }
 
-t_page		*get_new_page(t_page **head, size_t size)
+t_page		*get_new_page(t_page *head, size_t size)
 {
 	t_page	*page;
 	size_t	page_size;
 	size_t	test;
 
 	page_size = get_page_size(size);
-	// ft_putulnbr(page_size);
-	// N
 	page = (t_page *)mmap(NULL, page_size + PAGE_H,
 		PROT_READ | PROT_WRITE, MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
 	if (!page){

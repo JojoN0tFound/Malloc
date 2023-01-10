@@ -6,7 +6,7 @@
 /*   By: jquivogn <jquivogn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 10:37:24 by jquivogn          #+#    #+#             */
-/*   Updated: 2023/01/09 17:02:42 by jquivogn         ###   ########.fr       */
+/*   Updated: 2023/01/10 20:43:41 by jquivogn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,17 +19,23 @@ void	show_block(t_block *block)
 	ft_putaddr(ADDR(block) + SIZE(block->size));
 	ft_putstr(" : ");
 	ft_putnbr(block->size);
-	ft_putstr(" bytes\n");
+	// ft_putstr(" bytes\n");
+	ft_putstr(" bytes -> ");
+	if (block->size == 304)
+		ft_putstr(RED);
+	ft_putstr((block->magic & USED) == USED ? "USED" : "FREE");
+	N
+	ft_putstr(WHI);
 }
 
-size_t	show_page(t_page **head_page, char *type)
+size_t	show_page(t_page *head_page, char *type)
 {
 	t_page	*tmp;
 	t_block	*block;
 	size_t	total;
 
 	total = 0;
-	tmp = *head_page;
+	tmp = head_page;
 	while (tmp){
 		ft_putstr(type);
 		ft_putstr(" : ");
@@ -61,12 +67,12 @@ void	show_alloc_mem()
 	tiny = g_store_mem.tiny;
 	small = g_store_mem.small;
 	large = g_store_mem.large;
-	// if (tiny)
-	// 	total += show_page(&tiny, "TINY");
+	if (tiny)
+		total += show_page(tiny, "TINY");
 	if (small)
-		total += show_page(&small, "SMALL");
-	// if (large)
-	// 	total += show_page(&large, "LARGE");
+		total += show_page(small, "SMALL");
+	if (large)
+		total += show_page(large, "LARGE");
 	if (total != 0){
 		ft_putstr("Total : ");
 		ft_putnbr(total);

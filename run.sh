@@ -2,6 +2,7 @@
 
 # autocompil
 make re
+make test
 
 #						WARNING
 # for 0 to 2 test please use /usr/bin/time before the exec
