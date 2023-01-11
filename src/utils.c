@@ -6,53 +6,38 @@
 /*   By: jquivogn <jquivogn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/10 02:40:31 by jquivogn          #+#    #+#             */
-/*   Updated: 2023/01/10 21:06:43 by jquivogn         ###   ########.fr       */
+/*   Updated: 2023/01/11 19:18:00 by jquivogn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/malloc.h"
 
-t_page	*get_head(size_t size)
-{
-	if (size > SMALL){
-		ft_putstr("[LARGE:");
-		ft_putaddr(ADDR(g_store_mem.large));
-		N
-		return (g_store_mem.large);
-	}
-	else if (size > TINY){
-		ft_putstr("[SMALL:");
-		ft_putaddr(ADDR(g_store_mem.small));
-		N
-		return (g_store_mem.small);
-	}
-	else{
-		ft_putstr("[TINY:");
-		ft_putaddr(ADDR(g_store_mem.tiny));
-		N
-		return (g_store_mem.tiny);
-	}
-}
-
 size_t		get_block_size(size_t size)
 {
-	if (size > SMALL)
-		return (size);
-	else if (size > TINY)
+	if (size <= TINY)
+		return (TINY);
+	else if (size <= SMALL)
 		return (SMALL);
-	return (TINY);
+	return (size);
 }
 
 size_t		get_page_size(size_t size)
 {
-	if (get_block_size(size) == SMALL)
-		return (SMALL_PAGE);
-		// return (page_base(SIZE(SMALL) * 100));
-	else if (get_block_size(size) == TINY)
+	if (get_block_size(size) == TINY)
 		return (TINY_PAGE);
-		// return (page_base(SIZE(TINY) * 100));
+	else if (get_block_size(size) == SMALL)
+		return (SMALL_PAGE);
 	else
 		return (page_base(SIZE(size)));
+}
+
+t_type		get_type(size_t size)
+{
+	if (size <= TINY)
+		return (T);
+	else if (size <= SMALL)
+		return (S);
+	return (L);
 }
 
 size_t		page_base(size_t size)
@@ -75,34 +60,22 @@ size_t		mod_base(size_t size)
 	return (size + ret);
 }
 
-int			is_continuous_space(t_page *page, size_t size)
-{
-	t_block	*block;
-
-	block = FIRST(page);
-	while (block){
-		if ((block->magic & FULL) == FULL)
-			return (FALSE);
-		if ((block->magic & FREE) == FREE && block->size >= mod_base(SIZE(size)))
-			return (TRUE);
-		block = block->next;
-	}
-	return (FALSE);
-}
-
 int			check_ptr(void *ptr)
 {
-	if (!ptr){
-		// ft_putstr("[NO PTR]\n");
+	if (!ptr)
 		return (FALSE);
-	}
-	if (!IS_MAGIC((GOTO_H(ptr))->magic)){
-		// ft_putstr("[NO MAGIC]\n");
+	if (!IS_MAGIC((GOTO_H(ptr))->magic))
 		return (FALSE);
-	}
-	if (((GOTO_H(ptr))->magic & FREE) == FREE){
-		// ft_putstr("[ALREADY FREE]\n");
-		return (FALSE);
-	}
+	// if (((GOTO_H(ptr))->magic & FREE) == FREE)
+	// 	return (FALSE);
 	return (TRUE);
 }
+
+// void 	*aligned_alloc( size_t alignment, size_t size )
+// {
+// 	P("aligned alloc\n");
+// 	ft_putulnbr(alignment);
+// 	N
+// 	ft_putulnbr(size);
+// 	N
+// }

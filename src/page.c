@@ -12,55 +12,67 @@
 
 #include "../includes/malloc.h"
 
-t_page	*find_free_page(t_page *page, size_t size)
+int			is_continuous_space(t_page *page, size_t size)
 {
-	if (size > SMALL)
+	t_block	*block;
+
+	block = FIRST(page);
+	while (block){
+		if ((block->magic & FREE) == FREE && block->size >= mod_base(SIZE(size)))
+			return (TRUE);
+		block = block->next;
+	}
+	return (FALSE);
+}
+
+void		add_new_to_memory(t_page *new)
+{
+	t_page	*page;
+
+	page = g_first_page;
+	if (!page){
+		g_first_page = new;
+		return ;
+	}
+	while(page && page->next){
+		page = page->next;
+	}
+	page->next = new;
+}
+
+t_page		*get_new_page(size_t size)
+{
+	t_page	*new_page;
+	size_t	page_size;
+
+	page_size = get_page_size(size);
+	new_page = (t_page *)mmap(NULL, page_size + PAGE_H,
+		PROT_READ | PROT_WRITE, MAP_ANON | MAP_PRIVATE, -1, 0);
+	if (!new_page){
+		P(RED)
+		ft_putstr("[ERROR WHILE MMAP THE PAGE]\n");
+		P(WHI)
 		return (NULL);
+	}
+	new_page->type = get_type(size);
+	new_page->max = page_size;
+	new_page->next = NULL;
+	init_block(ADDR(FIRST(new_page)), (MAGIC | FREE), new_page->max, NULL, NULL);
+	add_new_to_memory(new_page);
+	return (new_page);
+}
+
+t_page	*find_free_page(size_t size)
+{
+	t_page	*page;
+
+	if (size > SMALL)
+		return (get_new_page(size));
+	page = g_first_page;
 	while (page){
-		if (is_continuous_space(page, size))
+		if (get_type(size) == page->type && is_continuous_space(page, size))
 			return (page);
 		page = page->next;
 	}
-	TEST
-	return (NULL);
-}
-
-void		add_new_to_memory(t_page *head, t_page *new)
-{
-	t_page	*tmp;
-
-	tmp = head;
-	if (!tmp){
-		DEBUG
-		if (new->space == TINY_PAGE)
-			g_store_mem.tiny = new;
-		if (new->space == SMALL_PAGE)
-			g_store_mem.small = new;
-		else
-			g_store_mem.large = new;
-		return ;
-	}
-	while(tmp && tmp->next)
-		tmp = tmp->next;
-	tmp->next = new;
-}
-
-t_page		*get_new_page(t_page *head, size_t size)
-{
-	t_page	*page;
-	size_t	page_size;
-	size_t	test;
-
-	page_size = get_page_size(size);
-	page = (t_page *)mmap(NULL, page_size + PAGE_H,
-		PROT_READ | PROT_WRITE, MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
-	if (!page){
-		ft_putstr("[ERROR WHILE MMAP THE PAGE]\n");
-		return (NULL);
-	}
-	page->next = NULL;
-	page->space = page_size;
-	init_block(ADDR(FIRST(page)), (MAGIC | FREE), page->space, NULL, NULL);
-	add_new_to_memory(head, page);
-	return (page);
+	return (get_new_page(size));
 }

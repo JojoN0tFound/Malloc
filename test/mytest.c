@@ -6,7 +6,7 @@
 /*   By: jquivogn <jquivogn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/10 02:17:51 by jquivogn          #+#    #+#             */
-/*   Updated: 2023/01/10 16:35:55 by jquivogn         ###   ########.fr       */
+/*   Updated: 2023/01/11 17:18:07 by jquivogn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,13 +65,12 @@ int	main()
 */
 	ft_putstr("====================SMALL====================\n");
 	ft_putstr("=============================================\n\n");
-	i = 0;
-	while (i < 100){
-		ptr = malloc(1024);
-		i++;
+	while (i < 5){
+		ptr = malloc(3072);
+		// ptr = malloc(1024);
 	}
-	ptr = malloc(896);
-	ptr = malloc(1000);
+	// ptr = malloc(896);
+	// ptr = malloc(1000);
 	show_alloc_mem();
 	// print_all_block(ADDR(GOTO_H(ptr)));
 	// ft_putstr("======================================== MALLOC 1000\n\n");
