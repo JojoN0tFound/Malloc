@@ -3,7 +3,9 @@
 		"malloc.h": "c",
 		"stdlib.h": "c",
 		"compare": "c",
-		"type_traits": "c"
+		"type_traits": "c",
+		"inttypes.h": "c",
+		"resource.h": "c"
 	},
 	"C_Cpp.errorSquiggles": "disabled"
 }

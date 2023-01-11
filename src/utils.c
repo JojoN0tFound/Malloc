@@ -6,7 +6,7 @@
 /*   By: jquivogn <jquivogn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/10 02:40:31 by jquivogn          #+#    #+#             */
-/*   Updated: 2023/01/11 19:18:00 by jquivogn         ###   ########.fr       */
+/*   Updated: 2023/01/11 21:05:26 by jquivogn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ size_t		mod_base(size_t size)
 	int	ret;
 
 	ret = size % 16;
-	ret = ret == 0 ? 0 : 16 - ret;
+	ret = ret == 0 ? 0 : (16 - ret);
 	return (size + ret);
 }
 
@@ -66,16 +66,7 @@ int			check_ptr(void *ptr)
 		return (FALSE);
 	if (!IS_MAGIC((GOTO_H(ptr))->magic))
 		return (FALSE);
-	// if (((GOTO_H(ptr))->magic & FREE) == FREE)
-	// 	return (FALSE);
+	if (((GOTO_H(ptr))->magic & FREE) == FREE)
+		return (FALSE);
 	return (TRUE);
 }
-
-// void 	*aligned_alloc( size_t alignment, size_t size )
-// {
-// 	P("aligned alloc\n");
-// 	ft_putulnbr(alignment);
-// 	N
-// 	ft_putulnbr(size);
-// 	N
-// }

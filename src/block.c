@@ -6,7 +6,7 @@
 /*   By: jquivogn <jquivogn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/14 15:32:26 by jojo              #+#    #+#             */
-/*   Updated: 2023/01/11 19:11:01 by jquivogn         ###   ########.fr       */
+/*   Updated: 2023/01/11 22:26:42 by jquivogn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ t_block		*split_block(t_block *block, size_t size)
 {
 	t_block	*free;
 
-	if (mod_base(block->size) - mod_base(SIZE(size)) < BLOCK_H){
+	if (block->size - mod_base(size) <= BLOCK_H){
 		block->magic = (MAGIC | USED);
 		return (block);
 	}
@@ -36,8 +36,7 @@ t_block		*split_block(t_block *block, size_t size)
 		block->size - mod_base(SIZE(size)), block, block->next);
 	if (free->next)
 		free->next->prev = free;
-	block = init_block(ADDR(block), (MAGIC | USED), size, block->prev, free);
-	return (block);
+	return (init_block(ADDR(block), (MAGIC | USED), size, block->prev, free));
 }
 
 t_block		*new_block(t_page *page, size_t size)
@@ -50,12 +49,7 @@ t_block		*new_block(t_page *page, size_t size)
 			break ;
 		block = block->next;
 	}
-	if (!block){
-		P(RED)
-		ft_putstr("[ERROR: NEW BLOCK FAIL]\n");
-		P(WHI)
+	if (!block)
 		return (NULL);
-	}
-	block = split_block(block, size);
-	return (block);
+	return (split_block(block, size));
 }

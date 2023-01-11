@@ -6,7 +6,7 @@
 /*   By: jquivogn <jquivogn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/10 02:19:08 by jquivogn          #+#    #+#             */
-/*   Updated: 2023/01/11 19:29:44 by jquivogn         ###   ########.fr       */
+/*   Updated: 2023/01/11 19:54:53 by jquivogn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,20 +30,14 @@ void	*realloc(void *ptr, size_t size)
 {
 	void	*mem;
 
+	mem = NULL;
 	pthread_mutex_lock(&mutex);
-	// ft_putstr("[START REALLOC]\n");
-	if (!check_ptr(ptr)){
-		// P("[ERROR: no ptr realloc]\n");
+	if (!check_ptr(ptr))
 		mem = get_alloc(size);
-	}
-	else if (size == 0 && ptr){
-		// ft_putstr("[NO SIZE REALLOC]\n");
+	else if (size == 0 && ptr)
 		free_block(ptr);
-		mem = NULL;
-	}
 	else 
 		mem = get_new_alloc(ptr, size);
-	// ft_putstr("[E--------------------R]\n");
 	pthread_mutex_unlock(&mutex);
 	return (mem);
 }

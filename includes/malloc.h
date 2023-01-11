@@ -6,7 +6,7 @@
 /*   By: jquivogn <jquivogn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/10 02:19:22 by jquivogn          #+#    #+#             */
-/*   Updated: 2023/01/11 19:21:00 by jquivogn         ###   ########.fr       */
+/*   Updated: 2023/01/11 22:12:14 by jquivogn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,8 +151,8 @@ void		free(void *ptr);
 /*
 ** show_alloc_mem.c
 */
-void		show_block(t_block *block, t_type type);
-size_t		show_page(t_page *head_page);
+int			show_block(t_block *block);
+size_t		show_page(t_page *head_page, t_type type);
 void 		show_alloc_mem();
 
 /*

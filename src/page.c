@@ -34,9 +34,8 @@ void		add_new_to_memory(t_page *new)
 		g_first_page = new;
 		return ;
 	}
-	while(page && page->next){
+	while(page && page->next)
 		page = page->next;
-	}
 	page->next = new;
 }
 
@@ -48,12 +47,8 @@ t_page		*get_new_page(size_t size)
 	page_size = get_page_size(size);
 	new_page = (t_page *)mmap(NULL, page_size + PAGE_H,
 		PROT_READ | PROT_WRITE, MAP_ANON | MAP_PRIVATE, -1, 0);
-	if (!new_page){
-		P(RED)
-		ft_putstr("[ERROR WHILE MMAP THE PAGE]\n");
-		P(WHI)
+	if (!new_page)
 		return (NULL);
-	}
 	new_page->type = get_type(size);
 	new_page->max = page_size;
 	new_page->next = NULL;

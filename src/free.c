@@ -6,7 +6,7 @@
 /*   By: jquivogn <jquivogn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/10 02:19:05 by jquivogn          #+#    #+#             */
-/*   Updated: 2023/01/11 19:36:20 by jquivogn         ###   ########.fr       */
+/*   Updated: 2023/01/11 22:16:06 by jquivogn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,13 +65,19 @@ int		free_block(void *ptr)
 			break ;
 		page = page->next;
 	}
-	if (!page){
-		// show_alloc_mem();
-		print_block(block, -5);
-		P(RED)
-		ft_putstr("[ERROR: no page found]\n");
-		P(WHI)
+	if (!page)
 		return (FALSE);
+	if (get_type(block->size) != page->type){
+		// show_alloc_mem();
+		// P("      Type: ")
+		// if (page->type == T)
+		// 	ft_putstr("TINY");
+		// else if (page->type == S)
+		// 	ft_putstr("SMALL");
+		// else if (page->type == L)
+		// 	ft_putstr("LARGE");
+		// N
+		// print_block(block, -5);
 	}
 	block->size = mod_base(block->size);
 	block = defragment(block);
@@ -83,13 +89,7 @@ int		free_block(void *ptr)
 void	free(void *ptr)
 {
 	pthread_mutex_lock(&mutex);
-	// ft_putstr("[START FREE]\n");
-	if (!check_ptr(ptr)){
-		// ft_putstr("[ERROR: check ptr fail]\n");
-		pthread_mutex_unlock(&mutex);
-		return ;
-	}
-	free_block(ptr);
-	// ft_putstr("[E--------------------F]\n");
+	if (check_ptr(ptr))
+		free_block(ptr);
 	pthread_mutex_unlock(&mutex);
 }
