@@ -6,7 +6,7 @@
 /*   By: jquivogn <jquivogn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/14 15:32:26 by jojo              #+#    #+#             */
-/*   Updated: 2023/01/11 22:26:42 by jquivogn         ###   ########.fr       */
+/*   Updated: 2023/01/12 13:28:19 by jquivogn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ t_block		*new_block(t_page *page, size_t size)
 
 	block = FIRST(page);
 	while (block){
-		if ((block->magic & FREE) == FREE && block->size >= mod_base(SIZE(size)))
+		if (IS(block->magic, FREE) && block->size >= mod_base(SIZE(size)))
 			break ;
 		block = block->next;
 	}

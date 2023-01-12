@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: jojo <jojo@student.42.fr>                  +#+  +:+       +#+         #
+#    By: jquivogn <jquivogn@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/12/10 02:23:08 by jquivogn          #+#    #+#              #
-#    Updated: 2023/01/08 18:50:46 by jojo             ###   ########.fr        #
+#    Updated: 2023/01/12 11:00:51 by jquivogn         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,6 +17,7 @@ endif
 CC = gcc
 
 # CFLAGS = -Wall -Wextra -Werror -g
+CFLAGS = -g
 FLAGS = -fPIC
 SFLAG = -shared
 

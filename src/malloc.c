@@ -6,14 +6,15 @@
 /*   By: jquivogn <jquivogn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/10 02:15:18 by jquivogn          #+#    #+#             */
-/*   Updated: 2023/01/11 21:41:26 by jquivogn         ###   ########.fr       */
+/*   Updated: 2023/01/12 13:31:05 by jquivogn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/malloc.h"
 
-t_page			*g_first_page;
+t_page			*g_first_page = NULL;
 pthread_mutex_t	mutex;
+int				i=0;
 
 void		*get_alloc(size_t size)
 {
@@ -21,8 +22,11 @@ void		*get_alloc(size_t size)
 	t_block		*block;
 
 	if ((page = find_free_page(size)))
-		if ((block = new_block(page, size)))
+		if ((block = new_block(page, size))){
+			// print_block(block, i++);
 			return (GOTO_M(block));
+		}
+	P("MALLOC FAIL")
 	return (NULL);
 }
 
@@ -35,7 +39,6 @@ void		*malloc(size_t size)
 		mem = NULL;
 	else
 		mem = get_alloc(size);
-	// COUCOU
 	pthread_mutex_unlock(&mutex);
 	return (mem);
 }

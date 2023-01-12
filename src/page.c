@@ -18,7 +18,7 @@ int			is_continuous_space(t_page *page, size_t size)
 
 	block = FIRST(page);
 	while (block){
-		if ((block->magic & FREE) == FREE && block->size >= mod_base(SIZE(size)))
+		if (IS(block->magic, FREE) && block->size >= mod_base(SIZE(size)))
 			return (TRUE);
 		block = block->next;
 	}

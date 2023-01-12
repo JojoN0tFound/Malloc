@@ -6,7 +6,7 @@
 /*   By: jquivogn <jquivogn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/10 02:19:05 by jquivogn          #+#    #+#             */
-/*   Updated: 2023/01/11 22:16:06 by jquivogn         ###   ########.fr       */
+/*   Updated: 2023/01/12 14:56:56 by jquivogn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,9 +45,9 @@ t_block		*merge_block(t_block *block, t_block *merge)
 
 t_block		*defragment(t_block *block)
 {
-	if (block->prev && (block->prev->magic & FREE) == FREE)
+	if (block->prev && IS(block->prev->magic, FREE))
 		block = merge_block(block->prev, block);
-	if (block->next && (block->next->magic & FREE) == FREE)
+	if (block->next && IS(block->next->magic, FREE))
 		block = merge_block(block, block->next);
 	block->magic = (MAGIC | FREE);
 	return (block);
@@ -67,21 +67,9 @@ int		free_block(void *ptr)
 	}
 	if (!page)
 		return (FALSE);
-	if (get_type(block->size) != page->type){
-		// show_alloc_mem();
-		// P("      Type: ")
-		// if (page->type == T)
-		// 	ft_putstr("TINY");
-		// else if (page->type == S)
-		// 	ft_putstr("SMALL");
-		// else if (page->type == L)
-		// 	ft_putstr("LARGE");
-		// N
-		// print_block(block, -5);
-	}
 	block->size = mod_base(block->size);
 	block = defragment(block);
-	if ((block->magic & FREE) == FREE && block->size == page->max)
+	if (IS(block->magic, FREE) && block->size == page->max)
 		free_page(page);
 	return (TRUE);
 }
@@ -89,7 +77,7 @@ int		free_block(void *ptr)
 void	free(void *ptr)
 {
 	pthread_mutex_lock(&mutex);
-	if (check_ptr(ptr))
+	if (check_ptr(ptr) && IS(ADDR(GOTO_H(ptr)), FREE))
 		free_block(ptr);
 	pthread_mutex_unlock(&mutex);
 }

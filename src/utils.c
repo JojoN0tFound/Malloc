@@ -6,7 +6,7 @@
 /*   By: jquivogn <jquivogn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/10 02:40:31 by jquivogn          #+#    #+#             */
-/*   Updated: 2023/01/11 21:05:26 by jquivogn         ###   ########.fr       */
+/*   Updated: 2023/01/12 14:58:22 by jquivogn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,11 +62,12 @@ size_t		mod_base(size_t size)
 
 int			check_ptr(void *ptr)
 {
+	t_block *block;
+
 	if (!ptr)
 		return (FALSE);
-	if (!IS_MAGIC((GOTO_H(ptr))->magic))
-		return (FALSE);
-	if (((GOTO_H(ptr))->magic & FREE) == FREE)
-		return (FALSE);
+	block = GOTO_H(ptr);
+	// if (!IS_MAGIC(block->magic))
+	// 	return (FALSE);
 	return (TRUE);
 }

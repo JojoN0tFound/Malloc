@@ -6,7 +6,7 @@
 /*   By: jquivogn <jquivogn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/10 02:19:22 by jquivogn          #+#    #+#             */
-/*   Updated: 2023/01/11 22:12:14 by jquivogn         ###   ########.fr       */
+/*   Updated: 2023/01/12 13:27:50 by jquivogn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,9 @@
 
 # define FREE 0x1
 # define USED 0x2
+# define MAGIC 0xDEADCAFEBEEF0000
+# define IS_MAGIC(x) (MAGIC == (x & 0xFFFFFFFFFFFF0000))
+# define IS(x,status) (status == (x & status))
 
 # define TINY 128
 # define SMALL 1024
@@ -53,8 +56,6 @@
 # define GOTO_M(x) (void *)(ADDR(x) + BLOCK_H)
 # define GOTO_H(x) (t_block *)(ADDR(x) - BLOCK_H)
 
-# define MAGIC 0xDEADCAFEBEEF0000
-# define IS_MAGIC(x) (MAGIC == (x & 0xFFFFFFFFFFFF0000))
 
 /*
 ** print define

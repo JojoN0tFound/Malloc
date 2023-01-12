@@ -6,7 +6,7 @@
 /*   By: jquivogn <jquivogn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 10:37:24 by jquivogn          #+#    #+#             */
-/*   Updated: 2023/01/11 22:19:57 by jquivogn         ###   ########.fr       */
+/*   Updated: 2023/01/12 13:29:41 by jquivogn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,10 @@ int		show_block(t_block *block)
 	ft_putstr(" : ");
 	ft_putnbr(block->size);
 	ft_putstr(" bytes\n");
+	// if (block->size == 167){
+	// 	print_all_block(block->prev);
+	// 	sleep(100);
+	// }
 	return (block->size);
 }
 
@@ -44,8 +48,8 @@ size_t	show_page(t_page *head_page, t_type type)
 			ft_putchar('\n');
 			block = FIRST(tmp);
 			while (block){
-				// if ((block->magic & USED) == USED)
-				total += show_block(block);
+				if (IS(block->magic, USED))
+					total += show_block(block);
 				block = block->next;
 			}
 		}
@@ -63,9 +67,9 @@ void	show_alloc_mem()
 	total = 0;
 	alloc = g_first_page;
 	if (alloc){
-		total += show_page(alloc, T);
+		// total += show_page(alloc, T);
 		total += show_page(alloc, S);
-		total += show_page(alloc, L);
+		// total += show_page(alloc, L);
 	}
 	if (total != 0){
 		ft_putstr("Total : ");

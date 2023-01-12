@@ -15,4 +15,5 @@ export LD_PRELOAD=`pwd`/libft_malloc.so
 # export DYLD_LIBRARY_PATH="."
 # export DYLD_INSERT_LIBRARIES="libft_malloc.so"
 
+# valgrind $@
 $@
