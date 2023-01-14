@@ -6,7 +6,7 @@
 /*   By: jquivogn <jquivogn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/10 02:19:05 by jquivogn          #+#    #+#             */
-/*   Updated: 2023/01/12 14:56:56 by jquivogn         ###   ########.fr       */
+/*   Updated: 2023/01/12 18:22:51 by jquivogn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,23 +33,26 @@ void	free_page(t_page *page)
 
 t_block		*merge_block(t_block *block, t_block *merge)
 {
-	merge->magic = FREE;
 	block = init_block(ADDR(block), (MAGIC | FREE), \
 		mod_base(block->size) + mod_base(SIZE(merge->size)), block->prev, merge->next);
 	if (block->prev)
 		block->prev->next = block;
 	if (merge->next)
 		merge->next->prev = block;
+	merge->magic = FREE;
+	merge->size = 0;
+	merge->prev = NULL;
+	merge->next = NULL;
 	return (block);
 }
 
 t_block		*defragment(t_block *block)
 {
+	block->magic = (MAGIC | FREE);
 	if (block->prev && IS(block->prev->magic, FREE))
 		block = merge_block(block->prev, block);
 	if (block->next && IS(block->next->magic, FREE))
 		block = merge_block(block, block->next);
-	block->magic = (MAGIC | FREE);
 	return (block);
 }
 
@@ -59,6 +62,9 @@ int		free_block(void *ptr)
 	t_block	*block;
 
 	block = GOTO_H(ptr);
+	if (!IS_MAGIC(block->magic)){
+		return (FALSE);
+	}
 	page = g_first_page;
 	while (page){
 		if (ADDR(block) > ADDR(page) && ADDR(block) < (ADDR(page) + page->max + PAGE_H))
@@ -77,7 +83,10 @@ int		free_block(void *ptr)
 void	free(void *ptr)
 {
 	pthread_mutex_lock(&mutex);
-	if (check_ptr(ptr) && IS(ADDR(GOTO_H(ptr)), FREE))
+	// F_S
+	if (ptr){
 		free_block(ptr);
+	}
+	// F_E
 	pthread_mutex_unlock(&mutex);
 }

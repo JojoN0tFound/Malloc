@@ -6,7 +6,7 @@
 /*   By: jquivogn <jquivogn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/10 02:19:22 by jquivogn          #+#    #+#             */
-/*   Updated: 2023/01/12 13:27:50 by jquivogn         ###   ########.fr       */
+/*   Updated: 2023/01/12 18:18:55 by jquivogn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@
 /*
 ** color define
 */
-# define P(x) write(1, x, ft_strlen(x));
+# define P(x) write(2, x, ft_strlen(x));
 # define WHI "\033[0m"
 # define LGR "\033[0;37m"
 # define DGR "\033[1;30m"
@@ -93,6 +93,15 @@
 # define OK write(1, "ok\n", 3);
 # define N write(1, "\n", 1);
 extern int i;
+
+# define M_S P("\033[0;32mMalloc start\033[0m\n")
+# define M_E P("\033[0;32m	Malloc end\033[0m\n")
+# define F_S P("\033[0;31mFree start\033[0m\n")
+# define F_E P("\033[0;31m	Free end\033[0m\n")
+# define R_S P("\033[0;36mRealloc start\033[0m\n")
+# define R_E P("\033[0;36m	Realloc end\033[0m\n")
+# define C_S P("\033[0;34mCalloc start\033[0m\n")
+# define C_E P("\033[0;34m	Calloc end\033[0m\n")
 
 /*
 ** enum
@@ -159,7 +168,7 @@ void 		show_alloc_mem();
 /*
 ** calloc.c
 */
-// void		*calloc(size_t elementCount, size_t elementSize);
+void		*calloc(size_t elementCount, size_t elementSize);
 
 /*
 ** page.c
@@ -184,7 +193,6 @@ size_t		get_page_size(size_t size);
 t_type		get_type(size_t size);
 size_t		page_base(size_t size);
 size_t		mod_base(size_t size);
-int			check_ptr(void *ptr);
 
 /*
 ** print.c
@@ -192,8 +200,6 @@ int			check_ptr(void *ptr);
 void 		print_memory(const void *addr, size_t size);
 void		print_block(t_block *block, int nb);
 void		print_all_block(t_block *block);
-// void		print_memory(const void *addr, size_t size, char *color);
-// void		print_alloc_mem(int flag);
 
 /*
 ** libft.c
@@ -206,9 +212,5 @@ int			ft_strlen(char* str);
 void		ft_putstr(char const *s);
 void		ft_putchar(char c);
 void		ft_putaddr(uint64_t number);
-
-
-
-// void 	*aligned_alloc( size_t alignment, size_t size );
 
 #endif

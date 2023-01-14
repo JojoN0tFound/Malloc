@@ -6,7 +6,7 @@
 /*   By: jquivogn <jquivogn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/10 02:19:08 by jquivogn          #+#    #+#             */
-/*   Updated: 2023/01/12 15:33:01 by jquivogn         ###   ########.fr       */
+/*   Updated: 2023/01/12 18:22:43 by jquivogn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,27 +18,15 @@ void	*get_new_alloc(void *ptr, size_t size)
 	t_block	*block;
 
 	block = GOTO_H(ptr);
-	if (!IS_MAGIC(block->magic)){
+	if (!IS_MAGIC(block->magic))
 		return (NULL);
-	}
-	// P("size :")
-	// ft_putulnbr(size);
-	// N
-	// P("bsize:")
-	// ft_putulnbr(block->size);
-	// N
-	if (size > block->size){
+	if (mod_base(size) > mod_base(block->size)){
 		if (!(new = get_alloc(size)))
-		{
-			TEST
 			return (ptr);
-		}
-		new = ft_memcpy(new, ptr, MIN(size, block->size));
+		new = ft_memcpy(new, ptr, block->size);
 		free_block(ptr);
-		// print_block(GOTO_H(new), 2);
 		return (new);
 	}
-	// print_block(block, 1);
 	return (ptr);
 }
 
@@ -48,12 +36,14 @@ void	*realloc(void *ptr, size_t size)
 
 	mem = NULL;
 	pthread_mutex_lock(&mutex);
-	if (!check_ptr(ptr))
+	// R_S
+	if (!ptr)
 		mem = get_alloc(size);
-	else if (size == 0 && ptr)
+	else if (size == 0)
 		free_block(ptr);
 	else 
 		mem = get_new_alloc(ptr, size);
+	// R_E
 	pthread_mutex_unlock(&mutex);
 	return (mem);
 }

@@ -6,7 +6,7 @@
 #    By: jquivogn <jquivogn@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/12/10 02:23:08 by jquivogn          #+#    #+#              #
-#    Updated: 2023/01/12 11:00:51 by jquivogn         ###   ########.fr        #
+#    Updated: 2023/01/14 16:53:33 by jquivogn         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -38,6 +38,7 @@ SRC_NAME =	malloc.c\
 			realloc.c\
 			free.c\
 			show_alloc_mem.c\
+			calloc.c\
 			page.c\
 			block.c\
 			utils.c\
@@ -89,6 +90,9 @@ test: $(NAME)
 tclean:
 	@rm -rf test00 test01 test02 test03 test04 test05 mytest
 	@echo "\033[38;2;0;255;255m$(PROJECT_NAME)\t\033[1;33mCleaning tests\t\t\033[0;32m[OK]\033[0m"
+
+file:
+	@rm -rf *.txt
 
 logo:
 	@echo ""
