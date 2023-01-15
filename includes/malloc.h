@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   malloc.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jquivogn <jquivogn@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jojo <jojo@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/10 02:19:22 by jquivogn          #+#    #+#             */
-/*   Updated: 2023/01/12 18:18:55 by jquivogn         ###   ########.fr       */
+/*   Updated: 2023/01/15 23:20:27 by jojo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,11 +38,13 @@
 # define IS_MAGIC(x) (MAGIC == (x & 0xFFFFFFFFFFFF0000))
 # define IS(x,status) (status == (x & status))
 
-# define TINY 128
+# define TINY 64
 # define SMALL 1024
 
-# define TINY_PAGE (4 * getpagesize())
+# define TINY_PAGE (5 * getpagesize())
 # define SMALL_PAGE (26 * getpagesize())
+
+# define MAX_T_BLOCK 213
 
 # define MIN(x, y) x > y ? y : x
 

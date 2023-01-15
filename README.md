@@ -40,7 +40,18 @@ En cas d’erreur, calloc() retourne un pointeur NULL.
 
 *set up*
 --
-``source run.sh``
+Vous pouvez soit exporter les variables:
+- Pour linux
+```
+export LD_LIBRARY_PATH="."
+export LD_PRELOAD=`pwd`/libft_malloc.so
+```
+- Pour Macos
+```
+export DYLD_LIBRARY_PATH="."
+export DYLD_INSERT_LIBRARIES="libft_malloc.so"
+```
+oit lancer le script run.sh avec l'exec voulu en parametre.
 
 *Compile tests*
 --

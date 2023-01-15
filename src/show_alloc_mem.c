@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   show_alloc_mem.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jquivogn <jquivogn@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jojo <jojo@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 10:37:24 by jquivogn          #+#    #+#             */
-/*   Updated: 2023/01/12 13:29:41 by jquivogn         ###   ########.fr       */
+/*   Updated: 2023/01/15 23:23:23 by jojo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,6 @@ int		show_block(t_block *block)
 	ft_putstr(" : ");
 	ft_putnbr(block->size);
 	ft_putstr(" bytes\n");
-	// if (block->size == 167){
-	// 	print_all_block(block->prev);
-	// 	sleep(100);
-	// }
 	return (block->size);
 }
 
@@ -67,9 +63,9 @@ void	show_alloc_mem()
 	total = 0;
 	alloc = g_first_page;
 	if (alloc){
-		// total += show_page(alloc, T);
+		total += show_page(alloc, T);
 		total += show_page(alloc, S);
-		// total += show_page(alloc, L);
+		total += show_page(alloc, L);
 	}
 	if (total != 0){
 		ft_putstr("Total : ");

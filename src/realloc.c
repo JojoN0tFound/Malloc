@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   realloc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jquivogn <jquivogn@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jojo <jojo@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/10 02:19:08 by jquivogn          #+#    #+#             */
-/*   Updated: 2023/01/12 18:22:43 by jquivogn         ###   ########.fr       */
+/*   Updated: 2023/01/15 22:58:03 by jojo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,10 @@ void	*get_new_alloc(void *ptr, size_t size)
 	t_block	*block;
 
 	block = GOTO_H(ptr);
-	if (!IS_MAGIC(block->magic))
+	if (!IS_MAGIC(block->magic)){
+		BRUH
 		return (NULL);
+	}
 	if (mod_base(size) > mod_base(block->size)){
 		if (!(new = get_alloc(size)))
 			return (ptr);
@@ -32,9 +34,8 @@ void	*get_new_alloc(void *ptr, size_t size)
 
 void	*realloc(void *ptr, size_t size)
 {
-	void	*mem;
+	void	*mem = NULL;
 
-	mem = NULL;
 	pthread_mutex_lock(&mutex);
 	// R_S
 	if (!ptr)

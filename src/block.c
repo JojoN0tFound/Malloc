@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   block.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jquivogn <jquivogn@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jojo <jojo@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/14 15:32:26 by jojo              #+#    #+#             */
-/*   Updated: 2023/01/12 13:28:19 by jquivogn         ###   ########.fr       */
+/*   Updated: 2023/01/15 23:58:55 by jojo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,9 +41,8 @@ t_block		*split_block(t_block *block, size_t size)
 
 t_block		*new_block(t_page *page, size_t size)
 {
-	t_block		*block;
+	t_block	*block = FIRST(page);
 
-	block = FIRST(page);
 	while (block){
 		if (IS(block->magic, FREE) && block->size >= mod_base(SIZE(size)))
 			break ;
