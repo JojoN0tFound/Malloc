@@ -51,7 +51,10 @@ export LD_PRELOAD=`pwd`/libft_malloc.so
 export DYLD_LIBRARY_PATH="."
 export DYLD_INSERT_LIBRARIES="libft_malloc.so"
 ```
-oit lancer le script run.sh avec l'exec voulu en parametre.
+Soit lancer le script run.sh avec l'exec voulu en parametre.
+```
+./run.sh /usr/bin/vim
+```
 
 *Compile tests*
 --
