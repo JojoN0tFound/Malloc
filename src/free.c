@@ -6,7 +6,7 @@
 /*   By: jojo <jojo@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/10 02:19:05 by jquivogn          #+#    #+#             */
-/*   Updated: 2023/01/16 01:10:29 by jojo             ###   ########.fr       */
+/*   Updated: 2023/01/16 17:33:42 by jojo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,12 @@ void	free_page(t_page *page)
 {
 	t_page	*prev = g_first_page;
 
-	if (prev == page)
+	if (prev == page && page->next == NULL){
+		TOTO
+		sleep(5);
+		g_first_page = NULL;
+	}
+	else if (prev == page)
 		g_first_page = page->next;
 	else {
 		while (prev && prev->next){
@@ -26,7 +31,10 @@ void	free_page(t_page *page)
 		}
 		prev->next = page->next;
 	}
-	munmap(page, page->max + PAGE_H);
+	if (munmap(page, page->max + PAGE_H) == -1){
+		TOTO
+		sleep(5);
+	}
 }
 
 t_block		*merge_block(t_block *block, t_block *merge)
@@ -37,15 +45,15 @@ t_block		*merge_block(t_block *block, t_block *merge)
 		block->prev->next = block;
 	if (merge->next)
 		merge->next->prev = block;
-	merge = init_block(ADDR(merge), FREE, 0, NULL, NULL);
+	merge = init_block(ADDR(merge), 0, 0, NULL, NULL);
 	return (block);
 }
 
 t_block		*defragment(t_block *block)
 {
-	if (block->prev && IS(block->prev->magic, FREE))
+	if (block->prev && IS_FREE(block->prev->magic))
 		block = merge_block(block->prev, block);
-	if (block->next && IS(block->next->magic, FREE))
+	if (block->next && IS_FREE(block->next->magic))
 		block = merge_block(block, block->next);
 	block->magic = (MAGIC | FREE);
 	return (block);
@@ -57,7 +65,7 @@ int		free_block(void *ptr)
 	t_block	*block;
 
 	block = GOTO_H(ptr);
-	if (!IS_MAGIC(block->magic))
+	if (!IS_MAGIC(block->magic) || IS_FREE(block->magic))
 		return (FALSE);
 	page = g_first_page;
 	while (page){
@@ -69,7 +77,8 @@ int		free_block(void *ptr)
 		return (FALSE);
 	block->size = mod_base(block->size);
 	block = defragment(block);
-	if (IS(block->magic, FREE) && block->size == page->max)
+	page->fill--;
+	if (IS_FREE(block->magic) && block->size == page->max && page->fill == 0)
 		free_page(page);
 	return (TRUE);
 }
@@ -77,9 +86,9 @@ int		free_block(void *ptr)
 void	free(void *ptr)
 {
 	pthread_mutex_lock(&mutex);
-	F_S
+	// F_S
 	if (ptr)
 		free_block(ptr);
-	F_E
+	// F_E
 	pthread_mutex_unlock(&mutex);
 }

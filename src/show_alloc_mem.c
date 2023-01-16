@@ -6,7 +6,7 @@
 /*   By: jojo <jojo@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 10:37:24 by jquivogn          #+#    #+#             */
-/*   Updated: 2023/01/16 00:31:14 by jojo             ###   ########.fr       */
+/*   Updated: 2023/01/16 02:00:30 by jojo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ size_t	show_page(t_page *head_page, t_type type)
 			ft_putchar('\n');
 			block = FIRST(tmp);
 			while (block){
-				if (IS(block->magic, USED))
+				if (IS_USED(block->magic))
 					total += show_block(block);
 				block = block->next;
 			}

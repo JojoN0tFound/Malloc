@@ -6,11 +6,20 @@
 /*   By: jojo <jojo@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/10 02:40:31 by jquivogn          #+#    #+#             */
-/*   Updated: 2023/01/16 00:46:16 by jojo             ###   ########.fr       */
+/*   Updated: 2023/01/16 16:39:53 by jojo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/malloc.h"
+
+t_type		get_type(size_t size)
+{
+	if (size <= TINY)
+		return (T);
+	else if (size <= SMALL)
+		return (S);
+	return (L);
+}
 
 size_t		get_block_size(size_t size)
 {
@@ -29,15 +38,6 @@ size_t		get_page_size(size_t size)
 		return (SMALL_PAGE);
 	else
 		return (page_base(SIZE(size) + PAGE_H));
-}
-
-t_type		get_type(size_t size)
-{
-	if (size <= TINY)
-		return (T);
-	else if (size <= SMALL)
-		return (S);
-	return (L);
 }
 
 size_t		page_base(size_t size)

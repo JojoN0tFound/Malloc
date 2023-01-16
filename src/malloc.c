@@ -6,7 +6,7 @@
 /*   By: jojo <jojo@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/10 02:15:18 by jquivogn          #+#    #+#             */
-/*   Updated: 2023/01/16 01:00:22 by jojo             ###   ########.fr       */
+/*   Updated: 2023/01/16 17:47:52 by jojo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 t_page			*g_first_page = NULL;
 pthread_mutex_t	mutex = PTHREAD_MUTEX_INITIALIZER;
-int				i=0;
+int				ite=0;
 
 void		*get_alloc(size_t size)
 {
@@ -22,10 +22,14 @@ void		*get_alloc(size_t size)
 	t_block		*block;
 
 	if ((page = find_free_page(size)))
-		if ((block = new_block(page, size)))
+		if ((block = new_block(page, size))){
+			if (page->type == T){
+				print_memory((void *)page, page->max + 32);
+			}
+			page->fill++;
 			return (GOTO_M(block));
+		}
 	P("MALLOC FAIL\n")
-	sleep(10);
 	return (NULL);
 }
 

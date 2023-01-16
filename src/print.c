@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   print.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jquivogn <jquivogn@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jojo <jojo@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/16 20:55:01 by jquivogn          #+#    #+#             */
-/*   Updated: 2023/01/10 17:02:32 by jquivogn         ###   ########.fr       */
+/*   Updated: 2023/01/16 17:07:31 by jojo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -183,9 +183,9 @@ void	print_block(t_block *block, int nb)
 		ft_putnbr(nb);
 		ft_putchar('\n');
 	}
-	ft_putstr("block  addr: ");
+	ft_putstr("block addr: ");
 	ft_putaddr((uint64_t)block);
-	ft_putstr("\naddr  magic: ");
+	ft_putstr("\naddr magic: ");
 	ft_putaddr(block->magic);
 	ft_putstr("\nblock size: ");
 	ft_putnbr(block->size);

@@ -6,7 +6,7 @@
 /*   By: jojo <jojo@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/10 02:19:22 by jquivogn          #+#    #+#             */
-/*   Updated: 2023/01/16 01:02:27 by jojo             ###   ########.fr       */
+/*   Updated: 2023/01/16 17:10:11 by jojo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,16 +37,17 @@
 # define TRUE 1
 # define FALSE 0
 
-# define FREE 0x1
-# define USED 0x2
+# define FREE 0x2
+# define USED 0x1
 # define MAGIC 0xDEADCAFEBEEF0000
 # define IS_MAGIC(x) (MAGIC == (x & 0xFFFFFFFFFFFF0000))
-# define IS(x,status) (status == (x & status))
+# define IS_FREE(x) (FREE == (x & FREE))
+# define IS_USED(x) (USED == (x & USED))
 
-# define TINY 64
+# define TINY 128
 # define SMALL 1024
 
-# define TINY_PAGE (3 * getpagesize())
+# define TINY_PAGE (4 * getpagesize())
 # define SMALL_PAGE (26 * getpagesize())
 
 # define MIN(x, y) x > y ? y : x
@@ -97,7 +98,7 @@
 # define YO write(1, "yo\n", 3);
 # define OK write(1, "ok\n", 3);
 # define N write(1, "\n", 1);
-extern int i;
+extern int ite;
 
 # define M_S P("\033[0;32mMalloc start\033[0m\n")
 # define M_E P("\033[0;32m	Malloc end\033[0m\n")
@@ -132,8 +133,8 @@ typedef struct	s_block
 typedef struct	s_page
 {
 	t_type			type;
-	uint64_t		max;
 	uint64_t		fill;
+	uint64_t		max;
 	struct s_page	*next;
 }				t_page;
 
@@ -194,9 +195,9 @@ t_block		*new_block(t_page *page, size_t size);
 /*
 ** utils.c
 */
+t_type		get_type(size_t size);
 size_t		get_block_size(size_t size);
 size_t		get_page_size(size_t size);
-t_type		get_type(size_t size);
 size_t		page_base(size_t size);
 size_t		mod_base(size_t size);
 

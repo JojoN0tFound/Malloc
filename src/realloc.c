@@ -6,7 +6,7 @@
 /*   By: jojo <jojo@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/10 02:19:08 by jquivogn          #+#    #+#             */
-/*   Updated: 2023/01/16 00:41:00 by jojo             ###   ########.fr       */
+/*   Updated: 2023/01/16 17:28:08 by jojo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,15 @@ void	*get_new_alloc(void *ptr, size_t size)
 	if (!IS_MAGIC(block->magic))
 		return (NULL);
 	if (mod_base(size) > mod_base(block->size)){
-		if (!(new = get_alloc(size)))
+		pthread_mutex_unlock(&mutex);
+		new = malloc(size);
+		pthread_mutex_lock(&mutex);
+		if (!new)
 			return (ptr);
 		new = ft_memcpy(new, ptr, block->size);
-		free_block(ptr);
+		pthread_mutex_unlock(&mutex);
+		free(ptr);
+		pthread_mutex_lock(&mutex);
 		return (new);
 	}
 	return (ptr);
@@ -35,14 +40,20 @@ void	*realloc(void *ptr, size_t size)
 	void	*mem = NULL;
 
 	pthread_mutex_lock(&mutex);
-	R_S
-	if (!ptr)
-		mem = get_alloc(size);
-	else if (size == 0)
-		free_block(ptr);
+	// R_S
+	if (!ptr){
+		pthread_mutex_unlock(&mutex);
+		mem = malloc(size);
+		pthread_mutex_lock(&mutex);
+	}
+	else if (size == 0){
+		pthread_mutex_unlock(&mutex);
+		free(ptr);
+		pthread_mutex_lock(&mutex);
+	}
 	else
 		mem = get_new_alloc(ptr, size);
-	R_E
+	// R_E
 	pthread_mutex_unlock(&mutex);
 	return (mem);
 }
