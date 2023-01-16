@@ -6,7 +6,7 @@
 /*   By: jojo <jojo@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 10:37:24 by jquivogn          #+#    #+#             */
-/*   Updated: 2023/01/15 23:23:23 by jojo             ###   ########.fr       */
+/*   Updated: 2023/01/16 00:31:14 by jojo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,11 +34,12 @@ size_t	show_page(t_page *head_page, t_type type)
 	while (tmp){
 		if (tmp->type == type){
 			if (tmp->type == T)
-				ft_putstr("TINY");
+				ft_putstr("\033[0;36mTINY");
 			else if (tmp->type == S)
-				ft_putstr("SMALL");
+				ft_putstr("\033[1;34mSMALL");
 			else if (tmp->type == L)
-				ft_putstr("LARGE");
+				ft_putstr("\033[0;32mLARGE");
+			P(WHI)
 			ft_putstr(" : ");
 			ft_putaddr(ADDR(tmp));
 			ft_putchar('\n');
@@ -68,7 +69,8 @@ void	show_alloc_mem()
 		total += show_page(alloc, L);
 	}
 	if (total != 0){
-		ft_putstr("Total : ");
+		P(RED)
+		ft_putstr("Total\033[0m : ");
 		ft_putnbr(total);
 		ft_putstr(" bytes\n");
 	}

@@ -6,7 +6,7 @@
 /*   By: jojo <jojo@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/10 02:19:05 by jquivogn          #+#    #+#             */
-/*   Updated: 2023/01/15 23:54:46 by jojo             ###   ########.fr       */
+/*   Updated: 2023/01/16 01:10:29 by jojo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,11 +43,11 @@ t_block		*merge_block(t_block *block, t_block *merge)
 
 t_block		*defragment(t_block *block)
 {
-	block->magic = (MAGIC | FREE);
 	if (block->prev && IS(block->prev->magic, FREE))
 		block = merge_block(block->prev, block);
 	if (block->next && IS(block->next->magic, FREE))
 		block = merge_block(block, block->next);
+	block->magic = (MAGIC | FREE);
 	return (block);
 }
 
@@ -77,9 +77,9 @@ int		free_block(void *ptr)
 void	free(void *ptr)
 {
 	pthread_mutex_lock(&mutex);
-	// F_S
+	F_S
 	if (ptr)
 		free_block(ptr);
-	// F_E
+	F_E
 	pthread_mutex_unlock(&mutex);
 }

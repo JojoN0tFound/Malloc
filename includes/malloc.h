@@ -6,7 +6,7 @@
 /*   By: jojo <jojo@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/10 02:19:22 by jquivogn          #+#    #+#             */
-/*   Updated: 2023/01/15 23:20:27 by jojo             ###   ########.fr       */
+/*   Updated: 2023/01/16 01:02:27 by jojo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,14 +17,19 @@
 ** include
 */
 # include <unistd.h>
-# include <string.h>
 # include <sys/mman.h>
+# include <pthread.h>
+
+
+/*
+** test include
+*/
+# include <string.h>
 # include <sys/time.h>
 # include <sys/resource.h>
 # include <stdio.h>
 # include <limits.h>
 # include <inttypes.h>
-# include <pthread.h>
 
 /*
 ** define
@@ -41,16 +46,14 @@
 # define TINY 64
 # define SMALL 1024
 
-# define TINY_PAGE (5 * getpagesize())
+# define TINY_PAGE (3 * getpagesize())
 # define SMALL_PAGE (26 * getpagesize())
-
-# define MAX_T_BLOCK 213
 
 # define MIN(x, y) x > y ? y : x
 
 # define BLOCK_H sizeof(t_block)
 # define PAGE_H sizeof(t_page)
-# define SIZE(x) x + BLOCK_H
+# define SIZE(x) (size_t)x + BLOCK_H
 
 # define ADDR(x) (uint64_t)x
 # define FIRST(x) (t_block *)(ADDR(x) + PAGE_H)
@@ -71,7 +74,7 @@
 /*
 ** color define
 */
-# define P(x) write(2, x, ft_strlen(x));
+# define P(x) write(1, x, ft_strlen(x));
 # define WHI "\033[0m"
 # define LGR "\033[0;37m"
 # define DGR "\033[1;30m"
@@ -110,9 +113,9 @@ extern int i;
 */
 typedef enum	e_type
 {
-					T,
-					S,
-					L
+					T, // TINY
+					S, // SMALL
+					L  // LARGE
 }				t_type;
 
 /*
@@ -129,8 +132,8 @@ typedef struct	s_block
 typedef struct	s_page
 {
 	t_type			type;
-	uint64_t		fill;
 	uint64_t		max;
+	uint64_t		fill;
 	struct s_page	*next;
 }				t_page;
 
@@ -149,6 +152,7 @@ void		*malloc(size_t size);
 /*
 ** realloc.c
 */
+void		*get_new_alloc(void *ptr, size_t size);
 void		*realloc(void *ptr, size_t size);
 
 /*

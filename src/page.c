@@ -18,8 +18,10 @@ int			is_continuous_space(t_page *page, size_t size)
 
 	block = FIRST(page);
 	while (block){
-		if (IS(block->magic, FREE) && block->size >= mod_base(SIZE(size)))
+		if (IS(block->magic, FREE) && block->size >= mod_base(SIZE(size))){
+			TEST
 			return (TRUE);
+		}
 		block = block->next;
 	}
 	return (FALSE);
@@ -45,12 +47,12 @@ t_page		*get_new_page(size_t size)
 	size_t	page_size;
 
 	page_size = get_page_size(size);
-	new_page = (t_page *)mmap(NULL, page_size + PAGE_H,
+	new_page = (t_page *)mmap(NULL, page_size,
 		PROT_READ | PROT_WRITE, MAP_ANON | MAP_PRIVATE, -1, 0);
 	if (!new_page)
 		return (NULL);
 	new_page->type = get_type(size);
-	new_page->max = page_size;
+	new_page->max = page_size - PAGE_H;
 	new_page->next = NULL;
 	init_block(ADDR(FIRST(new_page)), (MAGIC | FREE), new_page->max, NULL, NULL);
 	add_new_to_memory(new_page);
