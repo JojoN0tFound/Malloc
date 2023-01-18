@@ -62,6 +62,7 @@ t_page		*get_new_page(size_t size)
 		init_block(ADDR(FIRST(new_page)), (MAGIC | USED), size, NULL, NULL);
 	else
 		init_block(ADDR(FIRST(new_page)), (MAGIC | FREE), new_page->max - BLOCK_H, NULL, NULL);
+
 	add_new_to_memory(new_page);
 
 	return (new_page);
