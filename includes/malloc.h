@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   malloc.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jojo <jojo@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: jquivogn <jquivogn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/10 02:19:22 by jquivogn          #+#    #+#             */
-/*   Updated: 2023/01/16 17:10:11 by jojo             ###   ########.fr       */
+/*   Updated: 2023/01/18 17:52:59 by jquivogn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@
 # define WHI "\033[0m"
 # define LGR "\033[0;37m"
 # define DGR "\033[1;30m"
-# define YEL "\033[1;33m"
+# define YEL "\033[0;33m"
 # define GRN "\033[0;32m"
 # define CYA "\033[0;36m"
 # define BLU "\033[1;34m"
@@ -175,7 +175,7 @@ void 		show_alloc_mem();
 /*
 ** calloc.c
 */
-void		*calloc(size_t elementCount, size_t elementSize);
+void		*calloc(size_t count, size_t size);
 
 /*
 ** page.c
@@ -196,7 +196,6 @@ t_block		*new_block(t_page *page, size_t size);
 ** utils.c
 */
 t_type		get_type(size_t size);
-size_t		get_block_size(size_t size);
 size_t		get_page_size(size_t size);
 size_t		page_base(size_t size);
 size_t		mod_base(size_t size);

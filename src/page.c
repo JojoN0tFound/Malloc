@@ -27,9 +27,8 @@ int			is_continuous_space(t_page *page, size_t size)
 
 void		add_new_to_memory(t_page *new)
 {
-	t_page	*page;
+	t_page	*page = g_first_page;
 
-	page = g_first_page;
 	if (!page){
 		g_first_page = new;
 		return ;
@@ -47,9 +46,9 @@ t_page		*get_new_page(size_t size)
 	void	*page_mem;
 
 	page_size = get_page_size(size);
-
 	page_mem = mmap(NULL, page_size,
 		PROT_READ | PROT_WRITE, MAP_ANONYMOUS | MAP_PRIVATE, -1, 0);
+
 	if (page_mem == MAP_FAILED)
 		return (NULL);
 
@@ -59,7 +58,10 @@ t_page		*get_new_page(size_t size)
 	new_page->max = page_size - PAGE_H;
 	new_page->next = NULL;
 
-	init_block(ADDR(FIRST(new_page)), (MAGIC | FREE), new_page->max, NULL, NULL);
+	if (new_page->type == L)
+		init_block(ADDR(FIRST(new_page)), (MAGIC | USED), size, NULL, NULL);
+	else
+		init_block(ADDR(FIRST(new_page)), (MAGIC | FREE), new_page->max - BLOCK_H, NULL, NULL);
 	add_new_to_memory(new_page);
 
 	return (new_page);
@@ -67,12 +69,11 @@ t_page		*get_new_page(size_t size)
 
 t_page	*find_free_page(size_t size)
 {
-	t_page	*page;
+	t_page	*page = g_first_page;
 
 	if (get_type(size) == L)
 		return (get_new_page(size));
 
-	page = g_first_page;
 	while (page){
 		if (get_type(size) == page->type && is_continuous_space(page, size))
 			return (page);

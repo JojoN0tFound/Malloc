@@ -3,28 +3,28 @@
 /*                                                        :::      ::::::::   */
 /*   calloc.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jojo <jojo@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: jquivogn <jquivogn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/19 16:11:26 by jquivogn          #+#    #+#             */
-/*   Updated: 2023/01/16 17:28:15 by jojo             ###   ########.fr       */
+/*   Updated: 2023/01/18 17:58:00 by jquivogn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/malloc.h"
 
-void		*calloc(size_t elementCount, size_t elementSize)
+void		*calloc(size_t count, size_t size)
 {
 	void	*mem;
 
-	pthread_mutex_lock(&mutex);
-	if (elementCount < 0 || elementSize < 0 || elementCount * elementSize > ULONG_MAX)
+	if (count < 0 || size < 0 || count * size / count != size)
 		return (NULL);
-	// C_S
-	pthread_mutex_unlock(&mutex);
-	mem = malloc(elementCount * elementSize);
+
 	pthread_mutex_lock(&mutex);
-	mem = ft_memset(mem, 0, mod_base(elementCount * elementSize));
-	// C_E
+
+	mem = get_alloc(count * size);
+	mem = ft_memset(mem, 0, mod_base(count * size));
+
 	pthread_mutex_unlock(&mutex);
+
 	return (mem);
 }
