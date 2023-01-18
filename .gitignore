@@ -1,0 +1,5 @@
+.nfs*
+obj/
+*.so
+test0*
+mytest
