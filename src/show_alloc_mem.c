@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   show_alloc_mem.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jojo <jojo@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: jquivogn <jquivogn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 10:37:24 by jquivogn          #+#    #+#             */
-/*   Updated: 2023/01/16 02:00:30 by jojo             ###   ########.fr       */
+/*   Updated: 2023/01/18 23:41:36 by jquivogn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int		show_block(t_block *block)
 {
 	ft_putaddr(ADDR(block) + BLOCK_H);
 	ft_putstr(" - ");
-	ft_putaddr(ADDR(block) + SIZE(block->size));
+	ft_putaddr(ADDR(block) + BLOCK_H + block->size);
 	ft_putstr(" : ");
 	ft_putnbr(block->size);
 	ft_putstr(" bytes\n");

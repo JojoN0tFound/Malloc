@@ -17,7 +17,7 @@ int			is_continuous_space(t_page *page, size_t size)
 	t_block	*block = FIRST(page);
 
 	while (block){
-		if (IS_FREE(block->magic) && block->size >= mod_base(SIZE(size)))
+		if (IS_FREE(block->magic) && block->size >= mod_base(size))
 			return (TRUE);
 		block = block->next;
 	}
@@ -43,21 +43,24 @@ t_page		*get_new_page(size_t size)
 {
 	t_page	*new_page;
 	size_t	page_size;
-	void	*page_mem;
 
 	page_size = get_page_size(size);
-	page_mem = mmap(NULL, page_size,
+	new_page = (t_page *)mmap(NULL, page_size,
 		PROT_READ | PROT_WRITE, MAP_ANONYMOUS | MAP_PRIVATE, -1, 0);
 
-	if (page_mem == MAP_FAILED)
+	if (new_page == MAP_FAILED)
 		return (NULL);
 
-	new_page = (t_page *)page_mem;
 	new_page->type = get_type(size);
 	new_page->fill = 0;
 	new_page->max = page_size - PAGE_H;
 	new_page->next = NULL;
 
+	if (new_page->type != L){
+		ft_putstr("+++");
+		ft_putulnbr(new_page->max - BLOCK_H);
+		N
+	}
 	if (new_page->type == L)
 		init_block(ADDR(FIRST(new_page)), (MAGIC | USED), size, NULL, NULL);
 	else

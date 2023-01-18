@@ -6,7 +6,7 @@
 /*   By: jquivogn <jquivogn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/10 02:15:18 by jquivogn          #+#    #+#             */
-/*   Updated: 2023/01/18 20:16:45 by jquivogn         ###   ########.fr       */
+/*   Updated: 2023/01/19 00:21:17 by jquivogn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,7 @@ void		*get_alloc(size_t size)
 	if ((page = find_free_page(size))){
 		if ((block = new_block(page, size))){
 			page->fill++;
-			if (page->fill == 0)
-				print_block(block, -1);
+			// print_block(block, ite++);
 			return (GOTO_M(block));
 		}
 	}
@@ -41,11 +40,13 @@ void		*malloc(size_t size)
 
 	pthread_mutex_lock(&mutex);
 
+	M_S
 	if (size == 0)
 		size = 1;
 
 	mem = get_alloc(size);
 
+	M_E
 	pthread_mutex_unlock(&mutex);
 
 	return (mem);

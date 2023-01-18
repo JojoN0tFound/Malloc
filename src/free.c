@@ -6,7 +6,7 @@
 /*   By: jquivogn <jquivogn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/10 02:19:05 by jquivogn          #+#    #+#             */
-/*   Updated: 2023/01/18 18:29:58 by jquivogn         ###   ########.fr       */
+/*   Updated: 2023/01/19 00:19:29 by jquivogn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	free_page(t_page *page)
 {
 	t_page	*prev = g_first_page;
-
+	
 	if (prev == page)
 		g_first_page = page->next;
 	else {
@@ -27,13 +27,19 @@ void	free_page(t_page *page)
 		prev->next = page->next;
 	}
 
+
+	if (page->type != L){
+		ft_putstr("---");
+		ft_putulnbr((t_block *)(FIRST(page))->size);
+		N
+	}
 	munmap(page, page->max + PAGE_H);
 }
 
 t_block		*merge_block(t_block *block, t_block *merge)
 {
 	block = init_block(ADDR(block), (MAGIC | FREE), \
-		mod_base(block->size) + mod_base(SIZE(merge->size)), block->prev, merge->next);
+		mod_base(block->size) + mod_base(merge->size) + BLOCK_H, block->prev, merge->next);
 
 	if (block->prev)
 		block->prev->next = block;
@@ -64,13 +70,13 @@ int		free_block(void *ptr)
 	t_page	*page = g_first_page;
 	t_block	*block = GOTO_H(ptr);
 
-	if (!IS_MAGIC(block->magic) || IS_FREE(block->magic)){
-		print_memory((void *)block, 32);
+	if (!IS_MAGIC(block->magic) || IS_FREE(block->magic))
 		return (FALSE);
-	}
+
+	// print_block(block, ite--);
 
 	while (page){
-		if (ADDR(block) > ADDR(page) && ADDR(block) < (ADDR(page) + page->max + PAGE_H))
+		if ((ADDR(block) > ADDR(page)) && (ADDR(block) < (ADDR(page) + page->max + PAGE_H)))
 			break ;
 		page = page->next;
 	}
@@ -94,8 +100,10 @@ void	free(void *ptr)
 {
 	pthread_mutex_lock(&mutex);
 
+	F_S
 	if (ptr)
 		free_block(ptr);
 
+	F_E
 	pthread_mutex_unlock(&mutex);
 }

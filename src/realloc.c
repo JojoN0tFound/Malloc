@@ -6,7 +6,7 @@
 /*   By: jquivogn <jquivogn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/10 02:19:08 by jquivogn          #+#    #+#             */
-/*   Updated: 2023/01/18 18:30:28 by jquivogn         ###   ########.fr       */
+/*   Updated: 2023/01/18 23:10:48 by jquivogn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,10 @@ void	*get_new_alloc(void *ptr, size_t size)
 		}
 
 		new = ft_memcpy(new, ptr, block->size);
+		if (strncmp(new, ptr, block->size)){
+			print_memory((void *)block, 32);
+			sleep(500);
+		}
 		free_block(ptr);
 
 		return (new);
@@ -45,6 +49,7 @@ void	*realloc(void *ptr, size_t size)
 
 	pthread_mutex_lock(&mutex);
 
+	R_S
 	if (!ptr)
 		mem = get_alloc(size);
 	else if (size == 0)
@@ -52,6 +57,7 @@ void	*realloc(void *ptr, size_t size)
 	else
 		mem = get_new_alloc(ptr, size);
 
+	R_E
 	pthread_mutex_unlock(&mutex);
 
 	return (mem);
