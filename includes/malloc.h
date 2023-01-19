@@ -6,7 +6,7 @@
 /*   By: jojo <jojo@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/10 02:19:22 by jquivogn          #+#    #+#             */
-/*   Updated: 2023/01/19 02:26:29 by jojo             ###   ########.fr       */
+/*   Updated: 2023/01/19 19:30:33 by jojo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,16 +19,6 @@
 # include <unistd.h>
 # include <sys/mman.h>
 # include <pthread.h>
-
-
-/*
-** test include
-*/
-# include <string.h>
-# include <sys/time.h>
-# include <sys/resource.h>
-# include <stdio.h>
-# include <limits.h>
 # include <inttypes.h>
 
 /*
@@ -44,17 +34,14 @@
 # define IS_FREE(x) (FREE == (x & FREE))
 # define IS_USED(x) (USED == (x & USED))
 
-# define TINY 128
+# define TINY 64
 # define SMALL 1024
 
 # define TINY_PAGE (4 * getpagesize())
 # define SMALL_PAGE (26 * getpagesize())
 
-# define MIN(x, y) x > y ? y : x
-
 # define BLOCK_H sizeof(t_block)
 # define PAGE_H sizeof(t_page)
-# define SIZE(x) (size_t)x + BLOCK_H
 
 # define ADDR(x) (uint64_t)x
 # define FIRST(x) (t_block *)(ADDR(x) + PAGE_H)
@@ -62,52 +49,18 @@
 # define GOTO_M(x) (void *)(ADDR(x) + BLOCK_H)
 # define GOTO_H(x) (t_block *)(ADDR(x) - BLOCK_H)
 
-
-/*
-** print define
-*/
-# define NONE 0x0
-# define M_MEM 0x1
-# define F_MEM 0x10
-# define B_HEADER 0x100
-# define P_HEADER 0x1000
-
 /*
 ** color define
 */
 # define P(x) write(1, x, ft_strlen(x));
-# define WHI "\033[0m"
-# define LGR "\033[0;37m"
-# define DGR "\033[1;30m"
-# define YEL "\033[0;33m"
-# define GRN "\033[0;32m"
-# define CYA "\033[0;36m"
-# define BLU "\033[1;34m"
-# define RED "\033[0;31m"
-
-/*
-** debug TO REMOVE
-*/
-# define TEST write(1, "TEST\n", 5);
-# define DEBUG write(1, "DEBUG\n", 6);
-# define ERROR write(1, "ERROR\n", 6);
-# define SEGV write(1, "SEGV\n", 5);
-# define COUCOU write(1, "coucou\n", 7);
-# define TOTO write(1, "toto\n", 5);
-# define BRUH write(1, "bruh\n", 5);
-# define YO write(1, "yo\n", 3);
-# define OK write(1, "ok\n", 3);
-# define N write(1, "\n", 1);
-extern int ite;
-
-# define M_S P("\033[0;32mMalloc start\033[0m\n")
-# define M_E P("\033[0;32m	Malloc end\033[0m\n")
-# define F_S P("\033[0;31mFree start\033[0m\n")
-# define F_E P("\033[0;31m	Free end\033[0m\n")
-# define R_S P("\033[0;36mRealloc start\033[0m\n")
-# define R_E P("\033[0;36m	Realloc end\033[0m\n")
-# define C_S P("\033[0;34mCalloc start\033[0m\n")
-# define C_E P("\033[0;34m	Calloc end\033[0m\n")
+# define WHI "\e[0m"
+# define DRK "\e[30m"
+# define RED "\e[31m"
+# define GRN "\e[32m"
+# define ORA "\e[33m"
+# define BLU "\e[34m"
+# define PUR "\e[35m"
+# define CYA "\e[36m"
 
 /*
 ** enum
@@ -145,52 +98,46 @@ extern t_page			*g_first_page;
 extern pthread_mutex_t	mutex;
 
 /*
+** lib malloc
+*/
+void		*malloc(size_t size);
+void		free(void *ptr);
+void		*realloc(void *ptr, size_t size);
+void 		show_alloc_mem();
+
+/*
+** lib malloc bonus
+*/
+void		*calloc(size_t count, size_t size);
+void		print_hex_block(void *ptr);
+
+
+/*
 ** malloc.c
 */
 void		*get_alloc(size_t size);
-void		*malloc(size_t size);
 
 /*
 ** realloc.c
 */
 void		*get_new_alloc(void *ptr, size_t size);
-void		*realloc(void *ptr, size_t size);
 
 /*
 ** free.c
 */
-int			free_page(t_page *page);
-t_block		*merge_block(t_block *block, t_block *merge);
-t_block		*defragment(t_block *block);
 int			free_block(void *ptr);
-void		free(void *ptr);
-
-/*
-** show_alloc_mem.c
-*/
-int			show_block(t_block *block);
-size_t		show_page(t_page *head_page, t_type type);
-void 		show_alloc_mem();
-
-/*
-** calloc.c
-*/
-void		*calloc(size_t count, size_t size);
 
 /*
 ** page.c
 */
-int			is_continuous_space(t_page *page, size_t size);
-void		add_new_to_memory(t_page *new);
-t_page		*get_new_page(size_t size);
-t_page		*find_free_page(size_t size);
+t_page		*find_free_page(t_block **block,size_t size);
+t_page		*find_block_page(uint64_t a_block);
 
 /*
 ** block.c
 */
 t_block		*init_block(uint64_t addr, size_t free, size_t size, t_block *prev, t_block *next);
 t_block		*split_block(t_block *block, size_t size);
-t_block		*new_block(t_page *page, size_t size);
 
 /*
 ** utils.c
@@ -203,7 +150,7 @@ size_t		mod_base(size_t size);
 /*
 ** print.c
 */
-void 		print_memory(const void *addr, size_t size);
+void		ft_print_memory(const void *addr, size_t size);
 void		print_block(t_block *block, int nb);
 void		print_all_block(t_block *block);
 

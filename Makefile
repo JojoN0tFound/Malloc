@@ -6,7 +6,7 @@
 #    By: jojo <jojo@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/12/10 02:23:08 by jquivogn          #+#    #+#              #
-#    Updated: 2023/01/16 00:02:29 by jojo             ###   ########.fr        #
+#    Updated: 2023/01/19 19:09:49 by jojo             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -38,6 +38,7 @@ SRC_NAME =	malloc.c\
 			realloc.c\
 			free.c\
 			show_alloc_mem.c\
+			print_hex_block.c\
 			calloc.c\
 			page.c\
 			block.c\
