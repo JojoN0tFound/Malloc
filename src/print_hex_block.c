@@ -37,9 +37,8 @@ void	print_hex_block(void *ptr)
 {
 	t_block	*block = GOTO_H(ptr);
 	int		printed = 0;
-	t_page	*page;
 
-	if (!(page = find_block_page(ADDR(block))) || !IS_MAGIC(block->magic)){
+	if (!ptr || !find_block_page(ADDR(block)) || !IS_MAGIC(block->magic)){
 		ft_putstr("[NOT A VALID POINTER]\n");
 		return ;
 	}
@@ -64,7 +63,7 @@ void	print_hex_block(void *ptr)
 	
 	if (block->size % 16 != 0)
 		print_memory((ptr + block->size), 16 - (block->size % 16), printed, RED);
-	ft_putstr("\n\n");
+	ft_putstr("\n");
 
 	pthread_mutex_unlock(&mutex);
 }

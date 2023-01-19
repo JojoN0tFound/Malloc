@@ -1,30 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   calloc.c                                           :+:      :+:    :+:   */
+/*   malloc_usable_size.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jojo <jojo@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/12/19 16:11:26 by jquivogn          #+#    #+#             */
-/*   Updated: 2023/01/19 21:58:31 by jojo             ###   ########.fr       */
+/*   Created: 2023/01/19 22:02:55 by jojo              #+#    #+#             */
+/*   Updated: 2023/01/19 22:06:46 by jojo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/malloc.h"
 
-void		*calloc(size_t count, size_t size)
+size_t		malloc_usable_size(void *ptr)
 {
-	void	*mem;
+	t_block	*block = GOTO_H(ptr);
 
-	if (count <= 0 || size <= 0 || count * size / count != size)
-		return (NULL);
+	if (!ptr || !find_block_page(ADDR(block)) || !IS_MAGIC(block->magic))
+		return (0);
 
-	pthread_mutex_lock(&mutex);
-
-	mem = get_alloc(count * size);
-	mem = ft_memset(mem, 0, mod_base(count * size));
-
-	pthread_mutex_unlock(&mutex);
-
-	return (mem);
+	return (mod_base(block->size));
 }

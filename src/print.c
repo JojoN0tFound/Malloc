@@ -6,7 +6,7 @@
 /*   By: jojo <jojo@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/16 20:55:01 by jquivogn          #+#    #+#             */
-/*   Updated: 2023/01/19 19:10:49 by jojo             ###   ########.fr       */
+/*   Updated: 2023/01/19 22:20:00 by jojo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void	ft_print_memory(const void *addr, size_t size)
 
 void	print_block(t_block *block, int nb)
 {
-	ft_putstr("=========BLOCK========\n");
+	ft_putstr("=========== BLOCK ==========\n");
 	if (nb != -1){
 		ft_putstr("block nb: ");
 		ft_putnbr(nb);
@@ -56,20 +56,23 @@ void	print_block(t_block *block, int nb)
 	ft_putstr("\naddr magic: ");
 	ft_putaddr(block->magic);
 	ft_putstr("\nblock size: ");
-	ft_putnbr(block->size);
+	ft_putulnbr(block->size);
 	ft_putstr("\nblock prev: ");
 	ft_putaddr((uint64_t)block->prev);
 	ft_putstr("\nblock next: ");
 	ft_putaddr((uint64_t)block->next);
-	ft_putstr("\n======================\n");
+	ft_putstr("\n============================\n");
 }
 
 void	print_all_block(t_block *block)
 {
 	int i = 0;
+
+	while(block->prev)
+		block = block->prev;
+
 	while (block){
-		print_block(block, i);
+		print_block(block, i++);
 		block = block->next;
-		i++;
 	}
 }

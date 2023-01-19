@@ -6,7 +6,7 @@
 /*   By: jojo <jojo@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/10 02:19:22 by jquivogn          #+#    #+#             */
-/*   Updated: 2023/01/19 19:30:33 by jojo             ###   ########.fr       */
+/*   Updated: 2023/01/19 22:07:01 by jojo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,6 +109,7 @@ void 		show_alloc_mem();
 ** lib malloc bonus
 */
 void		*calloc(size_t count, size_t size);
+size_t		malloc_usable_size(void *ptr);
 void		print_hex_block(void *ptr);
 
 

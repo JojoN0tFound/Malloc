@@ -6,7 +6,7 @@
 #    By: jojo <jojo@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/12/10 02:23:08 by jquivogn          #+#    #+#              #
-#    Updated: 2023/01/19 19:09:49 by jojo             ###   ########.fr        #
+#    Updated: 2023/01/19 22:09:03 by jojo             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,8 +16,7 @@ endif
 
 CC = gcc
 
-# CFLAGS = -Wall -Wextra -Werror -g
-CFLAGS = -g
+CFLAGS = -Wall -Wextra -Werror -g
 FLAGS = -fPIC
 SFLAG = -shared
 
@@ -35,11 +34,12 @@ INC_PATH = ./includes
 OBJ_PATH = ./obj
 
 SRC_NAME =	malloc.c\
-			realloc.c\
 			free.c\
+			calloc.c\
+			realloc.c\
 			show_alloc_mem.c\
 			print_hex_block.c\
-			calloc.c\
+			malloc_usable_size.c\
 			page.c\
 			block.c\
 			utils.c\
