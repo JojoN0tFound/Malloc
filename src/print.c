@@ -6,7 +6,7 @@
 /*   By: jojo <jojo@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/16 20:55:01 by jquivogn          #+#    #+#             */
-/*   Updated: 2023/01/16 17:07:31 by jojo             ###   ########.fr       */
+/*   Updated: 2023/01/19 01:46:06 by jojo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -185,6 +185,8 @@ void	print_block(t_block *block, int nb)
 	}
 	ft_putstr("block addr: ");
 	ft_putaddr((uint64_t)block);
+	ft_putstr("\ndata  addr: ");
+	ft_putaddr((uint64_t)block + BLOCK_H);
 	ft_putstr("\naddr magic: ");
 	ft_putaddr(block->magic);
 	ft_putstr("\nblock size: ");
@@ -200,7 +202,8 @@ void	print_all_block(t_block *block)
 {
 	int i = 0;
 	while (block){
-		print_block(block, i);
+		if (IS_FREE(block->magic))
+			print_block(block, i);
 		block = block->next;
 		i++;
 	}

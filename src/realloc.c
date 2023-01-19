@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   realloc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jquivogn <jquivogn@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jojo <jojo@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/10 02:19:08 by jquivogn          #+#    #+#             */
-/*   Updated: 2023/01/18 23:10:48 by jquivogn         ###   ########.fr       */
+/*   Updated: 2023/01/19 15:20:03 by jojo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,12 @@ void	*get_new_alloc(void *ptr, size_t size)
 
 	if (!IS_MAGIC(block->magic)){
 		print_memory((void *)block, 32);
+		P("NOT A MAGIC BLOCK\n")
+		return (NULL);
+	}
+
+	if (!IS_USED(block->magic)){
+		P("relloc try not used block\n")
 		return (NULL);
 	}
 
@@ -30,7 +36,7 @@ void	*get_new_alloc(void *ptr, size_t size)
 			return (ptr);
 		}
 
-		new = ft_memcpy(new, ptr, block->size);
+		new = ft_memcpy(new, ptr, mod_base(block->size));
 		if (strncmp(new, ptr, block->size)){
 			print_memory((void *)block, 32);
 			sleep(500);
@@ -49,7 +55,7 @@ void	*realloc(void *ptr, size_t size)
 
 	pthread_mutex_lock(&mutex);
 
-	R_S
+	// R_S
 	if (!ptr)
 		mem = get_alloc(size);
 	else if (size == 0)
@@ -57,7 +63,7 @@ void	*realloc(void *ptr, size_t size)
 	else
 		mem = get_new_alloc(ptr, size);
 
-	R_E
+	// R_E
 	pthread_mutex_unlock(&mutex);
 
 	return (mem);

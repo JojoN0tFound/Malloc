@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   malloc.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jquivogn <jquivogn@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jojo <jojo@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/10 02:15:18 by jquivogn          #+#    #+#             */
-/*   Updated: 2023/01/19 00:21:17 by jquivogn         ###   ########.fr       */
+/*   Updated: 2023/01/19 15:25:21 by jojo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,12 @@ void		*get_alloc(size_t size)
 	t_block		*block;
 
 	if ((page = find_free_page(size))){
-		if ((block = new_block(page, size))){
+
+		if (page->type == L)
+			return (GOTO_M(FIRST(page)));
+
+		if ((block = new_block(page, mod_base(size)))){
 			page->fill++;
-			// print_block(block, ite++);
 			return (GOTO_M(block));
 		}
 	}
@@ -40,13 +43,13 @@ void		*malloc(size_t size)
 
 	pthread_mutex_lock(&mutex);
 
-	M_S
+	// M_S
 	if (size == 0)
 		size = 1;
 
 	mem = get_alloc(size);
 
-	M_E
+	// M_E
 	pthread_mutex_unlock(&mutex);
 
 	return (mem);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   malloc.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jquivogn <jquivogn@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jojo <jojo@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/10 02:19:22 by jquivogn          #+#    #+#             */
-/*   Updated: 2023/01/19 00:17:35 by jquivogn         ###   ########.fr       */
+/*   Updated: 2023/01/19 02:26:29 by jojo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@
 /*
 ** color define
 */
-# define P(x) write(2, x, ft_strlen(x));
+# define P(x) write(1, x, ft_strlen(x));
 # define WHI "\033[0m"
 # define LGR "\033[0;37m"
 # define DGR "\033[1;30m"
@@ -159,7 +159,7 @@ void		*realloc(void *ptr, size_t size);
 /*
 ** free.c
 */
-void		free_page(t_page *page);
+int			free_page(t_page *page);
 t_block		*merge_block(t_block *block, t_block *merge);
 t_block		*defragment(t_block *block);
 int			free_block(void *ptr);

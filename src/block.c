@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   block.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jquivogn <jquivogn@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jojo <jojo@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/14 15:32:26 by jojo              #+#    #+#             */
-/*   Updated: 2023/01/19 00:00:52 by jquivogn         ###   ########.fr       */
+/*   Updated: 2023/01/19 02:59:57 by jojo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,9 @@ t_block		*split_block(t_block *block, size_t size)
 	if (free->next)
 		free->next->prev = free;
 
-	return (init_block(ADDR(block), (MAGIC | USED), size, block->prev, free));
+	block = init_block(ADDR(block), (MAGIC | USED), mod_base(size), block->prev, free);
+	
+	return (block);
 }
 
 t_block		*new_block(t_page *page, size_t size)
@@ -55,9 +57,20 @@ t_block		*new_block(t_page *page, size_t size)
 		block = block->next;
 	}
 
-	if (!block || (ADDR(block) + mod_base(size) + BLOCK_H) > (ADDR(page) + PAGE_H + page->max)){
+	if (block->size != mod_base(block->size)){
+		P("FUCK\n")
+		sleep(5);
+	}
+	if (!block){
+		P("no block found\n")
 		print_memory((void *)block, 32);
-		return (FALSE);
+		return (NULL);
+	}
+
+	if ((ADDR(block) + mod_base(size) + BLOCK_H) > (ADDR(page) + PAGE_H + page->max)){
+		P("block go outside range\n")
+		print_memory((void *)block, 32);
+		return (NULL);
 	}
 
 	return (split_block(block, size));

@@ -56,11 +56,6 @@ t_page		*get_new_page(size_t size)
 	new_page->max = page_size - PAGE_H;
 	new_page->next = NULL;
 
-	if (new_page->type != L){
-		ft_putstr("+++");
-		ft_putulnbr(new_page->max - BLOCK_H);
-		N
-	}
 	if (new_page->type == L)
 		init_block(ADDR(FIRST(new_page)), (MAGIC | USED), size, NULL, NULL);
 	else
