@@ -52,8 +52,4 @@ export DYLD_LIBRARY_PATH="."
 export DYLD_INSERT_LIBRARIES="libft_malloc.so"
 ```
 Soit lancer le script run.sh avec l'exec voulu en parametre.
-``./run.sh /usr/bin/vim``
-
-*Compile tests*
---
-``make test`` ou ``gcc -o mytest test/mytest.c``
+``./run.sh <exec>``
