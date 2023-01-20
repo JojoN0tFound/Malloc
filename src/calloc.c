@@ -6,7 +6,7 @@
 /*   By: jojo <jojo@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/19 16:11:26 by jquivogn          #+#    #+#             */
-/*   Updated: 2023/01/19 21:58:31 by jojo             ###   ########.fr       */
+/*   Updated: 2023/01/20 13:22:03 by jojo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void		*calloc(size_t count, size_t size)
 {
 	void	*mem;
 
-	if (count <= 0 || size <= 0 || count * size / count != size)
+	if (count <= 0 || size <= 0 || (count * size) / count != size)
 		return (NULL);
 
 	pthread_mutex_lock(&mutex);

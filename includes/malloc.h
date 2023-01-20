@@ -6,7 +6,7 @@
 /*   By: jojo <jojo@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/10 02:19:22 by jquivogn          #+#    #+#             */
-/*   Updated: 2023/01/19 22:07:01 by jojo             ###   ########.fr       */
+/*   Updated: 2023/01/20 09:03:56 by jojo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,9 @@
 
 # define GOTO_M(x) (void *)(ADDR(x) + BLOCK_H)
 # define GOTO_H(x) (t_block *)(ADDR(x) - BLOCK_H)
+
+# define INFO 0
+# define HEX 1
 
 /*
 ** color define
@@ -153,7 +156,7 @@ size_t		mod_base(size_t size);
 */
 void		ft_print_memory(const void *addr, size_t size);
 void		print_block(t_block *block, int nb);
-void		print_all_block(t_block *block);
+void		print_all_block(t_block *block, int flag);
 
 /*
 ** libft.c

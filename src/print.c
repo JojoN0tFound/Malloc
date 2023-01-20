@@ -6,7 +6,7 @@
 /*   By: jojo <jojo@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/16 20:55:01 by jquivogn          #+#    #+#             */
-/*   Updated: 2023/01/19 22:20:00 by jojo             ###   ########.fr       */
+/*   Updated: 2023/01/20 12:40:32 by jojo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ void	print_block(t_block *block, int nb)
 	ft_putstr("\n============================\n");
 }
 
-void	print_all_block(t_block *block)
+void	print_all_block(t_block *block, int flag)
 {
 	int i = 0;
 
@@ -72,7 +72,10 @@ void	print_all_block(t_block *block)
 		block = block->prev;
 
 	while (block){
-		print_block(block, i++);
+		if (flag == INFO)
+			print_block(block, i++);
+		else if (flag == HEX)
+			print_hex_block(GOTO_M(block));
 		block = block->next;
 	}
 }
