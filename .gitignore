@@ -3,3 +3,5 @@ obj/
 *.so
 test0*
 mytest
+.vscode
+.DS_Store
